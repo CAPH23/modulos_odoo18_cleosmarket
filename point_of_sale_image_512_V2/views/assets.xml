@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <record id="pos_image_512_V2_assets" model="ir.asset">
+      <field name="name">POS Product Image 512 V2</field>
+      <field name="bundle">point_of_sale._assets_pos</field>
+      <field name="path">/point_of_sale_image_512_V2/static/src/js/product_image_patch.js</field>
+    </record>
+  </data>
+</odoo>

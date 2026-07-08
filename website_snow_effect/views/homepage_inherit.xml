@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <data>
+        <template id="change_homepage_cover_image" inherit_id="website.homepage" name="Change Homepage Cover Image">
+            <xpath expr="//section[@data-snippet='s_cover']//span[contains(@class,'s_parallax_bg')]" position="attributes">
+                <attribute name="style">background-position: 50% 75%; background-image: url('/website_snow_effect/static/src/img/Navidad_cocina.jpg?unique=3fa385f5');</attribute>
+                <attribute name="data-original-src">/website_snow_effect/static/src/img/Navidad_cocina.jpg?unique=47535804</attribute>
+            </xpath>
+        </template>
+    </data>
+
+    <template id="custom_footer_bg" inherit_id="website.layout" name="Custom Footer Background">
+        <!-- Cambiamos solo el style del div #footer -->
+        <xpath expr="//div[@id='footer']" position="attributes">
+            <attribute name="style">
+                background-image: url('/website_snow_effect/static/src/img/footer_navideno.png');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                width: 100%;
+                box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 16px 0px !important;
+            </attribute>
+        </xpath>
+    </template>
+
+    <!-- Elimina la seccion que contiene la imagen del logo normal-->
+    <data>
+        <template id="remove_footer_logo_section" inherit_id="website.template_footer_centered" name="Remove Footer Logo Section">
+            <xpath expr="//section[@data-name='Logo']" position="replace"/>
+        </template>
+    </data>
+
+    <data>
+        <template id="custom_footer_social_right" inherit_id="website.template_footer_centered">
+            <!-- Cambiar alineación del bloque social media -->
+            <xpath expr="//div[@data-snippet='s_social_media']" position="attributes">
+                <attribute name="class">s_social_media mb-4 o_not_editable text-end</attribute>
+            </xpath>
+        </template>
+    </data>
+
+    <template id="custom_footer_section" inherit_id="website.template_footer_centered" name="Custom Footer Section">
+        
+        <!-- Aumentar altura de la sección -->
+        <xpath expr="//section[@data-name='Text']" position="attributes">
+            <attribute name="style">padding-top: 52px; padding-bottom: 52px;</attribute>
+        </xpath>
+        
+        <!-- Envolver el texto y datos en un contenedor con fondo gris semitransparente -->
+        <xpath expr="//section[@data-name='Text']//p[@class='text-center mb-1']" position="replace">
+            <p class="text-center mb-1" 
+               style="background-color: rgba(128,128,128,0.5); border-radius: 10px; padding: 10px;">
+                Carretera a Planes de Renderos Km 6 1/2 • San Salvador • El Salvador
+            </p>
+        </xpath>
+
+        <xpath expr="//section[@data-name='Text']//ul[@class='list-inline text-center']" position="replace">
+            <ul class="list-inline text-center" 
+                style="background-color: rgba(128,128,128,0.5); border-radius: 10px; padding: 10px;">
+                <li class="list-inline-item mx-3">
+                    <i class="fa fa-1x fa-fw fa-phone me-2"/>
+                    <span class="o_force_ltr"><a href="tel:+50368354506">+503 6835 4506</a></span>
+                </li>
+                <li class="list-inline-item mx-3">
+                    <i class="fa fa-1x fa-fw fa-envelope me-2"/>
+                    <a href="mailto:supertiendacleo25@gmail.com">supertiendacleo25@gmail.com</a>
+                </li>
+            </ul>
+        </xpath>
+
+    </template>
+
+</odoo>

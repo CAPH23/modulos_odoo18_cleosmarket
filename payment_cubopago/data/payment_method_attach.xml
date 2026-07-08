@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <function model="payment.provider" name="_cubopago_create_and_attach_payment_method"/>
+    </data>
+</odoo>

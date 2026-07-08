@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_order_form_cleo_terms_acceptance" model="ir.ui.view">
+            <field name="name">sale.order.form.cleo.terms.acceptance</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook" position="inside">
+                    <page string="Aceptación legal">
+                        <group>
+                            <group>
+                                <field name="cleo_terms_accepted"/>
+                                <field name="cleo_terms_accepted_datetime"/>
+                                <field name="cleo_terms_accepted_url"/>
+                                <field name="cleo_terms_accepted_version"/>
+                            </group>
+                            <group>
+                                <field name="cleo_terms_accepted_ip"/>
+                                <field name="cleo_terms_accepted_user_agent"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

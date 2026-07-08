@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="payment_provider_form_cubopago" model="ir.ui.view">
+        <field name="name">CuboPago Provider Form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="CuboPago - Credenciales" invisible="code != 'cubopago'">
+                    <div class="alert alert-info" colspan="2">
+                        <p class="mb-1">
+                            El módulo usa las credenciales de <strong>Sandbox</strong> cuando el
+                            proveedor está en modo de prueba, y las de <strong>Producción</strong>
+                            cuando está habilitado.
+                        </p>
+                    </div>
+                    <group string="Sandbox (modo prueba)">
+                        <field name="cubopago_api_key_test" password="True"/>
+                        <field name="cubopago_api_url_test"/>
+                    </group>
+                    <group string="Producción (habilitado)">
+                        <field name="cubopago_api_key_prod" password="True"/>
+                        <field name="cubopago_api_url_prod"/>
+                    </group>
+                    <div class="alert alert-warning" colspan="2">
+                        <p class="mb-1"><strong>Webhook a configurar en Cubo Admin (sección Developers):</strong></p>
+                        <field name="cubopago_webhook_url" readonly="1" nolabel="1"/>
+                        <p class="mb-0 mt-2 text-muted">
+                            CuboPago entrega las URLs base de API por entorno; confirma los valores
+                            de arriba con CuboPago si difieren.
+                        </p>
+                    </div>
+                    <div class="oe_button_box" name="cubopago_buttons" colspan="2">
+                        <button name="action_cubopago_test_connection" type="object"
+                                class="btn btn-primary" string="Probar conexión"/>
+                    </div>
+                </group>
+
+                <group string="CuboPago - Configuración del pago" invisible="code != 'cubopago'">
+                    <group string="Información del link">
+                        <field name="cubopago_payment_description"/>
+                        <field name="cubopago_send_client_info"/>
+                        <field name="cubopago_send_items"/>
+                        <field name="cubopago_max_items" invisible="not cubopago_send_items"/>
+                        <field name="cubopago_monthly_installment_id"/>
+                    </group>
+                    <group string="Depuración">
+                        <field name="cubopago_debug_logging"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

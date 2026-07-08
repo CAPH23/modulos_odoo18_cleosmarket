@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_portal_my_details_fields_inherit_default_country" model="ir.ui.view">
+            <field name="name">portal.my.details.fields.default.country</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="portal.portal_my_details_fields"/>
+            <field name="arch" type="xml">
+                <xpath expr="//select[@name='country_id']" position="attributes">
+                    <attribute name="t-att-value">partner.country_id and partner.country_id.id or 209</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

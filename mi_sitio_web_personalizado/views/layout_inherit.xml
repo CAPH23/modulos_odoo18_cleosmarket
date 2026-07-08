@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Reemplaza la leyenda de Odoo en el footer -->
+        <template id="remove_odoo_footer_branding" inherit_id="website.layout" name="Replace Odoo Footer Branding">
+            <xpath expr="//t[@t-call='web.brand_promotion']" position="replace">
+                <div class="o_footer_copyright text-center">
+                    <span>Todos los derechos reservados - Desarrollado por Carlos Palacios</span>
+                </div>
+            </xpath>
+        </template>
+
+        <!-- Actualiza el link del ícono de Facebook -->
+        <!-- <template id="update_facebook_link" inherit_id="website.layout" name="Update Facebook Link">
+            <xpath expr="//a[@href='/website/social/facebook']" position="attributes">
+                <attribute name="href">https://www.facebook.com/profile.php?id=61577037933552</attribute>
+            </xpath>
+        </template> -->
+
+    </data>
+</odoo>

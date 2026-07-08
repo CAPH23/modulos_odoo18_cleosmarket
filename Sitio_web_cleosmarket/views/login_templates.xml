@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!--
+            Super Tienda Cleo - Login
+            Convierte el enlace "¿No tiene una cuenta?"
+            en botón azul, heredando directamente la vista que crea ese enlace.
+        -->
+        <template id="cleo_login_signup_button"
+                  inherit_id="auth_signup.login"
+                  name="Super Tienda Cleo - Botón crear cuenta"
+                  priority="95">
+
+            <!-- El contenedor del enlace pasa a comportarse como fila de botón -->
+            <xpath expr="//p[a[contains(@t-attf-href, '/web/signup')]]" position="attributes">
+                <attribute name="class">mt-2 mb-0 d-grid</attribute>
+            </xpath>
+
+            <!-- El enlace se convierte en botón azul Cleo -->
+            <xpath expr="//a[contains(@t-attf-href, '/web/signup')]" position="attributes">
+                <attribute name="class">btn w-100 cleo-login-signup-btn</attribute>
+                <attribute name="style">background-color:#06275d;border-color:#06275d;color:#ffffff;font-weight:700;text-decoration:none;min-height:38px;display:inline-flex;align-items:center;justify-content:center;border-radius:0.375rem;</attribute>
+            </xpath>
+
+        </template>
+
+    </data>
+</odoo>

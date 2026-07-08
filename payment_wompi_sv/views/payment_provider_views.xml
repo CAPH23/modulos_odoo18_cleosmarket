@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="payment_provider_form_wompi_sv" model="ir.ui.view">
+        <field name="name">Wompi El Salvador Provider Form v2</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Wompi El Salvador - Credenciales" invisible="code != 'wompi_sv'">
+                    <group string="Credenciales">
+                        <field name="wompi_sv_client_id" password="True" />
+                        <field name="wompi_sv_client_secret" password="True" />
+                        <field name="wompi_sv_api_secret" password="True" />
+                    </group>
+                    <group string="Endpoints">
+                        <field name="wompi_sv_oauth_url" />
+                        <field name="wompi_sv_api_base_url" />
+                        <field name="wompi_sv_access_token" password="True" readonly="1" />
+                        <field name="wompi_sv_access_token_expiration" readonly="1" />
+                    </group>
+                    <div class="alert alert-info" colspan="2">
+                        <p class="mb-1"><strong>URLs para configurar en Wompi:</strong></p>
+                        <p class="mb-1">Webhook: <code>https://cleosmarket.com/payment/wompi_sv/webhook</code></p>
+                        <p class="mb-0">Retorno/Redirect: <code>https://cleosmarket.com/payment/wompi_sv/return</code></p>
+                    </div>
+                    <div class="oe_button_box" name="wompi_sv_buttons" colspan="2">
+                        <button name="action_wompi_sv_test_connection" type="object" class="btn btn-primary" string="Probar conexión OAuth" />
+                        <button name="action_wompi_sv_sync_capabilities" type="object" class="btn btn-secondary" string="Actualizar capacidades Wompi" />
+                        <button name="action_wompi_sv_clear_token" type="object" class="btn btn-secondary" string="Limpiar token" />
+                    </div>
+                </group>
+
+                <group string="Wompi El Salvador - Configuración del enlace de pago" invisible="code != 'wompi_sv'">
+                    <group string="Información visible en Wompi">
+                        <field name="wompi_sv_payment_title" />
+                        <field name="wompi_sv_send_product_info" />
+                        <field name="wompi_sv_product_image_url" invisible="not wompi_sv_send_product_info" />
+                        <field name="wompi_sv_include_order_lines" invisible="not wompi_sv_send_product_info" />
+                        <field name="wompi_sv_max_order_lines" invisible="not wompi_sv_send_product_info or not wompi_sv_include_order_lines" />
+                        <field name="wompi_sv_description_footer" invisible="not wompi_sv_send_product_info" />
+                    </group>
+                    <group string="Comportamiento del enlace">
+                        <field name="wompi_sv_notification_emails" />
+                        <field name="wompi_sv_notify_customer" />
+                        <field name="wompi_sv_allow_amount_edit" />
+                        <field name="wompi_sv_allow_quantity_edit" />
+                        <field name="wompi_sv_default_quantity" />
+                        <field name="wompi_sv_payment_link_duration_minutes" />
+                        <field name="wompi_sv_max_successful_payments" />
+                        <field name="wompi_sv_max_failed_attempts" />
+                        <field name="wompi_sv_card_group_id" />
+                    </group>
+                </group>
+
+                <group string="Wompi El Salvador - Formas de pago y validación" invisible="code != 'wompi_sv'">
+                    <group string="Formas de pago permitidas">
+                        <field name="wompi_sv_allow_card" />
+                        <field name="wompi_sv_allow_points" />
+                        <field name="wompi_sv_allow_installments" />
+                        <field name="wompi_sv_max_installments" invisible="not wompi_sv_allow_installments" />
+                        <field name="wompi_sv_allow_bitcoin" />
+                        <field name="wompi_sv_allow_quickpay" />
+                    </group>
+                    <group string="Webhook, capacidades y depuración">
+                        <field name="wompi_sv_allow_webhook_api_fallback" />
+                        <field name="wompi_sv_debug_logging" />
+                        <field name="wompi_sv_capabilities_last_sync" readonly="1" />
+                        <field name="wompi_sv_supports_points" readonly="1" />
+                        <field name="wompi_sv_available_installments" readonly="1" />
+                        <field name="wompi_sv_raw_capabilities" readonly="1" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

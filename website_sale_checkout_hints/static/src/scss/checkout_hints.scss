@@ -1,0 +1,63 @@
+// Part of the "Ayudas de checkout" module.
+// Copyright 2026 Carlos Palacios. License LGPL-3.
+//
+// Mensaje de ayuda del checkout: sutil pero visible, y responsive.
+
+#o_checkout_hint {
+    display: none;
+    width: 100%;
+    margin: 0 0 0.6rem 0;
+    padding: 0.6rem 0.85rem;
+    border-radius: 0.55rem;
+    background-color: #fff8e6;
+    border: 1px solid #f3d38a;
+    border-left: 4px solid #eaa64d;
+    color: #6b4e12;
+    font-size: 0.92rem;
+    line-height: 1.35;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+    &.o_visible {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        animation: o_checkout_hint_in 0.25s ease-out;
+    }
+
+    .o_checkout_hint_icon {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        margin-top: 0.05rem;
+        color: #d98a2b;
+    }
+
+    .o_checkout_hint_text {
+        flex: 1 1 auto;
+        word-break: break-word;
+    }
+
+    // Móvil: un poco más compacto sin perder legibilidad.
+    @media (max-width: 575.98px) {
+        font-size: 0.86rem;
+        padding: 0.55rem 0.7rem;
+    }
+}
+
+@keyframes o_checkout_hint_in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Respeta la preferencia de menos movimiento.
+@media (prefers-reduced-motion: reduce) {
+    #o_checkout_hint.o_visible {
+        animation: none;
+    }
+}

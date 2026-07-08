@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="product_ribbon_web_override" inherit_id="website_sale.products_item">
+    <xpath expr=".//div[contains(@class, 'o_wsale_product_grid_wrapper')]" position="inside">
+      <t t-if="product.ribbon_text">
+        <div t-attf-class="position-absolute bg-{{ product.ribbon_color }} text-white px-2 py-1"
+             style="top: 0; left: 0; z-index: 10; font-weight: bold; border-bottom-right-radius: 5px;">
+          <t t-esc="product.ribbon_text"/>
+        </div>
+      </t>
+    </xpath>
+  </template>
+</odoo>

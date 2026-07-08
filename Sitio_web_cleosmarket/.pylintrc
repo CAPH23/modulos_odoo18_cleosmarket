@@ -1,0 +1,5 @@
+[MASTER]
+load-plugins=pylint_odoo
+
+[MESSAGES CONTROL]
+disable=missing-docstring

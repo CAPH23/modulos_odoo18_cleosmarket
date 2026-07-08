@@ -1,0 +1,27 @@
+/* Super Tienda Cleo - mejoras visuales backend para facturas */
+.cleo_invoice_backend_panel {
+    border: 1px solid #dbeafe;
+    border-left: 5px solid #ffc20e;
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin: 10px 0 18px;
+    background: linear-gradient(135deg, rgba(6, 39, 93, 0.06), rgba(255, 194, 14, 0.12));
+}
+
+.cleo_invoice_backend_panel__title {
+    color: #06275d;
+    font-weight: 800;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.cleo_invoice_backend_panel__text {
+    color: #475569;
+    margin-bottom: 12px;
+}
+
+.cleo_invoice_backend_panel__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}

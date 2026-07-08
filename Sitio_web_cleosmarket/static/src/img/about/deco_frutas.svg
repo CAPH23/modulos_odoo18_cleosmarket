@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 660">
+  <defs>
+    <filter id="ds4" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#1f2a5e" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <!-- Manzana roja -->
+  <g filter="url(#ds4)" transform="rotate(-8 120 110)">
+    <path d="M120 78 q-8 -14 -24 -14 q-34 0 -42 38 q-8 40 18 70 q22 26 48 26 q26 0 48 -26 q26 -30 18 -70 q-8 -38 -42 -38 q-16 0 -24 14 z" fill="#e34a3d"/>
+    <path d="M120 76 q0 -22 16 -30" stroke="#6b4a32" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M134 52 q18 -10 30 2 q-14 12 -30 6 z" fill="#4f9d4f"/>
+    <ellipse cx="92" cy="110" rx="12" ry="18" fill="#ffffff" opacity="0.3" transform="rotate(-18 92 110)"/>
+  </g>
+
+  <!-- Naranja -->
+  <g filter="url(#ds4)" transform="rotate(6 120 320)">
+    <circle cx="120" cy="322" r="56" fill="#f59f3a"/>
+    <circle cx="120" cy="322" r="56" fill="none" stroke="#e08a22" stroke-width="5" opacity="0.6"/>
+    <circle cx="100" cy="302" r="14" fill="#ffffff" opacity="0.3"/>
+    <circle cx="92" cy="338" r="4" fill="#e08a22"/>
+    <circle cx="118" cy="352" r="4" fill="#e08a22"/>
+    <circle cx="142" cy="334" r="4" fill="#e08a22"/>
+    <circle cx="128" cy="296" r="4" fill="#e08a22"/>
+    <path d="M120 268 q4 -14 18 -16 q-4 14 -18 16 z" fill="#4f9d4f"/>
+  </g>
+
+  <!-- Tomates -->
+  <g filter="url(#ds4)">
+    <circle cx="92" cy="540" r="42" fill="#dd3d34"/>
+    <path d="M92 502 l-10 -12 m10 12 l0 -16 m0 16 l10 -12" stroke="#3f8f47" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="78" cy="528" rx="10" ry="7" fill="#ffffff" opacity="0.35"/>
+    <circle cx="164" cy="582" r="34" fill="#e85a4e"/>
+    <path d="M164 552 l-8 -10 m8 10 l0 -13 m0 13 l8 -10" stroke="#3f8f47" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="153" cy="572" rx="8" ry="6" fill="#ffffff" opacity="0.35"/>
+  </g>
+</svg>

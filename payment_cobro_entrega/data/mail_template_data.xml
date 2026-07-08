@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mail_template_cobro_entrega_sale_order" model="mail.template">
+        <field name="name">Cobro contra entrega: pedido confirmado pendiente de pago</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="subject">Pedido {{ object.name }} confirmado - pago pendiente contra entrega</field>
+        <field name="email_from">{{ object.company_id.email_formatted or user.email_formatted }}</field>
+        <field name="email_to">{{ object.partner_id.email }}</field>
+        <field name="auto_delete" eval="False"/>
+        <field name="body_html" type="html">
+<div style="margin:0; padding:0; font-family:Arial, Helvetica, sans-serif; color:#222;">
+    <p>Hola <t t-out="object.partner_id.name or 'cliente'">cliente</t>,</p>
+
+    <p>
+        Gracias por comprar en <strong><t t-out="object.company_id.name or 'nuestra tienda'">nuestra tienda</t></strong>.
+        Tu pedido <strong><t t-out="object.name">SO00000</t></strong> ha sido confirmado y será preparado para envío.
+    </p>
+
+    <div style="border:1px solid #f0c36d; background:#fff8e6; padding:14px; border-radius:6px; margin:16px 0;">
+        <p style="margin:0 0 8px 0; font-weight:bold; color:#7a4b00;">
+            Pedido pendiente de pago - Cobro contra entrega
+        </p>
+        <p style="margin:0;">
+            El total de tu pedido queda pendiente de pago. Nuestro transportista realizará la entrega
+            y deberás pagar al recibir tus productos.
+        </p>
+    </div>
+
+    <p>
+        Monto a pagar al recibir el pedido:
+        <strong><span t-field="object.amount_total" t-options="{'widget': 'monetary', 'display_currency': object.currency_id}">$0.00</span></strong>
+    </p>
+
+    <p>
+        El transportista podrá recibir el pago según las opciones que la tienda tenga disponibles al momento
+        de la entrega, por ejemplo efectivo o transferencia bancaria.
+    </p>
+
+    <p>
+        Por favor ten listo el monto del pedido al momento de la entrega para evitar retrasos.
+    </p>
+
+    <p>
+        Adjuntamos tu ticket de compra en formato PDF para que puedas revisar el detalle de tu pedido.
+    </p>
+
+    <p>Saludos,<br/>
+        <strong><t t-out="object.company_id.name or ''">Cleo's Market</t></strong>
+    </p>
+</div>
+        </field>
+    </record>
+
+</odoo>

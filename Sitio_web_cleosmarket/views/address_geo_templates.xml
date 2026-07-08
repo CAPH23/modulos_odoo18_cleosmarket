@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!--
+            Reemplazo directo de la plantilla real /shop/address:
+            website_sale.address
+        -->
+        <record id="website_sale.address" model="ir.ui.view">
+            <field name="name">Address Management - Cleosmarket</field>
+            <field name="arch" type="xml">
+                <t name="Address Management" t-name="website_sale.address">
+                    <t t-set="no_footer" t-value="1"/>
+                    <t t-call="website.layout">
+                        <div id="wrap">
+                            <div class="oe_website_sale o_wsale_address_fill cleo-address-page container-fluid py-3">
+
+                                <div class="cleo-address-wizard">
+                                    <t t-call="website_sale.wizard_checkout"/>
+                                </div>
+
+                                <div class="cleo-address-heading">
+                                    <t t-if="not is_anonymous_cart">
+                                        <t t-if="use_delivery_as_billing">
+                                            <h3>Tu dirección</h3>
+                                        </t>
+                                        <t t-elif="address_type == 'delivery'">
+                                            <h3>Tu dirección</h3>
+                                        </t>
+                                        <t t-else="">
+                                            <h3>
+                                                <t groups="!account.group_delivery_invoice_address">Tu dirección</t>
+                                                <t groups="account.group_delivery_invoice_address">Dirección de facturación</t>
+                                            </h3>
+                                        </t>
+                                    </t>
+                                    <t t-if="is_anonymous_cart">
+                                        <h3>Tu dirección</h3>
+                                    </t>
+                                    <p t-if="address_type == 'delivery'">
+                                        Ingresa la información donde te gustaría recibir tu pedido.
+                                    </p>
+                                </div>
+
+                                <div
+                                    t-if="use_delivery_as_billing and not only_services and partner_sudo"
+                                    class="alert alert-warning"
+                                    role="alert"
+                                    groups="account.group_delivery_invoice_address"
+                                >
+                                    <h4 class="alert-heading">Importante</h4>
+                                    <p>
+                                        Estás editando la dirección de entrega y facturación al mismo tiempo.
+                                        Si deseas modificar solo la dirección de facturación, crea una
+                                        <a href="/shop/address?address_type=billing">nueva dirección</a>.
+                                    </p>
+                                </div>
+
+                                <div id="errors"/>
+
+                                <form
+                                    action="/shop/address/submit"
+                                    method="post"
+                                    class="checkout_autoformat cleo-address-form"
+                                    t-att-data-company-country-code="res_company.country_id.code"
+                                >
+
+                                    <div class="cleo-address-layout">
+
+                                        <!-- FORMULARIO IZQUIERDO -->
+                                        <div class="cleo-address-left-card">
+
+                                            <t t-if="is_anonymous_cart">
+                                                <div id="div_email_public" class="cleo-field cleo-field-full">
+                                                    <label class="col-form-label cleo-required-label" for="o_email">
+                                                        Correo electrónico <span class="cleo-required-star">*</span>
+                                                    </label>
+                                                    <div
+                                                        t-if="website.account_on_checkout != 'disabled'"
+                                                        class="cleo-login-hint"
+                                                    >
+                                                        <span>¿Ya tienes una cuenta?</span>
+                                                        <a
+                                                            role="button"
+                                                            href="/web/login?redirect=/shop/checkout"
+                                                            class="btn btn-primary btn-sm"
+                                                        >
+                                                            Iniciar sesión
+                                                        </a>
+                                                    </div>
+                                                    <input
+                                                        id="o_email"
+                                                        type="email"
+                                                        name="email"
+                                                        class="form-control"
+                                                        required="required"
+                                                        autocomplete="email"
+                                                        t-att-value="partner_sudo.email"
+                                                    />
+                                                </div>
+                                            </t>
+
+                                            <div id="div_name" class="cleo-field cleo-field-full">
+                                                <label class="col-form-label cleo-required-label" for="o_name">
+                                                    Nombre completo <span class="cleo-required-star">*</span>
+                                                </label>
+                                                <input
+                                                    id="o_name"
+                                                    type="text"
+                                                    name="name"
+                                                    required="required"
+                                                    autocomplete="name"
+                                                    t-att-value="partner_sudo.name"
+                                                    class="form-control"
+                                                />
+                                            </div>
+
+                                            <div
+                                                t-if="not is_anonymous_cart"
+                                                id="div_email"
+                                                class="cleo-field cleo-field-half"
+                                            >
+                                                <label class="col-form-label cleo-required-label" for="o_email">
+                                                    Correo electrónico <span class="cleo-required-star">*</span>
+                                                </label>
+                                                <input
+                                                    id="o_email"
+                                                    type="email"
+                                                    name="email"
+                                                    required="required"
+                                                    autocomplete="email"
+                                                    t-att-value="partner_sudo.email"
+                                                    class="form-control"
+                                                />
+                                            </div>
+
+                                            <div id="div_phone" class="cleo-field cleo-field-half">
+                                                <label class="col-form-label cleo-required-label" for="o_phone">
+                                                    Teléfono <span class="cleo-required-star">*</span>
+                                                </label>
+                                                <input
+                                                    id="o_phone"
+                                                    type="tel"
+                                                    name="phone"
+                                                    required="required"
+                                                    autocomplete="tel"
+                                                    t-att-value="partner_sudo.phone"
+                                                    class="form-control"
+                                                />
+                                            </div>
+
+                                            <t t-if="website._display_partner_b2b_fields()">
+                                                <t t-if="show_vat">
+                                                    <t t-set="vat_warning" t-value="partner_sudo.vat and not can_edit_vat"/>
+
+                                                    <div id="company_name_div" class="cleo-field cleo-field-half">
+                                                        <label class="col-form-label fw-normal label-optional" for="o_company_name">
+                                                            Nombre de empresa
+                                                        </label>
+                                                        <input
+                                                            id="o_company_name"
+                                                            type="text"
+                                                            name="company_name"
+                                                            t-att-value="partner_sudo.commercial_company_name"
+                                                            t-att-readonly="'1' if vat_warning else None"
+                                                            class="form-control"
+                                                        />
+                                                    </div>
+
+                                                    <div id="div_vat" class="cleo-field cleo-field-half">
+                                                        <label class="col-form-label fw-normal label-optional" for="o_vat">
+                                                            <t t-out="vat_label"/>
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            id="o_vat"
+                                                            name="vat"
+                                                            t-att-value="partner_sudo.vat"
+                                                            t-att-readonly="'1' if vat_warning else None"
+                                                            class="form-control"
+                                                        />
+                                                    </div>
+                                                </t>
+                                            </t>
+
+                                            <div id="div_street" class="cleo-field cleo-field-full">
+                                                <label class="col-form-label cleo-required-label" for="o_street">
+                                                    Su dirección línea 1 <span class="cleo-required-text">(Requerido)</span>
+                                                </label>
+                                                <input
+                                                    id="o_street"
+                                                    type="text"
+                                                    name="street"
+                                                    required="required"
+                                                    autocomplete="address-line1"
+                                                    class="form-control"
+                                                    t-att-value="partner_sudo.street"
+                                                />
+                                            </div>
+
+                                            <div id="div_street2" class="cleo-field cleo-field-full">
+                                                <label class="col-form-label label-optional" for="o_street2">
+                                                    Su dirección línea 2
+                                                </label>
+                                                <input
+                                                    id="o_street2"
+                                                    type="text"
+                                                    name="street2"
+                                                    autocomplete="address-line2"
+                                                    class="form-control"
+                                                    t-att-value="partner_sudo.street2"
+                                                />
+                                            </div>
+
+                                            <!-- Orden solicitado:
+                                                 Dirección línea 2 → País → Municipio → Distrito
+                                            -->
+
+                                            <t t-set="sv_country" t-value="request.env['res.country'].sudo().search([('code', '=', 'SV')], limit=1)"/>
+					    
+					    <div id="div_country" class="cleo-field cleo-field-half">
+						<label class="col-form-label cleo-required-label" for="o_country_id">
+						    País <span class="cleo-required-star">*</span>
+						</label>
+						
+						<!--
+						    El select queda visible pero deshabilitado para que el cliente no pueda cambiarlo.
+						    Como un select disabled NO se envía en el POST, abajo agregamos un input hidden real.
+						-->
+						<select
+						    id="o_country_id"
+					            name="country_id"
+					            class="form-select cleo-country-locked"
+					            required="required"
+					            tabindex="-1"
+					            aria-readonly="true"
+						>
+					            <option
+					                t-att-value="sv_country.id"
+					                selected="selected"
+					                t-att-code="sv_country.code"
+					            >
+                                                        <t t-esc="sv_country.name"/>
+                                                    </option>
+						</select>
+						<!-- Este es el valor real que Odoo recibirá al guardar la dirección -->
+					    </div>
+
+                                            <div id="div_city" class="cleo-field cleo-field-half">
+					        <label class="col-form-label cleo-required-label" for="o_city">
+					            Municipio <span class="cleo-required-text">(Requerido)</span>
+					        </label>
+					        <input
+					            id="o_city"
+					            type="text"
+					            name="city"
+					            required="required"
+					            autocomplete="address-level2"
+					            class="form-control"
+					            t-att-value="partner_sudo.city"
+					        />
+					    </div>
+
+					    <div id="div_state" class="cleo-field cleo-field-full">
+					        <label class="col-form-label cleo-required-label" for="o_state_id">
+					            Distrito <span class="cleo-required-text">(Requerido)</span>
+					        </label>
+					        <select
+					            id="o_state_id"
+					            name="state_id"
+					            class="form-select"
+					            required="required"
+					        >
+					            <option value="">Seleccione un distrito...</option>
+					            <t t-foreach="sv_country.state_ids" t-as="s">
+					                <option t-att-value="s.id" t-att-selected="s.id == state_id">
+				                            <t t-esc="s.name"/>
+					                </option>
+					            </t>
+					        </select>
+					    </div>
+
+                                            <!-- Se conserva div_zip oculto para no romper módulos que heredan website_sale.address -->
+                                            <div id="div_zip" class="d-none">
+                                                <label class="col-form-label label-optional" for="o_zip">Código postal</label>
+                                                <input
+                                                    id="o_zip"
+                                                    type="text"
+                                                    name="zip"
+                                                    class="form-control"
+                                                    t-att-value="partner_sudo.zip"
+                                                />
+                                            </div>
+
+                                            <div class="cleo-address-geo-panel">
+                                                <div class="cleo-address-geo-header">
+                                                    <div class="cleo-address-geo-icon">
+                                                        <i class="fa fa-location-arrow" aria-hidden="true"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h5>Ubicación exacta de entrega</h5>
+                                                        <p>
+                                                            Escriba manualmente la latitud y longitud, o seleccione el punto exacto en el mapa.
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="cleo-address-geo-inputs">
+                                                    <div>
+                                                        <label class="col-form-label cleo-required-label" for="o_partner_latitude">
+                                                            Latitud <span class="cleo-required-star">*</span>
+                                                        </label>
+                                                        <input
+                                                            id="o_partner_latitude"
+                                                            type="text"
+                                                            inputmode="decimal"
+                                                            name="partner_latitude"
+                                                            class="form-control"
+                                                            required="required"
+                                                            placeholder="Ej. 13.6929400"
+                                                            t-att-value="partner_sudo and partner_sudo.partner_latitude or ''"
+                                                        />
+                                                    </div>
+
+                                                    <div>
+                                                        <label class="col-form-label cleo-required-label" for="o_partner_longitude">
+                                                            Longitud <span class="cleo-required-star">*</span>
+                                                        </label>
+                                                        <input
+                                                            id="o_partner_longitude"
+                                                            type="text"
+                                                            inputmode="decimal"
+                                                            name="partner_longitude"
+                                                            class="form-control"
+                                                            required="required"
+                                                            placeholder="Ej. -89.2181900"
+                                                            t-att-value="partner_sudo and partner_sudo.partner_longitude or ''"
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <div class="cleo-address-geo-actions">
+                                                    <button
+                                                        type="button"
+                                                        id="cleo_geo_copy_marker"
+                                                        class="btn cleo-geo-btn cleo-geo-btn-primary"
+                                                    >
+                                                        <i class="fa fa-clipboard" aria-hidden="true"></i>
+                                                        Copiar coordenadas del marcador
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        id="cleo_geo_use_my_location"
+                                                        class="btn cleo-geo-btn cleo-geo-btn-outline"
+                                                    >
+                                                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                        Usar mi ubicación actual
+                                                    </button>
+                                                </div>
+
+                                                <button
+                                                    type="button"
+                                                    id="cleo_geo_clear"
+                                                    class="btn cleo-geo-clear"
+                                                >
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                    Limpiar coordenadas
+                                                </button>
+
+                                                <small class="cleo-address-geo-note">
+                                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                                    Puede mover el marcador o hacer clic en el mapa para seleccionar otro punto.
+                                                </small>
+                                            </div>
+                                        </div>
+
+                                        <!-- MAPA DERECHO -->
+                                        <div class="cleo-address-right-card">
+                                            <div class="cleo-address-map-panel">
+                                                <div
+                                                    id="cleo_address_map"
+                                                    class="cleo-address-map"
+                                                    data-default-lat="13.6929400"
+                                                    data-default-lng="-89.2181900"
+                                                />
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <input
+                                        type="hidden"
+                                        name="csrf_token"
+                                        t-att-value="request.csrf_token()"
+                                        t-nocache="The csrf token must always be up to date."
+                                    />
+                                    <input type="hidden" name="address_type" t-att-value="address_type"/>
+                                    <input
+                                        type="hidden"
+                                        name="use_delivery_as_billing"
+                                        t-att-value="use_delivery_as_billing"
+                                    />
+
+                                    <t t-if="partner_id">
+                                        <input type="hidden" name="partner_id" t-att-value="partner_id"/>
+                                    </t>
+
+                                    <t t-if="callback">
+                                        <input type="hidden" name="callback" t-att-value="callback"/>
+                                    </t>
+
+                                    <input
+				        type="hidden"
+				        name="required_fields"
+				        t-att-value="'name,email,phone,street,city,country_id,state_id'"
+				    />
+
+                                    <div class="cleo-address-actions">
+                                        <a
+                                            role="button"
+                                            t-att-href="discard_url"
+                                            class="btn cleo-address-discard"
+                                        >
+                                            <i class="fw-light fa fa-angle-left me-2"/>
+                                            Descartar
+                                        </a>
+
+                                        <button id="save_address" class="btn cleo-address-save">
+                                            <t t-if="is_anonymous_cart">
+                                                Continuar compra
+                                            </t>
+                                            <t t-else="">
+                                                Guardar dirección
+                                            </t>
+                                            <i class="fw-light fa fa-angle-right ms-2"/>
+                                        </button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+    </data>
+</odoo>

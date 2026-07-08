@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Existing installations created these XML IDs with noupdate=True.
+        Temporarily unlock them so icon/message improvements are applied on module upgrade,
+        then lock them again to avoid overwriting manual admin changes in future upgrades.
+    -->
+    <function model="ir.model.data" name="write">
+        <function model="ir.model.data" name="search">
+            <value eval="[('module', '=', 'payment_cobro_entrega'), ('name', 'in', ['payment_provider_cobro_entrega', 'payment_method_cobro_entrega'])]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+
+    <record id="payment_provider_cobro_entrega" model="payment.provider">
+        <field name="image_128" type="base64" file="payment_cobro_entrega/static/img/cobro_contra_entrega.png"/>
+        <field name="pre_msg" type="html">
+<div>
+    <p>
+        Selecciona <strong>Cobro contra entrega</strong> si deseas pagar al recibir tu pedido.
+        Tu orden será confirmada para preparación y envío, pero el pago quedará pendiente hasta la entrega.
+    </p>
+</div>
+        </field>
+        <field name="pending_msg" type="html">
+<div>
+    <h5>Pedido confirmado - pago pendiente contra entrega</h5>
+    <p>
+        Tu pedido fue recibido y será preparado para envío. El pago aún no ha sido registrado:
+        deberás pagar el total del pedido al transportista cuando recibas tus productos.
+    </p>
+    <p>
+        Después de la entrega, la tienda registrará internamente el pago recibido, ya sea en efectivo
+        o por transferencia bancaria.
+    </p>
+</div>
+        </field>
+    </record>
+
+    <record id="payment_method_cobro_entrega" model="payment.method">
+        <field name="image" type="base64" file="payment_cobro_entrega/static/img/cobro_contra_entrega.png"/>
+    </record>
+
+    <function model="ir.model.data" name="write">
+        <function model="ir.model.data" name="search">
+            <value eval="[('module', '=', 'payment_cobro_entrega'), ('name', 'in', ['payment_provider_cobro_entrega', 'payment_method_cobro_entrega'])]"/>
+        </function>
+        <value eval="{'noupdate': True}"/>
+    </function>
+
+</odoo>

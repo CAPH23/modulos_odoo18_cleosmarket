@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="no_zip_required_country" inherit_id="website_sale.address">
+    <!-- Hacer campo ZIP no obligatorio -->
+    <xpath expr="//input[@name='zip']" position="replace">
+      <input type="text" name="zip" t-att-value="partner_sudo.zip" class="form-control"/>
+    </xpath>
+
+    <!-- Línea 1: cambiar etiqueta -->
+    <xpath expr="//label[@for='o_street']" position="replace">
+      <label class="col-form-label" for="o_street">Su dirección línea 1 (Requerido)</label>
+    </xpath>
+
+    <!-- Línea 2: cambiar etiqueta a no obligatorio -->
+    <xpath expr="//label[@for='o_street2']" position="replace">
+      <label class="col-form-label label-optional" for="o_street2">Su dirección línea 2</label>
+    </xpath>
+
+    <!-- Eliminar el div actual de ciudad-->
+    <xpath expr="//div[@id='div_city']" position="replace">
+      <!-- lo vamos a reubicar abajo -->
+    </xpath>
+
+    <!-- Eliminar el div actual del municipio -->
+    <xpath expr="//div[@id='div_state']" position="replace">
+      <!-- lo vamos a reubicar abajo -->
+    </xpath>
+
+    <!-- Eliminar el div actual del país -->
+    <xpath expr="//div[@id='div_country']" position="replace">
+      <!-- lo vamos a reubicar abajo -->
+    </xpath>
+    <xpath expr="//div[@id='div_street2']" position="after">
+      <!-- 1. Distrito -->
+      <div id="div_city" class="col-md-8 mb-2">
+        <label class="col-form-label" for="o_city">Distrito</label>
+        <input id="o_city" type="text" name="city" class="form-control" t-att-value="partner_sudo.city"/>
+      </div>
+    </xpath>
+
+    <!-- Insertar Municipio antes que País -->
+    <xpath expr="//div[@id='div_city']" position="after">
+
+      <!-- 2. Municipio -->
+      <div id="div_state" class="col-lg-6 mb-2" t-att-style="not country_states and 'display: none'">
+        <label class="col-form-label" for="o_state_id">Municipio (Requerido)</label>
+        <select id="o_state_id" name="state_id" class="form-select" required="required">
+          <option value="">Seleccione un municipio...</option>
+          <t t-foreach="country_states" t-as="s">
+            <option t-att-value="s.id" t-att-selected="s.id == state_id">
+              <t t-esc="s.name" />
+            </option>
+          </t>
+        </select>
+      </div>
+
+      <!-- 3. País -->
+      <div id="div_country" class="col-lg-6 mb-2">
+        <label class="col-form-label" for="o_country_id">País</label>
+        <input type="hidden" name="country_id" value="209"/>
+        <input type="text" class="form-control" value="El Salvador" readonly="readonly"/>
+      </div>
+    </xpath>
+
+  </template>
+</odoo>

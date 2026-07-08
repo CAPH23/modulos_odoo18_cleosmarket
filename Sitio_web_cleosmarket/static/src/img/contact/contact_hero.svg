@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" role="img" aria-labelledby="title desc">
+  <title id="title">Atención al cliente Super Tienda Cleo</title>
+  <desc id="desc">Ilustración de agente de atención con productos frescos y canasta de supermercado.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff6dc"/>
+      <stop offset="1" stop-color="#ffe6a8"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#06275d" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+  <ellipse cx="402" cy="209" rx="245" ry="148" fill="url(#bg)" opacity=".95"/>
+  <circle cx="648" cy="72" r="38" fill="#21b25b" opacity=".18"/>
+  <circle cx="704" cy="148" r="28" fill="#df4b38" opacity=".18"/>
+  <circle cx="122" cy="82" r="34" fill="#21b25b" opacity=".16"/>
+  <g fill="#ffc20e" opacity=".95">
+    <path d="M143 36l6 13 14 3-11 10 2 14-12-7-13 7 3-14-10-10 14-3z"/>
+    <path d="M594 32l4 9 10 2-8 7 2 10-9-5-9 5 2-10-8-7 10-2z"/>
+    <circle cx="681" cy="244" r="6"/>
+    <circle cx="198" cy="334" r="5"/>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="222" y="198" width="194" height="120" rx="18" fill="#ffffff"/>
+    <rect x="242" y="220" width="154" height="78" rx="10" fill="#e9edf4"/>
+    <circle cx="319" cy="259" r="15" fill="#ffffff" opacity=".95"/>
+    <rect x="208" y="310" width="226" height="24" rx="12" fill="#d8deea"/>
+  </g>
+  <g filter="url(#shadow)">
+    <path d="M382 179c-7-63 28-104 79-104s87 42 79 104z" fill="#5b351f"/>
+    <circle cx="461" cy="140" r="54" fill="#f2b888"/>
+    <path d="M413 131c21-2 40-12 56-33 10 19 26 29 48 33-8-39-30-65-58-65-31 0-54 25-46 65z" fill="#6b3b20"/>
+    <path d="M414 151c-23-1-37-16-37-37 0-18 11-32 25-35" fill="none" stroke="#06275d" stroke-width="9" stroke-linecap="round"/>
+    <path d="M507 79c14 4 25 17 25 35 0 21-14 36-37 37" fill="none" stroke="#06275d" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="377" cy="114" r="12" fill="#0b3b78"/>
+    <circle cx="532" cy="114" r="12" fill="#0b3b78"/>
+    <path d="M497 151c0 16-19 27-39 27" fill="none" stroke="#0b3b78" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="457" cy="178" r="7" fill="#0b3b78"/>
+    <path d="M403 200c19-18 91-18 114 0 20 16 31 55 31 103H374c0-48 10-87 29-103z" fill="#082f6d"/>
+    <path d="M435 203c17 10 42 10 56 0l-10 37h-35z" fill="#ffffff" opacity=".18"/>
+    <circle cx="461" cy="251" r="26" fill="#ffffff" opacity=".12"/>
+  </g>
+  <g transform="translate(512 175)" filter="url(#shadow)">
+    <path d="M6 79h191l-18 95H29z" fill="#06306b"/>
+    <path d="M19 103h169" stroke="#ffffff" stroke-opacity=".35" stroke-width="8"/>
+    <path d="M37 82l-18-53h-25" stroke="#06306b" stroke-width="14" fill="none" stroke-linecap="round"/>
+    <circle cx="57" cy="185" r="16" fill="#06275d"/>
+    <circle cx="157" cy="185" r="16" fill="#06275d"/>
+    <circle cx="57" cy="185" r="7" fill="#ffc20e"/>
+    <circle cx="157" cy="185" r="7" fill="#ffc20e"/>
+    <g>
+      <path d="M53 23c8-20 29-29 49-23-4 26-20 38-48 37z" fill="#63b84b"/>
+      <path d="M76 49c-15-10-18-31-5-47 23 12 31 29 20 51z" fill="#218b48"/>
+      <rect x="92" y="14" width="22" height="80" rx="11" fill="#f7c945" transform="rotate(-15 103 54)"/>
+      <rect x="116" y="14" width="22" height="88" rx="11" fill="#ffd656" transform="rotate(8 127 58)"/>
+      <circle cx="59" cy="76" r="18" fill="#df4b38"/>
+      <circle cx="88" cy="76" r="18" fill="#ff6a3d"/>
+      <rect x="137" y="25" width="48" height="84" rx="8" fill="#ffcc2f"/>
+      <rect x="144" y="42" width="34" height="18" rx="4" fill="#df4b38"/>
+      <rect x="186" y="41" width="24" height="88" rx="10" fill="#f1c15d" transform="rotate(12 198 85)"/>
+      <rect x="190" y="25" width="16" height="20" rx="4" fill="#2e9f5b" transform="rotate(12 198 35)"/>
+    </g>
+    <rect x="42" y="116" width="105" height="42" rx="8" fill="#ffc20e" opacity=".95"/>
+    <text x="94" y="139" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="800" fill="#06275d">Super</text>
+    <text x="94" y="154" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="800" fill="#06275d">TIENDA CLEO</text>
+  </g>
+  <g transform="translate(626 44)" filter="url(#shadow)">
+    <circle cx="34" cy="34" r="34" fill="#25d366"/>
+    <path d="M20 50l4-14a19 19 0 1134 11c-8 8-20 8-28 2z" fill="#ffffff"/>
+    <path d="M31 22c2-1 4 0 5 2l2 4c1 2 0 3-1 4l-2 2c3 6 7 10 13 13l2-2c1-1 3-2 4-1l5 2c2 1 3 3 2 5-1 6-5 9-10 8-14-4-25-15-29-29-1-5 2-9 9-8z" fill="#25d366"/>
+  </g>
+  <g transform="translate(680 143)" filter="url(#shadow)">
+    <circle cx="28" cy="28" r="28" fill="#df4b38"/>
+    <path d="M28 43s-17-10-17-24c0-8 9-12 17-5 8-7 17-3 17 5 0 14-17 24-17 24z" fill="#ffffff"/>
+  </g>
+</svg>

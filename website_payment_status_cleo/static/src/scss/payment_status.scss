@@ -1,0 +1,401 @@
+/* Super Tienda Cleo - Página temporal de estado de pago */
+
+.cleo-payment-status-page {
+    --cleo-navy: #072b63;
+    --cleo-navy-2: #001f4e;
+    --cleo-yellow: #ffd21d;
+    --cleo-green: #16884a;
+    --cleo-green-soft: #e9f8ee;
+    --cleo-blue-soft: #edf6ff;
+    --cleo-purple: #6b2fa0;
+    --cleo-border: rgba(7, 43, 99, .13);
+    --cleo-shadow: 0 18px 45px rgba(7, 43, 99, .12);
+    position: relative;
+    overflow: hidden;
+    min-height: 690px;
+    width: 100vw;
+    margin: 20px calc(50% - 50vw) 36px;
+    padding: 0;
+    border-radius: 0;
+    isolation: isolate;
+}
+
+.cleo-payment-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(90deg, rgba(255,255,255,.99) 0%, rgba(255,255,255,.96) 34%, rgba(255,255,255,.68) 58%, rgba(255,255,255,.28) 79%, rgba(255,255,255,.08) 100%),
+        url('/website_payment_status_cleo/static/src/img/payment_status_pos_bg.png');
+    background-size: 100% 100%, 100% 100%;
+    background-position: center center, center center;
+    background-repeat: no-repeat, no-repeat;
+    z-index: -2;
+}
+
+.cleo-payment-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 22% 22%, rgba(255, 210, 29, .10), transparent 34%),
+        radial-gradient(circle at 57% 7%, rgba(22, 136, 74, .06), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.20));
+    z-index: -1;
+}
+
+.cleo-payment-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1460px;
+    margin: 0 auto;
+    padding: 80px 86px 42px;
+}
+
+.cleo-payment-main-card {
+    width: 100%;
+    max-width: 1120px;
+    min-height: 342px;
+    display: grid;
+    grid-template-columns: 292px minmax(0, 1fr);
+    gap: 42px;
+    align-items: center;
+    padding: 40px 52px;
+    border: 1px solid rgba(22, 136, 74, .22);
+    border-radius: 22px;
+    background: linear-gradient(120deg, rgba(242, 255, 246, .96), rgba(255, 255, 255, .90));
+    box-shadow: var(--cleo-shadow);
+    backdrop-filter: blur(5px);
+}
+
+.cleo-payment-main-card-not-found {
+    background: linear-gradient(120deg, rgba(255, 248, 224, .98), rgba(255, 255, 255, .9));
+    border-color: rgba(255, 190, 0, .35);
+}
+
+.cleo-gear-panel {
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid rgba(22, 136, 74, .24);
+}
+
+.cleo-gear-ring {
+    width: 156px;
+    height: 156px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: rgba(255,255,255,.80);
+    box-shadow: 0 16px 30px rgba(7, 43, 99, .10);
+}
+
+.cleo-gear-ring::before {
+    content: "";
+    position: absolute;
+    inset: -26px;
+    border-radius: 50%;
+    border: 2px dashed rgba(22, 136, 74, .38);
+    animation: cleoPaymentRotate 4s linear infinite;
+}
+
+.cleo-gear-ring::after {
+    content: "";
+    position: absolute;
+    top: -30px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 12px solid rgba(22, 136, 74, .78);
+    transform: rotate(35deg);
+}
+
+.cleo-gear-ring .fa {
+    font-size: 66px;
+    color: #58b764;
+    animation: cleoPaymentGear 2s linear infinite;
+}
+
+.cleo-payment-copy h1 {
+    margin: 18px 0 14px;
+    color: #07532d;
+    font-weight: 800;
+    font-size: 43px;
+    letter-spacing: -1px;
+    line-height: 1.08;
+}
+
+.cleo-payment-copy p {
+    max-width: 680px;
+    margin: 0 0 22px;
+    color: rgba(0, 22, 58, .72);
+    font-size: 18px;
+    line-height: 1.62;
+}
+
+.cleo-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.cleo-status-pill-success {
+    color: #07532d;
+    background: rgba(22, 136, 74, .15);
+    border: 1px solid rgba(22, 136, 74, .18);
+}
+
+.cleo-status-pill-warning {
+    color: #7c5b00;
+    background: rgba(255, 210, 29, .20);
+    border: 1px solid rgba(255, 210, 29, .35);
+}
+
+.cleo-countdown-row,
+.cleo-payment-notice-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(0, 22, 58, .76);
+    font-size: 17px;
+    margin-top: 14px;
+}
+
+.cleo-countdown-number {
+    color: #16884a;
+    font-size: 23px;
+    line-height: 1;
+}
+
+.cleo-countdown-spinner {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 4px solid rgba(22, 136, 74, .18);
+    border-top-color: #16884a;
+    display: inline-flex;
+    animation: cleoPaymentRotate .95s linear infinite;
+}
+
+.cleo-payment-notice-line .fa {
+    color: rgba(0, 22, 58, .65);
+}
+
+.cleo-payment-info-grid {
+    width: 100%;
+    max-width: 1120px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 32px;
+}
+
+.cleo-payment-info-card {
+    min-height: 134px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 22px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.88);
+    border: 1px solid var(--cleo-border);
+    box-shadow: 0 14px 34px rgba(7, 43, 99, .08);
+    backdrop-filter: blur(6px);
+}
+
+.cleo-payment-info-card .cleo-info-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    font-size: 23px;
+}
+
+.cleo-info-label {
+    display: block;
+    color: rgba(0, 22, 58, .62);
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.cleo-info-value {
+    display: block;
+    color: var(--cleo-navy);
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.1;
+    word-break: normal;
+    overflow-wrap: normal;
+}
+
+.cleo-info-reference .cleo-info-value {
+    overflow-wrap: anywhere;
+}
+
+.cleo-info-amount { border-color: rgba(0, 93, 202, .22); }
+.cleo-info-amount .cleo-info-icon { background: #e9f4ff; color: #005fbd; }
+
+.cleo-info-reference { border-color: rgba(255, 210, 29, .52); }
+.cleo-info-reference .cleo-info-icon { background: #fff6d7; color: #f0b400; }
+
+.cleo-info-provider { border-color: rgba(107, 47, 160, .22); }
+.cleo-info-provider .cleo-info-icon { background: #f3ebfb; color: var(--cleo-purple); }
+
+.cleo-info-state { border-color: rgba(22, 136, 74, .26); }
+.cleo-info-state .cleo-info-icon { background: var(--cleo-green-soft); color: var(--cleo-green); }
+
+.cleo-payment-bottom-note {
+    width: 100%;
+    max-width: 1120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin-top: 28px;
+    padding: 18px 24px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.92);
+    border: 1px solid rgba(7, 43, 99, .1);
+    box-shadow: 0 12px 30px rgba(7, 43, 99, .08);
+    backdrop-filter: blur(6px);
+}
+
+.cleo-bottom-note-main,
+.cleo-bottom-actions,
+.cleo-help-link,
+.cleo-continue-link {
+    display: flex;
+    align-items: center;
+}
+
+.cleo-bottom-note-main { gap: 14px; color: rgba(0, 22, 58, .72); }
+.cleo-bottom-note-main > .fa {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    background: #005fbd;
+    flex: 0 0 auto;
+}
+
+.cleo-bottom-actions { gap: 18px; flex-wrap: wrap; }
+
+.cleo-help-link {
+    gap: 9px;
+    color: var(--cleo-navy);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.cleo-help-link:hover,
+.cleo-continue-link:hover {
+    text-decoration: none;
+}
+
+.cleo-continue-link {
+    gap: 9px;
+    padding: 10px 15px;
+    border-radius: 999px;
+    background: var(--cleo-navy);
+    color: #fff;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 10px 18px rgba(7, 43, 99, .18);
+}
+
+@keyframes cleoPaymentRotate {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes cleoPaymentGear {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 1320px) {
+    .cleo-payment-content {
+        padding-left: 56px;
+        padding-right: 56px;
+    }
+    .cleo-payment-main-card,
+    .cleo-payment-info-grid,
+    .cleo-payment-bottom-note {
+        max-width: 1060px;
+    }
+    .cleo-payment-info-grid {
+        gap: 16px;
+    }
+    .cleo-info-value {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 980px) {
+    .cleo-payment-status-page {
+        min-height: auto;
+        margin: 10px calc(50% - 50vw) 30px;
+    }
+    .cleo-payment-content {
+        padding: 46px 28px 36px;
+    }
+    .cleo-payment-main-card {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        min-height: 0;
+        padding: 30px 28px;
+    }
+    .cleo-gear-panel {
+        min-height: 125px;
+        border-right: 0;
+        border-bottom: 1px solid rgba(22, 136, 74, .2);
+        padding-bottom: 20px;
+    }
+    .cleo-payment-info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .cleo-payment-status-page {
+        border-radius: 0;
+    }
+    .cleo-payment-bg {
+        opacity: .88;
+        background-size: 100% 100%, auto 100%;
+        background-position: center center, right center;
+    }
+    .cleo-payment-content { padding: 32px 14px 34px; }
+    .cleo-gear-ring {
+        width: 102px;
+        height: 102px;
+    }
+    .cleo-gear-ring::before { inset: -16px; }
+    .cleo-gear-ring .fa { font-size: 44px; }
+    .cleo-payment-copy h1 { font-size: 31px; }
+    .cleo-info-value { font-size: 22px; }
+    .cleo-payment-copy p { font-size: 16px; }
+    .cleo-payment-info-grid {
+        grid-template-columns: 1fr;
+    }
+    .cleo-payment-bottom-note {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .cleo-bottom-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+}

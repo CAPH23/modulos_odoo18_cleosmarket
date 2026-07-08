@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="payment_provider_wompi_sv" model="payment.provider">
+        <field name="name">Wompi El Salvador</field>
+        <field name="code">wompi_sv</field>
+        <field name="state">disabled</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="redirect_form_view_id" ref="payment_wompi_sv.redirect_form" />
+        <field name="wompi_sv_oauth_url">https://id.wompi.sv/connect/token</field>
+        <field name="wompi_sv_api_base_url">https://api.wompi.sv</field>
+        <field name="wompi_sv_payment_title">Pedido {reference} - Super Tienda Cleo</field>
+        <field name="wompi_sv_allow_card">True</field>
+        <field name="wompi_sv_allow_points">False</field>
+        <field name="wompi_sv_allow_installments">False</field>
+        <field name="wompi_sv_allow_bitcoin">False</field>
+        <field name="wompi_sv_allow_quickpay">False</field>
+        <field name="wompi_sv_allow_amount_edit">False</field>
+        <field name="wompi_sv_allow_quantity_edit">False</field>
+        <field name="wompi_sv_default_quantity">1</field>
+        <field name="wompi_sv_payment_link_duration_minutes">30</field>
+        <field name="wompi_sv_max_successful_payments">1</field>
+        <field name="wompi_sv_max_failed_attempts">3</field>
+        <field name="wompi_sv_send_product_info">True</field>
+        <field name="wompi_sv_include_order_lines">True</field>
+        <field name="wompi_sv_max_order_lines">5</field>
+        <field name="wompi_sv_description_footer">Pago seguro procesado por Wompi El Salvador
+Recibirá la confirmación de su pedido en cleosmarket.com</field>
+        <field name="wompi_sv_allow_webhook_api_fallback">True</field>
+        <field name="wompi_sv_debug_logging">False</field>
+    </record>
+</odoo>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ============================================================
+             Rediseño visual del checkout de Super Tienda Cleo.
+             Mantiene la funcionalidad original del checkout.
+             ============================================================ -->
+
+        <template id="cleosmarket_checkout_layout_visual" inherit_id="website_sale.checkout_layout" name="Super Tienda Cleo - Checkout layout visual">
+            <xpath expr="//div[@id='wrap']" position="attributes">
+                <attribute name="class">cleo-checkout-wrap</attribute>
+            </xpath>
+
+            <xpath expr="//div[contains(concat(' ', normalize-space(@class), ' '), ' o_website_sale_checkout ')]" position="attributes">
+                <attribute name="class" add="cleo-checkout-page" separator=" "/>
+            </xpath>
+
+            <xpath expr="//div[@id='o_wsale_total_accordion']" position="attributes">
+                <attribute name="class" add="cleo-checkout-summary-wrap" separator=" "/>
+            </xpath>
+
+            <xpath expr="//div[contains(concat(' ', normalize-space(@class), ' '), ' o_total_card ')]" position="attributes">
+                <attribute name="class" add="cleo-checkout-summary-card" separator=" "/>
+            </xpath>
+
+            <xpath expr="//div[@id='o_wsale_total_accordion_item']" position="attributes">
+                <attribute name="class" add="cleo-checkout-summary-inner" separator=" "/>
+            </xpath>
+        </template>
+
+        <template id="cleosmarket_checkout_main_visual" inherit_id="website_sale.checkout" name="Super Tienda Cleo - Checkout main visual">
+            <xpath expr="//div[@id='shop_checkout']" position="attributes">
+                <attribute name="class" add="cleo-checkout-content" separator=" "/>
+            </xpath>
+
+            <!--
+                Marcador técnico usado por el JS del checkout para saber si la dirección
+                activa del pedido cumple los mínimos antes de habilitar "Proceder a comprar".
+                Se valida el partner de entrega real del pedido.
+            -->
+            <xpath expr="//div[@id='shop_checkout']" position="inside">
+                <t t-set="cleo_checkout_partner" t-value="website_sale_order and website_sale_order.partner_shipping_id"/>
+                <t t-set="cleo_checkout_is_in_store" t-value="website_sale_order and website_sale_order.carrier_id and website_sale_order.carrier_id.delivery_type == 'in_store'"/>
+                <div id="cleo_checkout_address_guard"
+                     class="d-none"
+                     aria-hidden="true"
+                     t-att-data-is-in-store="'1' if cleo_checkout_is_in_store else '0'"
+                     t-att-data-has-country="'1' if cleo_checkout_partner and cleo_checkout_partner.country_id else '0'"
+                     t-att-data-has-state="'1' if cleo_checkout_partner and cleo_checkout_partner.state_id else '0'"
+                     t-att-data-has-street="'1' if cleo_checkout_partner and cleo_checkout_partner.street else '0'"
+                     t-att-data-has-latitude="'1' if cleo_checkout_partner and cleo_checkout_partner.partner_latitude else '0'"
+                     t-att-data-has-longitude="'1' if cleo_checkout_partner and cleo_checkout_partner.partner_longitude else '0'"
+                     t-att-data-address-complete="'1' if cleo_checkout_partner and cleo_checkout_partner.country_id and cleo_checkout_partner.state_id and cleo_checkout_partner.street and cleo_checkout_partner.partner_latitude and cleo_checkout_partner.partner_longitude else '0'"
+                     t-att-data-edit-url="'/shop/address?address_type=delivery&amp;use_delivery_as_billing=true&amp;callback=/shop/payment&amp;partner_id=%s' % cleo_checkout_partner.id if cleo_checkout_partner else '/shop/address?address_type=delivery&amp;use_delivery_as_billing=true&amp;callback=/shop/payment'">
+                </div>
+            </xpath>
+        </template>
+
+        <template id="cleosmarket_delivery_address_visual" inherit_id="website_sale.delivery_address_row" name="Super Tienda Cleo - Checkout dirección visual">
+            <xpath expr="//div[@id='delivery_address_row']" position="attributes">
+                <attribute name="class" add="cleo-checkout-address-section" separator=" "/>
+            </xpath>
+
+            <xpath expr="//div[@id='delivery_address_row']/h4" position="replace">
+                <div class="cleo-checkout-section-title cleo-checkout-section-title--address">
+                    <span class="cleo-checkout-section-title__icon">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <h2>1. Su dirección</h2>
+                        <p>Selecciona o añade una dirección de entrega.</p>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="cleosmarket_address_kanban_visual" inherit_id="website_sale.address_kanban" name="Super Tienda Cleo - Tarjeta dirección visual">
+            <xpath expr="//div[@name='address_card']" position="attributes">
+                <attribute name="t-attf-class">card position-relative h-100 cleo-checkout-address-card #{selected and 'bg-primary border border-primary cleo-checkout-address-card--selected' or 'js_change_address'}</attribute>
+                <attribute name="t-att-data-cleo-selected">'1' if selected else '0'</attribute>
+                <attribute name="t-att-data-cleo-has-country">'1' if contact and contact.country_id else '0'</attribute>
+                <attribute name="t-att-data-cleo-has-state">'1' if contact and contact.state_id else '0'</attribute>
+                <attribute name="t-att-data-cleo-has-street">'1' if contact and contact.street else '0'</attribute>
+                <attribute name="t-att-data-cleo-has-latitude">'1' if contact and contact.partner_latitude else '0'</attribute>
+                <attribute name="t-att-data-cleo-has-longitude">'1' if contact and contact.partner_longitude else '0'</attribute>
+                <attribute name="t-att-data-cleo-address-complete">'1' if contact and contact.country_id and contact.state_id and contact.street and contact.partner_latitude and contact.partner_longitude else '0'</attribute>
+            </xpath>
+        </template>
+
+        <template id="cleosmarket_delivery_form_visual" inherit_id="website_sale.delivery_form" name="Super Tienda Cleo - Métodos de entrega visual">
+            <xpath expr="//form[@id='o_delivery_form']" position="attributes">
+                <attribute name="class" add="cleo-checkout-delivery-form" separator=" "/>
+            </xpath>
+
+            <xpath expr="//form[@id='o_delivery_form']/h4" position="replace">
+                <div class="cleo-checkout-section-title cleo-checkout-section-title--delivery">
+                    <span class="cleo-checkout-section-title__icon">
+                        <i class="fa fa-truck" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <h2>2. Revisa y confirma la ubicación de entrega</h2>
+                        <p>Elige cómo deseas recibir tu pedido.</p>
+			<p class="cleo-delivery-minimum-message">
+                            Las entregas a domicilio se habilitan para compras desde
+                            <span class="cleo-delivery-minimum-amount">$9.99</span>
+                        </p>
+                    </div>
+                </div>
+            </xpath>
+
+            <xpath expr="//ul[@id='o_delivery_methods']" position="attributes">
+                <attribute name="class" add="cleo-checkout-delivery-methods" separator=" "/>
+            </xpath>
+
+            <xpath expr="//li[@name='o_delivery_method']" position="attributes">
+                <attribute name="class" add="cleo-checkout-delivery-method" separator=" "/>
+            </xpath>
+        </template>
+
+        <template id="cleosmarket_delivery_method_visual" inherit_id="website_sale.delivery_method" name="Super Tienda Cleo - Método de entrega visual">
+            <xpath expr="//div[contains(concat(' ', normalize-space(@class), ' '), ' row ')][1]" position="attributes">
+                <attribute name="class" add="cleo-checkout-delivery-method__main" separator=" "/>
+            </xpath>
+
+            <xpath expr="//label[contains(concat(' ', normalize-space(@class), ' '), ' o_delivery_carrier_label ')]" position="attributes">
+                <attribute name="class" add="cleo-checkout-delivery-label" separator=" "/>
+            </xpath>
+
+            <xpath expr="//span[@name='price']" position="attributes">
+                <attribute name="class" add="cleo-checkout-delivery-price" separator=" "/>
+            </xpath>
+
+            <xpath expr="//div[@name='o_pickup_location']" position="attributes">
+                <attribute name="class" add="cleo-checkout-pickup-location" separator=" "/>
+            </xpath>
+
+            <xpath expr="//button[@name='o_pickup_location_selector']" position="attributes">
+                <attribute name="class" add="cleo-checkout-pickup-button" separator=" "/>
+            </xpath>
+
+            <xpath expr="//span[@name='o_pickup_location_selector']" position="attributes">
+                <attribute name="class" add="cleo-checkout-pickup-edit" separator=" "/>
+            </xpath>
+        </template>
+
+        <template id="cleosmarket_navigation_buttons_visual" inherit_id="website_sale.navigation_buttons" name="Super Tienda Cleo - Botones checkout visual">
+            <xpath expr="//a[@name='website_sale_main_button']" position="attributes">
+                <attribute name="t-attf-class">#{_cta_classes} btn btn-primary cleo-checkout-main-button #{not website_sale_order._is_cart_ready() and 'disabled'} #{_form_send_navigation and 'order-lg-3 w-100 w-lg-auto ms-lg-auto' or 'w-100'}</attribute>
+            </xpath>
+
+            <xpath expr="//a[not(@name) and @t-att-href]" position="attributes">
+                <attribute name="class" add="cleo-checkout-back-link" separator=" "/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

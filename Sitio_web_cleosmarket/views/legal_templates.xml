@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- =====================================================
+             Páginas legales de Super Tienda Cleo
+             Rutas:
+             /terminos-y-condiciones
+             /politica-de-privacidad-ecommerce
+             /cancelaciones-cambios-devoluciones
+             ===================================================== -->
+
+        <template id="cleosmarket_legal_layout" name="Super Tienda Cleo - Layout legal">
+            <t t-call="website.layout">
+                <div id="wrap" class="cleo-legal-page">
+                    <section class="cleo-legal-hero">
+                        <div class="cleo-legal-container">
+                            <span class="cleo-legal-eyebrow">
+                                <i class="fa fa-shield" aria-hidden="true"></i>
+                                Información legal y políticas del sitio
+                            </span>
+                            <h1><t t-esc="legal_title"/></h1>
+                            <p><t t-esc="legal_subtitle"/></p>
+                            <div class="cleo-legal-meta">
+                                <span><i class="fa fa-calendar-check-o" aria-hidden="true"></i> Vigente desde junio de 2026</span>
+                                <span><i class="fa fa-map-marker" aria-hidden="true"></i> San Salvador, El Salvador</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="cleo-legal-main">
+                        <div class="cleo-legal-container cleo-legal-grid">
+                            <aside class="cleo-legal-sidebar">
+                                <strong>Políticas de Cleosmarket</strong>
+                                <a href="/terminos-y-condiciones" t-att-class="'active' if active_legal_page == 'terms' else ''">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    Términos y Condiciones
+                                </a>
+                                <a href="/politica-de-privacidad-ecommerce" t-att-class="'active' if active_legal_page == 'privacy' else ''">
+                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                    Política de privacidad ecommerce
+                                </a>
+                                <a href="/cancelaciones-cambios-devoluciones" t-att-class="'active' if active_legal_page == 'returns' else ''">
+                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    Cancelaciones y devoluciones
+                                </a>
+                                <div class="cleo-legal-help-card">
+                                    <span><i class="fa fa-whatsapp" aria-hidden="true"></i></span>
+                                    <p>¿Tienes dudas sobre una compra?</p>
+                                    <a href="https://wa.me/50368354506" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+                                </div>
+                            </aside>
+
+                            <article class="cleo-legal-card">
+                                <t t-out="0"/>
+                            </article>
+                        </div>
+                    </section>
+                </div>
+            </t>
+        </template>
+
+        <template id="cleosmarket_terms_conditions_page" name="Super Tienda Cleo - Términos y Condiciones">
+            <t t-call="Sitio_web_cleosmarket.cleosmarket_legal_layout">
+                <t t-set="legal_title">Términos y Condiciones de Uso y Compra</t>
+                <t t-set="legal_subtitle">Reglas aplicables al uso de cleosmarket.com, compras en línea, precios, disponibilidad, promociones, pagos, entregas y uso de cuenta.</t>
+                <t t-set="active_legal_page">terms</t>
+
+                <h2>1. Identificación del comercio</h2>
+                <p>
+                    <strong>Super Tienda Cleo</strong> es un comercio operado por persona natural, con tienda física y canal de comercio electrónico en
+                    <strong>cleosmarket.com</strong>. Nuestra dirección de atención es: Carretera a Planes de Renderos Km 6 1/2,
+                    San Salvador, El Salvador.
+                </p>
+                <p>
+                    Canales oficiales de atención: correo electrónico <a href="mailto:supertiendacleo25@gmail.com">supertiendacleo25@gmail.com</a>
+                    y WhatsApp o teléfono <a href="tel:+50368354506">+503 6835-4506</a>. El horario de atención al cliente para consultas y reclamos es de
+                    <strong>8:00 a.m. a 5:00 p.m.</strong>
+                </p>
+
+                <h2>2. Aceptación de los términos</h2>
+                <p>
+                    Al ingresar, navegar, crear una cuenta, realizar un pedido o finalizar una compra en cleosmarket.com, el cliente declara haber leído,
+                    entendido y aceptado estos Términos y Condiciones, la Política de Privacidad Ecommerce y la Política de Cancelaciones, Cambios,
+                    Devoluciones y Reembolsos.
+                </p>
+
+                <h2>3. Cobertura del servicio</h2>
+                <p>
+                    Las ventas en línea se realizan únicamente dentro de El Salvador. La cobertura principal de entrega es San Salvador y zonas habilitadas
+                    dentro del sitio. La entrega express aplica únicamente para la zona metropolitana de San Salvador, Planes de Renderos y zonas donde el
+                    transportista confirme disponibilidad.
+                </p>
+                <p>
+                    Super Tienda Cleo también cuenta con tienda física abierta al público, donde los clientes pueden comprar directamente o retirar pedidos
+                    realizados en línea.
+                </p>
+
+                <h2>4. Registro, cuenta y datos del cliente</h2>
+                <p>
+                    El cliente se compromete a proporcionar información verdadera, actualizada y completa al crear su cuenta o realizar un pedido. El cliente
+                    es responsable de mantener la confidencialidad de sus datos de acceso y de toda actividad realizada desde su cuenta.
+                </p>
+                <p>
+                    Super Tienda Cleo podrá contactar al cliente por los datos proporcionados en su pedido para validar disponibilidad, resolver sustituciones,
+                    coordinar entrega, confirmar pago contra entrega o atender reclamos.
+                </p>
+
+                <h2>5. Productos con restricción de edad</h2>
+                <p>
+                    Algunos productos ofrecidos por Super Tienda Cleo pueden estar sujetos a restricciones legales de edad o condiciones especiales de venta.
+                    Al intentar comprar este tipo de productos, el cliente declara cumplir con la edad mínima y requisitos aplicables conforme a la normativa
+                    vigente de El Salvador.
+                </p>
+                <p>
+                    Super Tienda Cleo podrá solicitar identificación válida al momento de la entrega o retiro en tienda. Si no se acredita el cumplimiento de
+                    los requisitos aplicables, Super Tienda Cleo podrá rechazar la entrega, retirar el producto del pedido, cancelar la venta o coordinar con el
+                    cliente la solución que corresponda.
+                </p>
+
+                <h2>6. Precios, IVA y disponibilidad</h2>
+                <p>
+                    Los precios publicados en cleosmarket.com incluyen IVA. Los precios, promociones y disponibilidad de productos pueden variar sin previo
+                    aviso y están sujetos al inventario disponible en tienda y en el sistema al momento de preparar el pedido.
+                </p>
+                <p>
+                    Las imágenes, marcas, presentaciones y descripciones de productos se muestran con fines informativos. Pueden existir variaciones menores
+                    respecto al producto entregado, siempre procurando conservar la equivalencia razonable del producto solicitado.
+                </p>
+                <p>
+                    Si se detecta un error evidente de precio, descripción, disponibilidad o contenido del pedido, Super Tienda Cleo notificará al cliente para
+                    corregirlo, sustituirlo, ajustar el total, cancelar el producto afectado o acordar una solución antes de completar la entrega.
+                </p>
+
+                <h2>7. Métodos de pago</h2>
+                <p>
+                    Los métodos de pago aceptados son: tarjeta de crédito, tarjeta de débito y pago contra entrega. Cuando el pago sea realizado con tarjeta,
+                    el pedido se procesará después de confirmarse el pago. Cuando el cliente seleccione pago contra entrega, el pedido se procesará al finalizar
+                    correctamente el proceso de compra en el sitio web.
+                </p>
+                <p>
+                    Super Tienda Cleo no almacena datos de tarjetas ni información bancaria. La información de pago es procesada directamente por la plataforma
+                    bancaria o pasarela de pago correspondiente.
+                </p>
+                <p>
+                    No se manejan pedidos pendientes de pago. Los pedidos pagados que se cancelen se tratarán conforme a la política de devoluciones y reembolsos.
+                </p>
+
+                <h2>8. Comprobantes de compra</h2>
+                <p>
+                    Super Tienda Cleo entrega ticket de compra. Actualmente no se emite factura desde el sitio web. El cliente deberá conservar su número de
+                    pedido, comprobante de pago y ticket de compra para consultas, reclamos o solicitudes relacionadas con su compra.
+                </p>
+
+                <h2>9. Métodos de entrega</h2>
+                <p>
+                    Super Tienda Cleo ofrece retiro en tienda, entrega estándar y entrega express. El retiro en tienda es gratis. La entrega estándar tiene un
+                    costo de <strong>US$2.00</strong>. La entrega express tiene costo variable según el transportista y la zona de cobertura.
+                </p>
+                <p>
+                    Para entrega estándar, los pedidos recibidos después de las <strong>2:00 p.m.</strong> serán procesados para envío el siguiente día hábil.
+                    Para entrega express, los pedidos se procesan hasta las <strong>4:30 p.m.</strong>, sujeto a disponibilidad de productos, cobertura y transportista.
+                </p>
+
+                <h2>10. Sustitución o faltante de productos</h2>
+                <p>
+                    Si un producto no está disponible, Super Tienda Cleo se comunicará con el cliente para ofrecer alternativas, tales como sustituirlo por un
+                    producto equivalente, descontarlo del pago, eliminar el producto faltante y cobrar únicamente lo disponible, o acordar otra solución razonable.
+                    La decisión será informada al cliente antes de completar el pedido cuando sea posible.
+                </p>
+
+                <h2>11. Promociones, ofertas y cupones</h2>
+                <p>
+                    Las promociones y ofertas pueden tener fecha de vencimiento, condiciones especiales y disponibilidad limitada. Las ofertas aplican hasta
+                    agotar existencias. Los cupones no son acumulables, salvo que una promoción indique expresamente lo contrario.
+                </p>
+                <p>
+                    Super Tienda Cleo no limita cantidades de compra mientras exista inventario suficiente. Si el inventario disponible es menor a la cantidad
+                    solicitada, el sitio o el equipo de atención informará la cantidad máxima disponible o propondrá una alternativa.
+                </p>
+                <p>
+                    Las promociones o anuncios se publicarán en los canales oficiales del sitio. Super Tienda Cleo no enviará promociones al WhatsApp personal
+                    del cliente salvo que exista una autorización o comunicación necesaria relacionada con una compra o consulta iniciada por el cliente.
+                </p>
+
+                <h2>12. Uso adecuado del sitio</h2>
+                <p>
+                    El cliente se compromete a no utilizar cleosmarket.com para fines ilegales, fraudulentos, automatizados, abusivos o que puedan afectar la
+                    seguridad, disponibilidad o funcionamiento del sitio. Super Tienda Cleo podrá restringir cuentas, cancelar pedidos o rechazar operaciones
+                    cuando existan indicios razonables de fraude, uso indebido, información falsa o incumplimiento de estos términos.
+                </p>
+
+                <h2>13. Atención al cliente y reclamos</h2>
+                <p>
+                    El canal oficial de atención es WhatsApp, correo electrónico y los formularios o enlaces habilitados en el sitio. El tiempo máximo estimado
+                    de respuesta es de <strong>4 horas</strong> dentro del horario de atención al cliente, salvo casos de fuerza mayor, alta demanda o situaciones
+                    que requieran verificación adicional.
+                </p>
+                <p>
+                    Para reclamos, el cliente deberá presentar número de pedido, foto del producto cuando aplique, comprobante de pago y detalle del producto afectado.
+                </p>
+
+                <h2>14. Cambios de estas condiciones</h2>
+                <p>
+                    Super Tienda Cleo podrá actualizar estos Términos y Condiciones para reflejar cambios operativos, legales, tecnológicos o comerciales. La
+                    versión vigente será la publicada en cleosmarket.com al momento de realizar la compra.
+                </p>
+
+                <div class="cleo-legal-note">
+                    <strong>Nota:</strong> estas políticas buscan brindar claridad y protección tanto para el cliente como para Super Tienda Cleo. Para casos no
+                    previstos, se buscará una solución razonable conforme a la buena fe, la información disponible y la normativa aplicable en El Salvador.
+                </div>
+            </t>
+        </template>
+
+        <template id="cleosmarket_privacy_ecommerce_page" name="Super Tienda Cleo - Política de Privacidad Ecommerce">
+            <t t-call="Sitio_web_cleosmarket.cleosmarket_legal_layout">
+                <t t-set="legal_title">Política de Privacidad Ecommerce</t>
+                <t t-set="legal_subtitle">Información sobre los datos personales que recopilamos, por qué los usamos, con quién se comparten y cómo puedes solicitar su eliminación.</t>
+                <t t-set="active_legal_page">privacy</t>
+
+                <h2>1. Responsable de los datos</h2>
+                <p>
+                    Super Tienda Cleo, comercio operado por persona natural, es responsable del tratamiento de los datos personales recopilados mediante
+                    cleosmarket.com, tienda física y canales oficiales de atención.
+                </p>
+                <p>
+                    Para ejercer derechos relacionados con datos personales, el cliente puede escribir a
+                    <a href="mailto:supertiendacleo25@gmail.com">supertiendacleo25@gmail.com</a> o comunicarse al <a href="tel:+50368354506">+503 6835-4506</a>.
+                </p>
+
+                <h2>2. Datos que podemos recopilar</h2>
+                <p>Según el tipo de operación, Super Tienda Cleo puede recopilar los siguientes datos:</p>
+                <ul>
+                    <li>DUI, cuando sea necesario para identificar al cliente, verificar edad o atender una operación.</li>
+                    <li>NIT, cuando el cliente lo proporcione o sea necesario para controles internos.</li>
+                    <li>Teléfono y correo electrónico.</li>
+                    <li>Dirección de entrega y referencias para ubicación.</li>
+                    <li>Historial de pedidos, productos comprados, incidencias y reclamos.</li>
+                    <li>Comprobantes de pago, número de pedido y datos necesarios para atención posventa.</li>
+                </ul>
+
+                <h2>3. Datos de pago y tarjetas</h2>
+                <p>
+                    Cleosmarket.com no almacena información de tarjetas, claves bancarias ni datos bancarios sensibles. Los datos proporcionados para realizar
+                    pagos con tarjeta son entregados y validados directamente por la plataforma bancaria o pasarela de pago correspondiente.
+                </p>
+
+                <h2>4. Finalidades del uso de datos</h2>
+                <p>Los datos se usan para:</p>
+                <ul>
+                    <li>Registrar y procesar pedidos.</li>
+                    <li>Coordinar retiro en tienda, entrega estándar o entrega express.</li>
+                    <li>Contactar al cliente por disponibilidad, sustituciones, pagos, entrega o reclamos.</li>
+                    <li>Verificar identidad o edad cuando el producto esté sujeto a restricción legal.</li>
+                    <li>Atender garantías, devoluciones, cancelaciones y solicitudes del cliente.</li>
+                    <li>Prevenir fraude, errores operativos o usos indebidos del sitio.</li>
+                    <li>Mejorar la experiencia de compra y la atención al cliente.</li>
+                </ul>
+
+                <h2>5. Comunicaciones y promociones</h2>
+                <p>
+                    Super Tienda Cleo no enviará promociones al WhatsApp personal del cliente como práctica ordinaria. Las promociones, ofertas y anuncios se
+                    publicarán en los canales oficiales del sitio o medios oficiales de Super Tienda Cleo. Las comunicaciones directas al cliente se realizarán
+                    principalmente para atender pedidos, entregas, pagos, consultas, reclamos o solicitudes iniciadas por el cliente.
+                </p>
+
+                <h2>6. Cookies y herramientas de análisis</h2>
+                <p>
+                    El sitio puede usar cookies técnicas o funcionales necesarias para operar la sesión, carrito de compras, seguridad, navegación y funcionamiento
+                    básico del comercio electrónico. Según la información operativa actual, Super Tienda Cleo no utiliza herramientas externas de analítica o
+                    publicidad como Google Analytics, Meta Pixel, TikTok Pixel o Plausible.
+                </p>
+
+                <h2>7. Compartición de datos</h2>
+                <p>
+                    Los datos del cliente podrán compartirse únicamente cuando sea necesario para operar el servicio, por ejemplo, con pasarelas de pago,
+                    bancos, empresas de envío, transportistas, proveedores tecnológicos, personal autorizado de atención al cliente o autoridades competentes
+                    cuando legalmente corresponda.
+                </p>
+                <p>
+                    Al usar el sitio y aceptar los Términos y Condiciones, el cliente autoriza el uso y comunicación de sus datos conforme a esta política,
+                    siempre dentro de lo necesario para procesar la compra, entrega, atención o cumplimiento legal.
+                </p>
+
+                <h2>8. Conservación de datos</h2>
+                <p>
+                    Super Tienda Cleo conservará los datos durante el tiempo necesario para procesar pedidos, atender reclamos, cumplir obligaciones operativas,
+                    resolver incidencias, prevenir fraudes y mantener registros razonables de operaciones comerciales.
+                </p>
+
+                <h2>9. Derechos del cliente</h2>
+                <p>
+                    El cliente puede solicitar en cualquier momento acceso, corrección, actualización o eliminación de sus datos personales. Super Tienda Cleo
+                    atenderá la solicitud de forma transparente, eliminando la información disponible cuando no exista una razón operativa, legal o legítima
+                    para conservarla.
+                </p>
+                <p>
+                    Para solicitar eliminación de datos, el cliente deberá escribir a <a href="mailto:supertiendacleo25@gmail.com">supertiendacleo25@gmail.com</a>
+                    e indicar sus datos de identificación y el correo o teléfono asociado a su cuenta o pedidos.
+                </p>
+
+                <h2>10. Seguridad de la información</h2>
+                <p>
+                    Super Tienda Cleo aplicará medidas razonables para proteger la información del cliente contra acceso no autorizado, pérdida, uso indebido o
+                    alteración. Ningún sistema es absolutamente infalible; por ello, el cliente también debe proteger sus credenciales de acceso y evitar compartir
+                    información sensible por canales no oficiales.
+                </p>
+
+                <h2>11. Actualizaciones</h2>
+                <p>
+                    Esta Política de Privacidad puede actualizarse por cambios operativos, tecnológicos, legales o comerciales. La versión vigente será la publicada
+                    en cleosmarket.com.
+                </p>
+            </t>
+        </template>
+
+        <template id="cleosmarket_returns_refunds_page" name="Super Tienda Cleo - Cancelaciones, Cambios, Devoluciones y Reembolsos">
+            <t t-call="Sitio_web_cleosmarket.cleosmarket_legal_layout">
+                <t t-set="legal_title">Política de Cancelaciones, Cambios, Devoluciones y Reembolsos</t>
+                <t t-set="legal_subtitle">Reglas para reportar problemas, solicitar cambios, devolver productos, cancelar pedidos y coordinar reembolsos.</t>
+                <t t-set="active_legal_page">returns</t>
+
+                <h2>1. Alcance de esta política</h2>
+                <p>
+                    Esta política aplica a compras realizadas en cleosmarket.com y, cuando corresponda, a pedidos atendidos desde la tienda física de Super Tienda Cleo.
+                    Su objetivo es brindar reglas claras para resolver incidencias, errores de producto, faltantes, daños, cancelaciones y reembolsos.
+                </p>
+
+                <h2>2. Requisitos para presentar un reclamo</h2>
+                <p>Para cualquier reclamo, el cliente deberá presentar:</p>
+                <ul>
+                    <li>Número de pedido.</li>
+                    <li>Foto del producto afectado, cuando aplique.</li>
+                    <li>Comprobante de pago o ticket de compra.</li>
+                    <li>Descripción clara del producto afectado y del inconveniente.</li>
+                </ul>
+                <p>
+                    El tiempo máximo para reportar un problema es de <strong>24 horas</strong> después de recibir el pedido. En productos perecederos, el reporte
+                    y la devolución aplican únicamente el mismo día de recepción del producto.
+                </p>
+
+                <h2>3. Productos perecederos</h2>
+                <p>
+                    Para productos perecederos, como lácteos, huevos, carnes, frutas, verduras, panadería u otros productos sensibles, se aceptarán devoluciones
+                    únicamente el mismo día en que el cliente recibió el producto. Después de ese día no se aceptarán devoluciones de productos perecederos,
+                    salvo que Super Tienda Cleo determine una excepción por razones justificadas.
+                </p>
+                <p>
+                    De preferencia, el cliente deberá enviar fotografías que evidencien el daño, condición inadecuada o error. Alternativamente, podrá retornar
+                    el producto a la tienda para inspección.
+                </p>
+
+                <h2>4. Productos no perecederos</h2>
+                <p>
+                    En productos no perecederos, Super Tienda Cleo revisará cada caso según el estado del producto, empaque, ticket de compra, evidencia presentada
+                    y naturaleza del reclamo. Los productos abiertos, usados, alterados o dañados por manipulación posterior a la entrega podrán ser rechazados.
+                </p>
+
+                <h2>5. Productos dañados, vencidos, equivocados o faltantes</h2>
+                <p>
+                    Si el cliente recibe un producto dañado, vencido, equivocado o incompleto, deberá reportarlo dentro de las primeras 24 horas. Super Tienda Cleo
+                    podrá ofrecer cambio del producto, reposición, descuento, devolución parcial, devolución total o una solución equivalente según el caso.
+                </p>
+
+                <h2>6. Cancelación de pedidos pagados</h2>
+                <p>
+                    Los pedidos ya pagados que el cliente solicite cancelar serán tratados como devoluciones. Super Tienda Cleo coordinará con el cliente el método
+                    de retorno del valor correspondiente, pudiendo utilizar efectivo, transferencia bancaria, cambio de producto u otra alternativa acordada según
+                    el caso y la disponibilidad operativa.
+                </p>
+
+                <h2>7. Pedidos con pago contra entrega</h2>
+                <p>
+                    Para pedidos seleccionados con pago contra entrega, si no es posible contactar al cliente después de tres intentos razonables, el pedido podrá
+                    ser anulado. Super Tienda Cleo se reserva el derecho de liberar la reserva de productos para evitar afectación del inventario.
+                </p>
+
+                <h2>8. Entregas no concretadas</h2>
+                <p>
+                    Antes de despachar un pedido, Super Tienda Cleo intentará contactar al cliente a los números proporcionados en su registro o pedido. Si el pedido
+                    ya fue pagado y no es posible contactar al cliente, el despacho quedará pendiente para el siguiente día hábil y se intentará nuevamente hasta un
+                    máximo de <strong>5 días hábiles</strong>.
+                </p>
+                <p>
+                    Si después de ese período no se logra realizar la entrega, el pedido quedará congelado hasta que el cliente se comunique con Super Tienda Cleo
+                    para acordar una solución. En estos casos podrán revisarse cambios de fecha, retiro en tienda, sustitución, devolución o ajuste del pedido según
+                    la naturaleza de los productos y el tiempo transcurrido.
+                </p>
+
+                <h2>9. Pedidos no retirados en tienda</h2>
+                <p>
+                    El cliente tiene hasta <strong>48 horas</strong> para retirar su pedido en tienda. Si no lo retira dentro de ese plazo, las reservas de productos
+                    podrán liberarse y el pedido quedará cancelado. En pedidos pagados, Super Tienda Cleo coordinará con el cliente una solución conforme al estado
+                    del pedido, disponibilidad de productos y política aplicable.
+                </p>
+
+                <h2>10. Sustituciones por falta de inventario</h2>
+                <p>
+                    Si un producto solicitado no está disponible, Super Tienda Cleo contactará al cliente para ofrecer sustitución por producto equivalente, descuento
+                    del pago, eliminación del producto faltante o cobro únicamente de los productos disponibles. La sustitución o ajuste será notificada al cliente.
+                </p>
+
+                <h2>11. Tiempos y medios de reembolso</h2>
+                <p>
+                    Cuando proceda un reembolso, Super Tienda Cleo coordinará con el cliente el medio aplicable. En pagos con tarjeta, el tiempo de acreditación puede
+                    depender del banco emisor, pasarela de pago o entidad procesadora. En otros casos, se podrá coordinar efectivo, transferencia bancaria, cambio de
+                    producto, nota interna o solución equivalente acordada con el cliente.
+                </p>
+
+                <h2>12. Casos no cubiertos expresamente</h2>
+                <p>
+                    Los casos no previstos se evaluarán individualmente, procurando una solución razonable, proporcional y de buena fe, tomando en cuenta evidencia,
+                    tipo de producto, tiempo transcurrido, estado del pedido y registros disponibles.
+                </p>
+            </t>
+        </template>
+    </data>
+</odoo>

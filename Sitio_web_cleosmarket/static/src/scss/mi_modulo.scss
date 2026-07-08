@@ -1,0 +1,4139 @@
+/*
+ * Super Tienda Cleo - SCSS depurado y reorganizado
+ * Archivo base optimizado a partir del SCSS compartido.
+ * Cambios: topbar consolidada, duplicados finales integrados, clases agrupadas por sección y comentarios funcionales.
+ *
+ * Super Tienda Cleo - Etapa 2 depurada
+ * Encabezado + hero principal de la Home.
+ *
+ * Importante:
+ * En views/templates.xml el hero debe usar:
+ *
+ *     <div class="cleo-home-hero__inner">
+ *
+ * y NO:
+ *
+ *     <div class="container cleo-home-hero__inner">
+ */
+/* ============================================================
+   Índice rápido de clases documentadas
+   Cada línea indica qué elemento afecta cada clase principal.
+   ============================================================
+   .cleo-about-badges: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-btn: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-btn--primary: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-btn--secondary: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-community: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-community__inner: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-container: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-deco: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-deco--left-bottom: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-deco--left-mid: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-deco--left-top: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-deco--right-bottom: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-deco--right-mid: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-deco--right-top: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-freshness__image: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-grid: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-grid--freshness: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-grid--hero: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-grid--story: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-grid__media: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-h1: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-h2: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-h2--underline: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-h3: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-heading: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-hero: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-hero__actions: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-hero__visual: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-icon: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-icon--blue: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-icon--red: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-icon--yellow: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-lead: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-page: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-script: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-step: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-step__icon: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-step__number: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-steps__row: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-thanks: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-timeline: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-timeline__card: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-value-card: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-value-card__arrow: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-about-values__grid: elemento de la página Sobre Nosotros; controla secciones, grids, tarjetas, iconos o textos.
+   .cleo-account: elemento del header principal; controla navegación, logo, búsqueda, cuenta, carrito o dropdown.
+   .cleo-actions: elemento del header principal; controla navegación, logo, búsqueda, cuenta, carrito o dropdown.
+   .cleo-awning-divider: elemento del hero de la página principal; controla texto, botones, imagen o separador.
+   .cleo-brand: elemento del header principal; controla navegación, logo, búsqueda, cuenta, carrito o dropdown.
+   .cleo-btn: elemento del hero de la página principal; controla texto, botones, imagen o separador.
+   .cleo-btn--primary: elemento del hero de la página principal; controla texto, botones, imagen o separador.
+   .cleo-btn--secondary: elemento del hero de la página principal; controla texto, botones, imagen o separador.
+   .cleo-cart: elemento del header principal; controla navegación, logo, búsqueda, cuenta, carrito o dropdown.
+   .cleo-cart__qty: elemento del header principal; controla navegación, logo, búsqueda, cuenta, carrito o dropdown.
+   .cleo-category-carousel: elemento del carrusel de categorías de la página principal.
+   .cleo-category-carousel__btn: elemento del carrusel de categorías de la página principal.
+   .cleo-category-carousel__track: elemento del carrusel de categorías de la página principal.
+   .cleo-category-carousel__viewport: elemento del carrusel de categorías de la página principal.
+   .cleo-category-empty: elemento del carrusel de categorías de la página principal.
+   .cleo-category-tile: elemento del carrusel de categorías de la página principal.
+   .cleo-category-tile__arrow: elemento del carrusel de categorías de la página principal.
+   .cleo-category-tile__fallback: elemento del carrusel de categorías de la página principal.
+   .cleo-category-tile__image: elemento del carrusel de categorías de la página principal.
+   .cleo-category-tile__name: elemento del carrusel de categorías de la página principal.
+   .cleo-contact-alert: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-alert--success: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-before: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-before-card: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-before-card__icon: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-before__grid: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-benefits: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-benefits__inner: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-card: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-channel-grid: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-channels: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-container: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-form: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-form-card: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-form__actions: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-form__row: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-grid: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-heading-center: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-hero: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-hero__badges: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-hero__copy: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-hero__inner: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-hero__media: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-info-card: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-info-list: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-input-wrap: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-lead: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-main: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-map-card: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-mini-card: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-mini-card__icon: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-mini-card__icon--whatsapp: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-page: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-privacy: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-script: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-section-title: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-section-title--compact: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-section-title__icon: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-side: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-submit: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-title: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-whatsapp-card: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-whatsapp-card__icon: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-contact-whatsapp-note: elemento de la página Contáctenos; controla hero, formulario, tarjetas, mapa, canales o beneficios.
+   .cleo-dropdown: elemento del header principal; controla navegación, logo, búsqueda, cuenta, carrito o dropdown.
+   .cleo-footer: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-bottom: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-bottom__copy: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-bottom__divider: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-bottom__inner: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-bottom__payments: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-bottom__secure: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-brand: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-brand__logo: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-col: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-contact: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-main: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-main__inner: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-social: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-step: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-step__content: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-step__icon: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-steps: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-steps__arrow: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-steps__inner: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-support: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-support__icon: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-support__icon--white: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-support__inner: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-footer-support__item: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-home-categories: clase visual del sitio Cleosmarket.
+   .cleo-home-hero: elemento del hero de la página principal; controla texto, botones, imagen o separador.
+   .cleo-home-hero__buttons: elemento del hero de la página principal; controla texto, botones, imagen o separador.
+   .cleo-home-hero__content: elemento del hero de la página principal; controla texto, botones, imagen o separador.
+   .cleo-home-hero__eyebrow: elemento del hero de la página principal; controla texto, botones, imagen o separador.
+   .cleo-home-hero__inner: elemento del hero de la página principal; controla texto, botones, imagen o separador.
+   .cleo-home-hero__pickup: elemento del hero de la página principal; controla texto, botones, imagen o separador.
+   .cleo-home-hero__subtitle: elemento del hero de la página principal; controla texto, botones, imagen o separador.
+   .cleo-home-hero__title: elemento del hero de la página principal; controla texto, botones, imagen o separador.
+   .cleo-home-hero__visual: elemento del hero de la página principal; controla texto, botones, imagen o separador.
+   .cleo-menu: elemento del header principal; controla navegación, logo, búsqueda, cuenta, carrito o dropdown.
+   .cleo-menu__links: elemento del header principal; controla navegación, logo, búsqueda, cuenta, carrito o dropdown.
+   .cleo-navbar: elemento del header principal; controla navegación, logo, búsqueda, cuenta, carrito o dropdown.
+   .cleo-navbar__inner: elemento del header principal; controla navegación, logo, búsqueda, cuenta, carrito o dropdown.
+   .cleo-payment-badge: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-payment-badge--amex: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-payment-badge--mastercard: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-payment-badge--visa: elemento del footer; controla pasos, soporte, columnas, pagos o franja inferior.
+   .cleo-search: elemento del header principal; controla navegación, logo, búsqueda, cuenta, carrito o dropdown.
+   .cleo-toggler: elemento del header principal; controla navegación, logo, búsqueda, cuenta, carrito o dropdown.
+   .cleo-topbar: barra superior del header; muestra horario, retiro y contacto.
+   .cleo-topbar__inner: barra superior del header; muestra horario, retiro y contacto.
+   .cleo-topbar__item: barra superior del header; muestra horario, retiro y contacto.
+   .cleo-topbar__item--center: barra superior del header; muestra horario, retiro y contacto.
+   .cleo-topbar__link: barra superior del header; muestra horario, retiro y contacto.
+   .o_cleos_header: contenedor del encabezado personalizado del sitio.
+   ============================================================ */
+
+
+
+
+/* ============================================================
+   1. Variables de marca
+   ============================================================ */
+
+$o-cleo-navy: #06265a;
+$o-cleo-navy-dark: #031a42;
+$o-cleo-yellow: #ffc20e;
+$o-cleo-yellow-soft: #fff2c7;
+$o-cleo-red: #d71920;
+$o-cleo-text: #0d1b3e;
+$o-cleo-border: #e8e8ee;
+$o-cleo-white: #ffffff;
+
+
+/* ============================================================
+   2. Barra superior informativa
+   ============================================================ */
+
+/* .cleo-topbar: franja azul superior que muestra horario, retiro y teléfono en el header. */
+.cleo-topbar {
+    width: 100%;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(90deg, $o-cleo-navy-dark, $o-cleo-navy);
+    color: $o-cleo-white;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-bottom: 3px solid $o-cleo-yellow;
+}
+
+/* .cleo-topbar__inner: contenedor interno que distribuye los mensajes de la barra superior. */
+.cleo-topbar__inner {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* .cleo-topbar__item: cada texto/enlace informativo dentro de la barra superior. */
+.cleo-topbar__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: $o-cleo-white;
+    text-decoration: none;
+    white-space: nowrap;
+
+    i {
+        color: $o-cleo-yellow;
+        font-size: 1rem;
+    }
+}
+
+/* .cleo-topbar__link: enlace telefónico/WhatsApp de la barra superior. */
+.cleo-topbar__link:hover {
+    color: $o-cleo-yellow;
+    text-decoration: none;
+}
+
+/* .cleo-topbar__item--center: mensaje central, oculto en móvil para evitar saturación. */
+@media (max-width: 768px) {
+    .cleo-topbar {
+        min-height: auto;
+        padding: 6px 0;
+        font-size: 12px;
+    }
+
+    .cleo-topbar__inner {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px 14px;
+        text-align: center;
+    }
+
+    .cleo-topbar__item--center {
+        display: none;
+    }
+}
+
+
+/* ============================================================
+   3. Encabezado general
+   ============================================================ */
+
+.o_cleos_header {
+    background: $o-cleo-white;
+    box-shadow: 0 6px 18px rgba(3, 26, 66, 0.05);
+    position: relative;
+    z-index: 1000;
+
+    /*
+     * Menú principal blanco.
+     * Se redujo altura/padding para eliminar el espacio blanco
+     * entre la barra superior, el logo y el inicio del hero.
+     */
+    .cleo-navbar {
+        background: $o-cleo-white;
+        min-height: 118px;
+        padding: 0;
+    }
+
+    .cleo-navbar__inner {
+        min-height: 118px;
+        display: flex;
+        align-items: center;
+        gap: 34px;
+    }
+
+    /*
+     * Logo.
+     * Antes estaba en 200px y generaba demasiado espacio vertical.
+     */
+    .cleo-brand {
+        margin-right: 26px;
+        padding: 0;
+
+        img {
+            width: auto;
+            height: 132px;
+            max-height: none;
+            display: block;
+        }
+    }
+
+    .cleo-menu {
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .cleo-menu__links {
+        align-items: center;
+        gap: 14px;
+
+        .nav-link {
+            color: $o-cleo-text;
+            font-size: 0.98rem;
+            font-weight: 700;
+            padding: 12px 8px;
+            border-radius: 999px;
+            position: relative;
+        }
+
+        .nav-link.active,
+        .nav-link:hover {
+            color: $o-cleo-navy;
+        }
+
+        .nav-link.active::after {
+            content: "";
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            bottom: 1px;
+            height: 4px;
+            border-radius: 99px;
+            background: $o-cleo-yellow;
+        }
+    }
+
+    /* Dropdown de productos */
+    .cleo-dropdown {
+        border: 1px solid $o-cleo-border;
+        border-radius: 16px;
+        padding: 0.55rem;
+        box-shadow: 0 14px 32px rgba(3, 26, 66, 0.14);
+
+        .dropdown-item {
+            border-radius: 10px;
+            font-weight: 500;
+            padding: 0.55rem 0.8rem;
+
+            &:hover {
+                background: rgba(255, 194, 14, 0.16);
+                color: $o-cleo-navy;
+            }
+        }
+    }
+
+    /* Buscador, cuenta y carrito */
+    .cleo-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-left: auto;
+    }
+
+    .cleo-search {
+        width: 300px;
+        max-width: 30vw;
+        height: 54px;
+        display: flex;
+        align-items: center;
+        border: 1px solid #d6d8df;
+        border-radius: 999px;
+        background: $o-cleo-white;
+        overflow: hidden;
+
+        input {
+            flex: 1;
+            min-width: 0;
+            height: 100%;
+            border: 0;
+            outline: none;
+            background: transparent;
+            padding: 0 0.35rem 0 1.25rem;
+            color: $o-cleo-text;
+            font-size: 0.98rem;
+        }
+
+        button {
+            width: 54px;
+            height: 54px;
+            border: 0;
+            background: transparent;
+            color: $o-cleo-navy;
+            font-size: 1.28rem;
+
+            &:hover {
+                color: $o-cleo-yellow;
+            }
+        }
+    }
+
+    .cleo-account,
+    .cleo-cart {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        color: $o-cleo-text;
+        font-size: 0.98rem;
+        font-weight: 700;
+        text-decoration: none;
+        white-space: nowrap;
+
+        i {
+            color: $o-cleo-navy;
+            font-size: 1.6rem;
+        }
+
+        &:hover {
+            color: $o-cleo-navy;
+        }
+    }
+
+    .cleo-cart {
+        position: relative;
+        padding-right: 0.5rem;
+    }
+
+    .cleo-cart__qty {
+        position: absolute;
+        top: -11px;
+        right: -5px;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 5px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: $o-cleo-red;
+        color: $o-cleo-white;
+        font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 800;
+    }
+
+    .cleo-toggler {
+        border: 1px solid $o-cleo-border;
+        border-radius: 12px;
+        padding: 0.5rem 0.7rem;
+    }
+}
+
+
+/* ============================================================
+   4. Hero principal
+   ============================================================ */
+
+.cleo-home-hero {
+    width: 100%;
+    max-width: none;
+    min-height: 480px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(3, 26, 66, 0.05);
+    background:
+        linear-gradient(
+            90deg,
+            $o-cleo-white 0%,
+            $o-cleo-white 34%,
+            #fffaf0 58%,
+            #f6f0e6 100%
+        );
+
+    /*
+     * Capa clara que ayuda a fundir la imagen con el texto.
+     * No genera espacio; solo es un degradado visual.
+     */
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background:
+            linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 1) 0%,
+                rgba(255, 255, 255, 0.94) 34%,
+                rgba(255, 255, 255, 0.38) 58%,
+                rgba(255, 255, 255, 0.02) 100%
+            );
+    }
+}
+
+/*
+ * Contenedor full width.
+ * No debe tener .container en el XML.
+ */
+.cleo-home-hero__inner {
+    width: 100%;
+    max-width: none;
+    min-height: 480px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 42% 58%;
+    align-items: stretch;
+    gap: 0;
+}
+
+/* Columna izquierda del hero */
+.cleo-home-hero__content {
+    padding-left: clamp(32px, 5vw, 72px);
+    padding-right: 1rem;
+    position: relative;
+    z-index: 4;
+    max-width: 610px;
+    align-self: center;
+}
+
+.cleo-home-hero__eyebrow {
+    display: none;
+}
+
+.cleo-home-hero__title {
+    color: $o-cleo-navy;
+    font-size: clamp(58px, 5.3vw, 82px);
+    line-height: 0.96;
+    font-weight: 900;
+    margin: 0 0 28px;
+    letter-spacing: -0.055em;
+
+    span,
+    em {
+        display: block;
+        white-space: nowrap;
+    }
+
+    em {
+        color: $o-cleo-yellow;
+        font-family: Georgia, "Times New Roman", serif;
+        font-style: italic;
+        font-weight: 700;
+        letter-spacing: -0.065em;
+        text-shadow: 0 1px 0 rgba(3, 26, 66, 0.04);
+    }
+}
+
+.cleo-home-hero__subtitle {
+    color: $o-cleo-text;
+    font-size: 19px;
+    line-height: 1.5;
+    margin-bottom: 28px;
+    max-width: 450px;
+}
+
+/* Botones del hero */
+.cleo-home-hero__buttons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.cleo-btn {
+    min-height: 58px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    border-radius: 14px;
+    padding: 14px 28px;
+    font-size: 0.98rem;
+    font-weight: 900;
+    text-decoration: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+
+    &:hover {
+        transform: translateY(-1px);
+        text-decoration: none;
+    }
+}
+
+.cleo-btn--primary {
+    background: $o-cleo-navy;
+    border: 1px solid $o-cleo-navy;
+    color: $o-cleo-white;
+    box-shadow: 0 10px 20px rgba(3, 26, 66, 0.18);
+
+    &:hover {
+        background: $o-cleo-navy-dark;
+        color: $o-cleo-white;
+    }
+}
+
+.cleo-btn--secondary {
+    background: $o-cleo-white;
+    border: 1px solid $o-cleo-navy;
+    color: $o-cleo-navy;
+
+    &:hover {
+        background: $o-cleo-yellow-soft;
+        color: $o-cleo-navy;
+    }
+}
+
+/* Mensaje de retiro */
+.cleo-home-hero__pickup {
+    min-height: 54px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    background: linear-gradient(90deg, #fff4c9, #fff9e8);
+    color: $o-cleo-text;
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-size: 0.98rem;
+    font-weight: 800;
+    box-shadow: 0 8px 22px rgba(255, 194, 14, 0.18);
+
+    i {
+        color: $o-cleo-navy;
+        font-size: 1.2rem;
+    }
+}
+
+
+/* ============================================================
+   5. Imagen del hero
+   ============================================================ */
+
+.cleo-home-hero__visual {
+    width: 100%;
+    height: 480px;
+    min-height: 480px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    align-self: stretch;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-end;
+
+    /*
+     * Degradado izquierdo para que la imagen se funda
+     * con la zona blanca del texto.
+     */
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        z-index: 2;
+        pointer-events: none;
+        background:
+            linear-gradient(
+                to right,
+                rgba(255, 255, 255, 1) 0%,
+                rgba(255, 255, 255, 0.94) 20%,
+                rgba(255, 255, 255, 0.68) 52%,
+                rgba(255, 255, 255, 0) 100%
+            );
+    }
+
+    img {
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        min-height: 480px;
+        display: block;
+        object-fit: cover;
+        object-position: right top;
+        transform: scale(1.08) translateX(20px);
+        transform-origin: center right;
+    }
+}
+
+
+/* ============================================================
+   6. Separador decorativo inferior
+   ============================================================ */
+
+.cleo-awning-divider {
+    width: 100%;
+    max-width: none;
+    height: 32px;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+    background:
+        radial-gradient(circle at 18px -2px, $o-cleo-navy 0 18px, transparent 19px) 0 0 / 72px 32px repeat-x,
+        radial-gradient(circle at 54px -2px, $o-cleo-red 0 18px, transparent 19px) 0 0 / 72px 32px repeat-x,
+        linear-gradient($o-cleo-white, $o-cleo-white);
+}
+
+
+
+
+/* ============================================================
+   7. Carrusel de categorías de cuarto nivel
+   ============================================================ */
+
+.cleo-home-categories {
+    background: $o-cleo-white;
+    padding: 18px 0 24px;
+}
+
+/* Contenedor general del carrusel.
+   Ocupa una sola fila y no se mueve automáticamente. */
+.cleo-category-carousel {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Ventana visible del carrusel. Oculta las categorías que quedan fuera
+   y permite desplazamiento horizontal con los botones laterales. */
+.cleo-category-carousel__viewport {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 0 22px;
+}
+
+.cleo-category-carousel__viewport::-webkit-scrollbar {
+    display: none;
+}
+
+.cleo-category-carousel__track {
+    display: flex;
+    align-items: stretch;
+    gap: 18px;
+    width: max-content;
+}
+
+/* Tarjeta de categoría.
+   El ancho y alto se mantienen fijos para conservar el diseño tipo menú. */
+.cleo-category-tile {
+    width: 265px;
+    height: 118px;
+    flex: 0 0 265px;
+    display: grid;
+    grid-template-columns: 118px 1fr 18px;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px 10px 12px;
+    border: 1px solid $o-cleo-border;
+    border-radius: 16px;
+    background: $o-cleo-white;
+    color: $o-cleo-text;
+    text-decoration: none;
+    box-shadow: 0 8px 18px rgba(3, 26, 66, 0.05);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.cleo-category-tile:hover {
+    color: $o-cleo-navy;
+    text-decoration: none;
+    transform: translateY(-2px);
+    border-color: rgba(255, 194, 14, 0.85);
+    box-shadow: 0 14px 24px rgba(3, 26, 66, 0.10);
+}
+
+.cleo-category-tile__image {
+    width: 118px;
+    height: 92px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.cleo-category-tile__image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}
+
+/* Fallback cuando la categoría no tiene un producto con imagen asociada. */
+.cleo-category-tile__fallback {
+    width: 70px;
+    height: 70px;
+    border-radius: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, $o-cleo-yellow-soft, #ffffff);
+    color: $o-cleo-navy;
+    border: 1px solid rgba(255, 194, 14, 0.55);
+    font-size: 1.8rem;
+    font-weight: 900;
+}
+
+/* Solo se muestra el último nombre de la categoría: category.name.
+   No se usa display_name porque display_name incluye toda la ruta. */
+.cleo-category-tile__name {
+    color: $o-cleo-text;
+    font-size: 1rem;
+    font-weight: 900;
+    line-height: 1.16;
+    text-transform: none;
+}
+
+.cleo-category-tile__arrow {
+    color: $o-cleo-navy;
+    font-size: 1.4rem;
+}
+
+/* Botones laterales del carrusel */
+.cleo-category-carousel__btn {
+    width: 36px;
+    height: 56px;
+    flex: 0 0 36px;
+    border: 0;
+    border-radius: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: #000000;
+    font-size: 2.6rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.cleo-category-carousel__btn:hover {
+    color: $o-cleo-navy;
+}
+
+.cleo-category-carousel__btn.is-disabled {
+    opacity: 0.25;
+    cursor: default;
+    pointer-events: none;
+}
+
+.cleo-category-empty {
+    margin: 0 22px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    background: #fff8df;
+    color: $o-cleo-text;
+    font-weight: 700;
+}
+
+/* ============================================================
+   8. Responsive
+   ============================================================ */
+
+@media (max-width: 1199.98px) {
+    .o_cleos_header {
+        .cleo-brand img {
+            height: 112px;
+        }
+
+        .cleo-search {
+            width: 260px;
+            max-width: 28vw;
+        }
+    }
+
+    .cleo-home-hero__title {
+        font-size: clamp(48px, 5vw, 68px);
+    }
+}
+
+@media (max-width: 991.98px) {
+    .o_cleos_header {
+        .cleo-topbar__inner {
+            min-height: auto;
+            padding-top: 0.55rem;
+            padding-bottom: 0.55rem;
+            flex-direction: column;
+            gap: 0.35rem;
+            text-align: center;
+        }
+
+        .cleo-navbar {
+            min-height: auto;
+        }
+
+        .cleo-brand img {
+            height: 72px;
+        }
+
+        .cleo-menu {
+            margin-top: 1rem;
+            align-items: stretch;
+        }
+
+        .cleo-actions {
+            flex-direction: column;
+            align-items: stretch;
+            margin-left: 0;
+            padding-top: 1rem;
+        }
+
+        .cleo-search {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .cleo-account,
+        .cleo-cart {
+            justify-content: center;
+            min-height: 44px;
+        }
+    }
+
+    .cleo-home-hero {
+        min-height: auto;
+    }
+
+    .cleo-home-hero__inner {
+        min-height: auto;
+        grid-template-columns: 1fr;
+    }
+
+    .cleo-home-hero::before {
+        background: rgba(255, 255, 255, 0.84);
+    }
+
+    .cleo-home-hero__content {
+        max-width: 680px;
+        padding: 3rem 2rem 2rem;
+    }
+
+    .cleo-home-hero__title {
+        font-size: clamp(42px, 8vw, 62px);
+
+        span,
+        em {
+            white-space: normal;
+        }
+    }
+
+    .cleo-home-hero__visual {
+        height: auto;
+        min-height: 360px;
+
+        img {
+            min-height: 360px;
+            transform: none;
+        }
+
+        &::before {
+            width: 180px;
+        }
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cleo-category-tile {
+        width: 230px;
+        flex-basis: 230px;
+        grid-template-columns: 92px 1fr 18px;
+    }
+
+    .cleo-category-tile__image {
+        width: 92px;
+    }
+
+    .cleo-category-carousel__viewport {
+        padding: 0 8px;
+    }
+
+    .cleo-category-carousel__btn {
+        width: 28px;
+        flex-basis: 28px;
+        font-size: 2.1rem;
+    }
+
+
+    .cleo-home-hero__content {
+        padding: 2rem 1.25rem;
+    }
+
+    .cleo-home-hero__title {
+        font-size: 2.8rem;
+    }
+
+    .cleo-home-hero__subtitle {
+        font-size: 1rem;
+    }
+
+    .cleo-home-hero__buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cleo-btn,
+    .cleo-home-hero__pickup {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+
+/* ============================================================
+   Footer Super Tienda Cleo
+   ============================================================ */
+
+.cleo-footer {
+    background: $o-cleo-white;
+    color: $o-cleo-text;
+    font-family: inherit;
+}
+
+.cleo-footer-steps {
+    background: linear-gradient(90deg, #fff9ea 0%, #fff2cf 48%, #fff8e7 100%);
+    padding: 0.55rem 0;
+}
+
+.cleo-footer-steps__inner {
+    min-height: 92px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 1.1rem;
+    border-radius: 18px;
+}
+
+.cleo-footer-step {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+
+.cleo-footer-step__icon {
+    width: 70px;
+    height: 70px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid $o-cleo-yellow;
+    border-radius: 50%;
+    background: $o-cleo-white;
+    color: $o-cleo-navy;
+    font-size: 2.2rem;
+    box-shadow: 0 8px 18px rgba(3, 26, 66, 0.08);
+}
+
+.cleo-footer-step__content h3 {
+    margin: 0 0 0.25rem;
+    color: $o-cleo-navy;
+    font-size: 1.15rem;
+    font-weight: 900;
+    line-height: 1.15;
+}
+
+.cleo-footer-step__content p {
+    margin: 0;
+    color: #243154;
+    font-size: 0.9rem;
+    line-height: 1.35;
+}
+
+.cleo-footer-steps__arrow {
+    color: $o-cleo-navy;
+    font-size: 1.75rem;
+    font-weight: 900;
+    letter-spacing: 0.08rem;
+    white-space: nowrap;
+}
+
+.cleo-footer-support {
+    background: linear-gradient(90deg, $o-cleo-navy-dark 0%, $o-cleo-navy 55%, #062b69 100%);
+    color: $o-cleo-white;
+}
+
+.cleo-footer-support__inner {
+    min-height: 104px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+}
+
+.cleo-footer-support__item {
+    min-height: 82px;
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.35rem;
+    color: $o-cleo-white;
+    text-decoration: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.55);
+}
+
+.cleo-footer-support__item:last-child {
+    border-right: 0;
+}
+
+.cleo-footer-support__item:hover {
+    color: $o-cleo-white;
+    text-decoration: none;
+}
+
+.cleo-footer-support__icon {
+    width: 58px;
+    height: 58px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid $o-cleo-yellow;
+    border-radius: 50%;
+    color: $o-cleo-yellow;
+    font-size: 1.85rem;
+}
+
+.cleo-footer-support__icon--white {
+    border-color: $o-cleo-white;
+    color: $o-cleo-white;
+}
+
+.cleo-footer-support__item h3 {
+    margin: 0 0 0.25rem;
+    color: $o-cleo-white;
+    font-size: 1.05rem;
+    font-weight: 900;
+    line-height: 1.25;
+}
+
+.cleo-footer-support__item p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.86rem;
+    line-height: 1.4;
+}
+
+.cleo-footer-main {
+    background: $o-cleo-white;
+    padding: 1.25rem 0 1.45rem;
+    box-shadow: inset 0 1px 0 rgba(3, 26, 66, 0.08);
+}
+
+.cleo-footer-main__inner {
+    display: grid;
+    grid-template-columns: 1.45fr 0.85fr 0.95fr 0.8fr 1.55fr;
+    gap: 2.2rem;
+    align-items: start;
+}
+
+.cleo-footer-brand__logo {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 0.4rem;
+}
+
+.cleo-footer-brand__logo img {
+    width: 96px;
+    height: auto;
+    display: block;
+}
+
+.cleo-footer-brand p,
+.cleo-footer-contact p {
+    margin: 0 0 0.4rem;
+    color: #273455;
+    font-size: 0.86rem;
+    line-height: 1.38;
+}
+
+.cleo-footer-social {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-top: 0.75rem;
+}
+
+.cleo-footer-social a {
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: $o-cleo-navy;
+    color: $o-cleo-white;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.cleo-footer-social a:hover {
+    background: $o-cleo-yellow;
+    color: $o-cleo-navy;
+}
+
+.cleo-footer-col h4,
+.cleo-footer-contact h4 {
+    margin: 0 0 0.55rem;
+    color: $o-cleo-navy;
+    font-size: 0.98rem;
+    font-weight: 900;
+}
+
+.cleo-footer-col a,
+.cleo-footer-contact a {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 0.32rem;
+    color: #182648;
+    text-decoration: none;
+    font-size: 0.84rem;
+    line-height: 1.35;
+}
+
+.cleo-footer-col a:hover,
+.cleo-footer-contact a:hover {
+    color: $o-cleo-red;
+    text-decoration: none;
+}
+
+.cleo-footer-contact i {
+    width: 18px;
+    min-width: 18px;
+    color: $o-cleo-navy;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.cleo-footer-contact p {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+}
+
+@media (max-width: 1199.98px) {
+    .cleo-footer-steps__inner {
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+        padding: 1rem 0;
+    }
+
+    .cleo-footer-steps__arrow {
+        display: none;
+    }
+
+    .cleo-footer-step {
+        max-width: 520px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .cleo-footer-support__inner {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cleo-footer-support__item:nth-child(2) {
+        border-right: 0;
+    }
+
+    .cleo-footer-main__inner {
+        grid-template-columns: 1.4fr 1fr 1fr;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .cleo-footer-step {
+        grid-template-columns: 60px 1fr;
+    }
+
+    .cleo-footer-step__icon {
+        width: 58px;
+        height: 58px;
+        font-size: 1.75rem;
+    }
+
+    .cleo-footer-support__inner,
+    .cleo-footer-main__inner {
+        grid-template-columns: 1fr;
+    }
+
+    .cleo-footer-support__item {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .cleo-footer-support__item:last-child {
+        border-bottom: 0;
+    }
+
+    .cleo-footer-main {
+        padding: 1.4rem 0 1.8rem;
+    }
+}
+
+/* =========================================================
+   Footer bottom - franja final de seguridad y pagos
+   ========================================================= */
+
+.cleo-footer-bottom {
+    background: #06275d;
+    color: #ffffff;
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+    padding: 9px 0;
+    font-size: 14px;
+}
+
+.cleo-footer-bottom__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 42px;
+    min-height: 34px;
+}
+
+.cleo-footer-bottom__copy {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    white-space: nowrap;
+}
+
+.cleo-footer-bottom__payments {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cleo-payment-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 26px;
+    min-width: 48px;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #06275d;
+    font-weight: 800;
+    line-height: 1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+}
+
+.cleo-payment-badge--visa {
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    color: #183d8f;
+}
+
+.cleo-payment-badge--amex {
+    font-size: 8px;
+    text-align: center;
+    background: #ffffff;
+    color: #2e8bdc;
+    padding: 2px 5px;
+}
+
+.cleo-payment-badge--mastercard {
+    min-width: 42px;
+    background: transparent;
+    box-shadow: none;
+    gap: 0;
+}
+
+.cleo-payment-badge--mastercard span {
+    display: block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+.cleo-payment-badge--mastercard span:first-child {
+    background: #eb001b;
+    margin-right: -8px;
+}
+
+.cleo-payment-badge--mastercard span:last-child {
+    background: #f79e1b;
+}
+
+.cleo-footer-bottom__divider {
+    width: 1px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.45);
+    margin: 0 8px;
+}
+
+.cleo-footer-bottom__secure {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+.cleo-footer-bottom__secure i {
+    font-size: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cleo-footer-bottom__inner {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .cleo-footer-bottom__copy {
+        white-space: normal;
+    }
+
+    .cleo-footer-bottom__payments {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+/* =========================================================
+   Página Sobre Nosotros - Super Tienda Cleo
+   Ruta: /sobre-nosotros
+   ========================================================= */
+
+
+/* ============================================================
+   PÁGINA SOBRE NOSOTROS (v8 — autosuficiente)
+   Rejilla propia con CSS Grid: NO depende de Bootstrap.
+   Todas las columnas usan minmax(0, 1fr): imposible desbordar.
+   Breakpoints: <576 móvil, ≥576 móvil grande, ≥768 tablet,
+   ≥992 laptop, ≥1200 escritorio ancho.
+   ============================================================ */
+
+.cleo-about-page {
+    position: relative;
+    overflow-x: hidden;
+    background:
+        radial-gradient(circle at 12% 8%, rgba(255, 194, 14, 0.18), transparent 28%),
+        radial-gradient(circle at 90% 18%, rgba(255, 194, 14, 0.12), transparent 30%),
+        linear-gradient(180deg, #fff6df 0%, #fff3d8 38%, #fff7e6 70%, #fff2d2 100%);
+    color: #06275d;
+}
+
+.cleo-about-page * ,
+.cleo-about-page *::before,
+.cleo-about-page *::after {
+    box-sizing: border-box;
+}
+
+.cleo-about-page img {
+    max-width: 100%;
+    height: auto;
+}
+
+.cleo-about-page section {
+    position: relative;
+    padding: 56px 0;
+}
+
+/* Contenedor propio (no usa .container de Bootstrap) */
+.cleo-about-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ---------- Rejillas propias ---------- */
+.cleo-about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+    align-items: center;
+}
+
+@media (min-width: 992px) {
+    .cleo-about-grid--hero      { grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr); gap: 48px; }
+    .cleo-about-grid--story     { grid-template-columns: minmax(0, 0.95fr) minmax(0, 2.05fr); gap: 48px; }
+    .cleo-about-grid--freshness { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);    gap: 48px; }
+}
+
+/* En móvil la ilustración del hero va arriba */
+@media (max-width: 991.98px) {
+    .cleo-about-grid--hero .cleo-about-grid__media { order: -1; }
+}
+
+/* ---------- Tipografía ---------- */
+.cleo-about-script {
+    font-family: "Caveat", Georgia, "Segoe Script", "Brush Script MT", cursive;
+    font-style: italic;
+    font-weight: 700;
+    color: #f5b400;
+}
+
+.cleo-about-h1 {
+    margin: 0 0 16px;
+    color: #06275d;
+    font-size: clamp(2rem, 3.4vw, 2.75rem);
+    line-height: 1.06;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+
+.cleo-about-h1 span,
+.cleo-about-h1 em {
+    display: block;
+}
+
+.cleo-about-h1 .cleo-about-script {
+    font-size: 1.08em;
+}
+
+.cleo-about-h2 {
+    color: #06275d;
+    font-weight: 900;
+    font-size: clamp(1.55rem, 3vw, 2.25rem);
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.cleo-about-h2 .cleo-about-script {
+    font-size: 1.12em;
+}
+
+.cleo-about-h3 {
+    color: #06275d;
+    font-weight: 900;
+    font-size: clamp(1.3rem, 2.2vw, 1.65rem);
+    line-height: 1.2;
+    margin: 0 0 16px;
+    position: relative;
+    padding-bottom: 14px;
+}
+
+.cleo-about-h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 52px;
+    height: 4px;
+    border-radius: 99px;
+    background: #ffc20e;
+}
+
+.cleo-about-heading {
+    text-align: center;
+    margin-bottom: 46px;
+}
+
+.cleo-about-h2--underline {
+    display: inline-block;
+    position: relative;
+    padding-bottom: 14px;
+}
+
+.cleo-about-h2--underline::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 56px;
+    height: 4px;
+    border-radius: 99px;
+    background: #ffc20e;
+}
+
+.cleo-about-page p {
+    color: #21304f;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0 0 16px;
+}
+
+.cleo-about-lead {
+    max-width: 540px;
+}
+
+.cleo-about-thanks {
+    color: #06275d;
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
+/* ---------- Decoraciones laterales ---------- */
+.cleo-about-deco {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+    display: none;
+}
+
+@media (min-width: 1200px) {
+    .cleo-about-deco {
+        display: block;
+        opacity: 0.95;
+    }
+
+    .cleo-about-deco--left-top     { top: 40px;   left: -8px;   width: 170px; }
+    .cleo-about-deco--right-top    { top: 90px;   right: -8px;  width: 165px; }
+    .cleo-about-deco--left-mid     { top: 60px;   left: -10px;  width: 165px; }
+    .cleo-about-deco--right-mid    { bottom: 30px; right: -10px; width: 160px; }
+    .cleo-about-deco--left-bottom  { bottom: 40px; left: -8px;   width: 165px; transform: scaleX(-1); }
+    .cleo-about-deco--right-bottom { bottom: 20px; right: -8px;  width: 165px; transform: scaleX(-1); }
+}
+
+/* ---------- HERO ---------- */
+.cleo-about-hero {
+    padding-top: 64px;
+}
+
+.cleo-about-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 26px;
+}
+
+.cleo-about-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 26px;
+    border-radius: 12px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, color 0.22s ease;
+}
+
+.cleo-about-btn:hover {
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.cleo-about-btn--primary {
+    background: #06275d;
+    color: #ffffff;
+    box-shadow: 0 12px 24px rgba(6, 39, 93, 0.22);
+}
+
+.cleo-about-btn--primary:hover {
+    background: #ffc20e;
+    color: #06275d;
+}
+
+.cleo-about-btn--secondary {
+    background: rgba(255, 255, 255, 0.62);
+    color: #06275d;
+    border: 2px solid rgba(6, 39, 93, 0.82);
+}
+
+.cleo-about-btn--secondary:hover {
+    background: #ffffff;
+    color: #06275d;
+    box-shadow: 0 10px 22px rgba(6, 39, 93, 0.12);
+}
+
+.cleo-about-hero__visual {
+    text-align: center;
+}
+
+.cleo-about-hero__visual img {
+    width: 100%;
+    max-width: 560px;
+    animation: cleo-about-float 5.5s ease-in-out infinite;
+}
+
+/* ---------- Iconos circulares flotantes ---------- */
+.cleo-about-icon {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 24px;
+    border: 5px solid #fff6df;
+    box-shadow: 0 12px 22px rgba(6, 39, 93, 0.18);
+    z-index: 2;
+}
+
+.cleo-about-icon--blue   { background: #06275d; }
+.cleo-about-icon--red    { background: #d62839; }
+.cleo-about-icon--yellow { background: #ffc20e; color: #06275d; }
+
+/* ---------- Línea de tiempo ---------- */
+.cleo-about-timeline {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 52px 16px;
+    padding-top: 30px;
+}
+
+@media (min-width: 992px) {
+    .cleo-about-timeline {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+    }
+}
+
+.cleo-about-timeline__card {
+    position: relative;
+    padding: 44px 16px 22px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid rgba(6, 39, 93, 0.11);
+    box-shadow: 0 12px 28px rgba(6, 39, 93, 0.08);
+    text-align: center;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.cleo-about-timeline__card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 36px rgba(6, 39, 93, 0.14);
+}
+
+.cleo-about-timeline__card strong {
+    display: block;
+    color: #06275d;
+    font-size: 1.4rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.cleo-about-timeline__card p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+@media (min-width: 992px) {
+    .cleo-about-timeline__card:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: -14px;
+        width: 14px;
+        border-top: 3px dotted rgba(246, 165, 29, 0.85);
+    }
+}
+
+/* ---------- Tarjetas de valores ---------- */
+.cleo-about-values__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 52px 22px;
+    padding-top: 30px;
+}
+
+@media (min-width: 576px) {
+    .cleo-about-values__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 992px) {
+    .cleo-about-values__grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+.cleo-about-value-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 46px 18px 22px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid rgba(6, 39, 93, 0.10);
+    box-shadow: 0 12px 28px rgba(6, 39, 93, 0.09);
+    text-align: center;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.cleo-about-value-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 194, 14, 0.85);
+    box-shadow: 0 22px 42px rgba(6, 39, 93, 0.16);
+}
+
+.cleo-about-value-card h3 {
+    color: #06275d;
+    font-size: 1.05rem;
+    font-weight: 900;
+    margin: 4px 0 10px;
+}
+
+.cleo-about-value-card p {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin: 0 0 16px;
+    flex-grow: 1;
+}
+
+.cleo-about-value-card__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: #f5b400;
+    border: 2px solid rgba(246, 165, 29, 0.7);
+    background: rgba(255, 255, 255, 0.55);
+}
+
+/* ---------- Pasos de compra ---------- */
+.cleo-about-steps__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+}
+
+@media (min-width: 768px) {
+    .cleo-about-steps__row {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 36px;
+    }
+}
+
+.cleo-about-step {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.cleo-about-step__number {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    margin-top: 14px;
+    border-radius: 50%;
+    background: #ffc20e;
+    color: #06275d;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    box-shadow: 0 6px 12px rgba(246, 165, 29, 0.45);
+}
+
+.cleo-about-step__icon {
+    flex: 0 0 auto;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: #06275d;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 14px 28px rgba(6, 39, 93, 0.18);
+}
+
+.cleo-about-step h3 {
+    color: #06275d;
+    font-size: 1.02rem;
+    font-weight: 900;
+    margin: 0 0 6px;
+}
+
+.cleo-about-step p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+    .cleo-about-step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 30px;
+        right: -28px;
+        width: 22px;
+        border-top: 3px dotted rgba(246, 165, 29, 0.85);
+    }
+}
+
+/* ---------- Insignias ---------- */
+.cleo-about-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.cleo-about-badges span {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 42px;
+    padding: 6px 16px 6px 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.6);
+    color: #06275d;
+    font-weight: 800;
+    font-size: 0.9rem;
+    border: 1px solid rgba(246, 165, 29, 0.45);
+    box-shadow: 0 8px 20px rgba(6, 39, 93, 0.07);
+}
+
+.cleo-about-badges i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ffc20e;
+    color: #06275d;
+    font-size: 0.85rem;
+}
+
+/* ---------- Frescura ---------- */
+.cleo-about-freshness__image {
+    text-align: center;
+}
+
+.cleo-about-freshness__image img {
+    width: 100%;
+    max-width: 460px;
+    animation: cleo-about-float 6.5s ease-in-out infinite;
+}
+
+/* ---------- Comunidad ---------- */
+.cleo-about-community {
+    padding-bottom: 80px;
+}
+
+.cleo-about-community__inner {
+    max-width: 860px;
+}
+
+/* ---------- Animaciones ---------- */
+@keyframes cleo-about-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cleo-about-hero__visual img,
+    .cleo-about-freshness__image img {
+        animation: none;
+    }
+}
+
+/* ---------- Ajustes móviles ---------- */
+@media (max-width: 991.98px) {
+    .cleo-about-page section {
+        padding: 44px 0;
+    }
+
+    .cleo-about-hero {
+        padding-top: 36px;
+    }
+
+    .cleo-about-hero__visual img {
+        max-width: 440px;
+    }
+
+    .cleo-about-freshness__image img {
+        max-width: 380px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cleo-about-container {
+        padding: 0 18px;
+    }
+
+    .cleo-about-hero__actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cleo-about-btn {
+        width: 100%;
+    }
+
+    .cleo-about-timeline {
+        gap: 48px 12px;
+    }
+
+    .cleo-about-timeline__card p,
+    .cleo-about-value-card p {
+        font-size: 0.82rem;
+    }
+}
+
+/* =====================================================
+   Página Contáctenos v9
+   ===================================================== */
+
+/* .cleo-contact-page: contenedor general de la página /contactus. */
+.cleo-contact-page {
+    --cleo-blue: #06275d;
+    --cleo-blue-2: #083a7a;
+    --cleo-yellow: #ffc20e;
+    --cleo-red: #df4b38;
+    --cleo-cream: #fff5dc;
+    --cleo-cream-2: #fff9ea;
+    --cleo-green: #25d366;
+
+    background: #fffaf0;
+    color: var(--cleo-blue);
+    overflow: hidden;
+}
+
+/* .cleo-contact-container: limita el ancho de la página. */
+.cleo-contact-container {
+    width: calc(100% - 40px);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* .cleo-contact-hero: sección superior de la página Contactenos. */
+.cleo-contact-hero {
+    margin: 0;
+    padding: 0;
+}
+
+/* .cleo-contact-hero__inner: caja principal del hero.
+   La imagen queda como fondo lateral para evitar el corte entre columnas. */
+.cleo-contact-hero__inner {
+    position: relative;
+    min-height: 380px;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: 0;
+    padding: 0;
+    border-radius: 22px;
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at 7% 9%, rgba(37, 211, 102, 0.12), transparent 24%),
+        radial-gradient(circle at 40% 16%, rgba(255, 194, 14, 0.20), transparent 34%),
+        linear-gradient(100deg, #fff7e6 0%, #fff2cf 48%, #fff7e7 100%);
+
+    border: 1px solid rgba(255, 194, 14, 0.24);
+    box-shadow: 0 18px 48px rgba(6, 39, 93, 0.10);
+}
+
+/* .cleo-contact-hero__inner::before: capa suave encima del hero para unir fondo e imagen. */
+.cleo-contact-hero__inner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to right,
+            rgba(255, 247, 230, 1) 0%,
+            rgba(255, 247, 230, 0.98) 27%,
+            rgba(255, 247, 230, 0.88) 36%,
+            rgba(255, 247, 230, 0.66) 46%,
+            rgba(255, 247, 230, 0.36) 57%,
+            rgba(255, 247, 230, 0.14) 68%,
+            rgba(255, 247, 230, 0) 82%
+        );
+}
+
+/* .cleo-contact-hero__inner::after: decoración circular inferior derecha. */
+.cleo-contact-hero__inner::after {
+    content: "";
+    position: absolute;
+    right: -65px;
+    bottom: -95px;
+    z-index: 1;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(223, 75, 56, 0.10);
+    pointer-events: none;
+}
+
+/* .cleo-contact-hero__copy: bloque de texto del hero. */
+.cleo-contact-hero__copy {
+    position: relative;
+    z-index: 4;
+    max-width: 610px;
+    padding: 38px 0 38px 0;
+}
+
+/* .cleo-contact-title: título principal “Contáctenos”. */
+.cleo-contact-title {
+    margin: 0;
+    color: var(--cleo-blue);
+    font-size: clamp(3rem, 6vw, 5.7rem);
+    line-height: 0.92;
+    font-weight: 900;
+    letter-spacing: -0.06em;
+}
+
+/* .cleo-contact-script: texto manuscrito amarillo debajo del título. */
+.cleo-contact-script {
+    margin: 10px 0 12px;
+    color: #f4ac00;
+    font-family: "Caveat", cursive;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    line-height: 0.95;
+}
+
+/* .cleo-contact-lead: texto descriptivo debajo del subtítulo. */
+.cleo-contact-lead {
+    max-width: 430px;
+    margin: 0;
+    color: #18355f;
+    font-size: 1.08rem;
+    line-height: 1.65;
+    font-weight: 600;
+}
+
+/* .cleo-contact-hero__badges: tarjetas rápidas de WhatsApp y retiro en tienda. */
+.cleo-contact-hero__badges {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 28px;
+}
+
+/* .cleo-contact-mini-card: tarjeta pequeña de acción dentro del hero. */
+.cleo-contact-mini-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 205px;
+    min-height: 66px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.90);
+    color: var(--cleo-blue);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 900;
+    box-shadow: 0 10px 25px rgba(6, 39, 93, 0.10);
+    border: 1px solid rgba(6, 39, 93, 0.07);
+}
+
+.cleo-contact-mini-card:hover {
+    color: var(--cleo-blue);
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+/* .cleo-contact-mini-card__icon: icono circular dentro de cada tarjeta rápida. */
+.cleo-contact-mini-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #eef4fc;
+    color: var(--cleo-blue);
+    font-size: 1.15rem;
+}
+
+/* .cleo-contact-mini-card__icon--whatsapp: variante verde para WhatsApp. */
+.cleo-contact-mini-card__icon--whatsapp {
+    background: var(--cleo-green);
+    color: #ffffff;
+}
+
+/* .cleo-contact-hero__media: contenedor visual de la imagen.
+   Se coloca absoluto para que no cree un corte vertical como columna independiente. */
+.cleo-contact-hero__media {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 68%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 0;
+    display: block;
+}
+
+/* .cleo-contact-hero__media::before: degradado interno de la imagen.
+   Refuerza la transición suave desde el fondo crema hacia la foto. */
+.cleo-contact-hero__media::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to right,
+            rgba(255, 247, 230, 1) 0%,
+            rgba(255, 247, 230, 0.98) 3%,
+            rgba(255, 247, 230, 0.85) 5%,
+            rgba(255, 247, 230, 0.58) 10%,
+            rgba(255, 247, 230, 0.30) 15%,
+            rgba(255, 247, 230, 0.10) 20%,
+            rgba(255, 247, 230, 0) 25%
+        );
+}
+
+/* .cleo-contact-hero__media::after: degradado superior, inferior y derecho de la imagen. */
+.cleo-contact-hero__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+
+    background:
+        linear-gradient(to bottom, rgba(255, 247, 230, 0.30), rgba(255, 247, 230, 0) 24%),
+        linear-gradient(to top, rgba(255, 247, 230, 0.38), rgba(255, 247, 230, 0) 24%),
+        linear-gradient(to left, rgba(255, 247, 230, 0.18), rgba(255, 247, 230, 0) 22%);
+}
+
+/* .cleo-contact-hero__media img: imagen del equipo/contacto. */
+.cleo-contact-hero__media img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 110%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    object-fit: cover;
+    object-position: 74% center;
+    transform: scale(1.02);
+    animation: cleo-contact-float 7s ease-in-out infinite;
+}
+
+/* Animación suave de la imagen. */
+@keyframes cleo-contact-float {
+    0%, 100% {
+        transform: scale(1.02) translateY(0);
+    }
+
+    50% {
+        transform: scale(1.02) translateY(-6px);
+    }
+}
+
+/* Responsive: en tablet/móvil la imagen baja y el degradado cambia de dirección. */
+@media (max-width: 991.98px) {
+    .cleo-contact-hero__inner {
+        display: block;
+        min-height: auto;
+        padding-bottom: 280px;
+    }
+
+    .cleo-contact-hero__copy {
+        padding: 32px 24px 20px;
+    }
+
+    .cleo-contact-hero__media {
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 300px;
+    }
+
+    .cleo-contact-hero__inner::before,
+    .cleo-contact-hero__media::before {
+        background:
+            linear-gradient(
+                to bottom,
+                rgba(255, 247, 230, 1) 0%,
+                rgba(255, 247, 230, 0.86) 22%,
+                rgba(255, 247, 230, 0.42) 50%,
+                rgba(255, 247, 230, 0) 100%
+            );
+    }
+
+    .cleo-contact-hero__media img {
+        object-position: center center;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cleo-contact-container {
+        width: calc(100% - 24px);
+    }
+
+    .cleo-contact-hero__inner {
+        padding-bottom: 250px;
+        border-radius: 18px;
+    }
+
+    .cleo-contact-hero__copy {
+        padding: 28px 20px 18px;
+    }
+
+    .cleo-contact-hero__media {
+        height: 260px;
+    }
+
+    .cleo-contact-title {
+        font-size: 3rem;
+    }
+
+    .cleo-contact-script {
+        font-size: 2rem;
+    }
+
+    .cleo-contact-hero__badges {
+        flex-direction: column;
+    }
+
+    .cleo-contact-mini-card {
+        width: 100%;
+    }
+}
+
+
+
+
+
+
+
+
+
+.cleo-contact-main {
+    padding: 12px 0 18px;
+}
+
+.cleo-contact-alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 18px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    font-weight: 800;
+}
+
+.cleo-contact-alert--success {
+    color: #116833;
+    background: #e9fff1;
+    border: 1px solid rgba(37, 211, 102, 0.34);
+}	
+
+.cleo-contact-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+    gap: 28px;
+    align-items: stretch;
+}
+
+.cleo-contact-card,
+.cleo-contact-map-card {
+    background: #ffffff;
+    border: 1px solid rgba(6, 39, 93, 0.10);
+    border-radius: 20px;
+    box-shadow: 0 14px 42px rgba(6, 39, 93, 0.09);
+}
+
+.cleo-contact-form-card,
+.cleo-contact-info-card,
+.cleo-contact-channels {
+    padding: 28px;
+}
+
+.cleo-contact-section-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.cleo-contact-section-title__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #fff2c1;
+    color: var(--cleo-blue);
+    border: 2px solid rgba(255, 194, 14, 0.9);
+    font-size: 1.15rem;
+}
+
+.cleo-contact-section-title h2 {
+    margin: 0 0 6px;
+    color: var(--cleo-blue);
+    font-size: 1.45rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+
+.cleo-contact-section-title p {
+    margin: 0;
+    color: #435875;
+    line-height: 1.45;
+    font-weight: 600;
+}
+
+.cleo-contact-section-title--compact {
+    margin-bottom: 18px;
+}
+
+.cleo-contact-section-title--compact h2 {
+    font-size: 1.18rem;
+}
+
+.cleo-contact-section-title--compact p {
+    color: var(--cleo-blue);
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+.cleo-contact-form {
+    display: grid;
+    gap: 18px;
+}
+
+.cleo-contact-form__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.cleo-contact-form label {
+    display: grid;
+    gap: 8px;
+    color: #173a68;
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.cleo-contact-input-wrap {
+    position: relative;
+    display: block;
+}
+
+.cleo-contact-input-wrap i {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    color: #8c9aaf;
+    pointer-events: none;
+}
+
+.cleo-contact-form input,
+.cleo-contact-form select,
+.cleo-contact-form textarea {
+    width: 100%;
+    border: 1px solid #d9e0ea;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #10284d;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.cleo-contact-form input,
+.cleo-contact-form select {
+    height: 46px;
+    padding: 0 16px 0 44px;
+}
+
+.cleo-contact-form textarea {
+    min-height: 132px;
+    padding: 15px 16px;
+    resize: vertical;
+}
+
+.cleo-contact-form input:focus,
+.cleo-contact-form select:focus,
+.cleo-contact-form textarea:focus {
+    border-color: #ffc20e;
+    box-shadow: 0 0 0 4px rgba(255, 194, 14, 0.18);
+}
+
+.cleo-contact-whatsapp-note {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: #fff7df;
+    border: 1px solid rgba(255, 194, 14, 0.55);
+    color: #173a68;
+    font-weight: 700;
+}
+
+.cleo-contact-whatsapp-note i {
+    color: var(--cleo-green);
+    font-size: 1.35rem;
+}
+
+.cleo-contact-form__actions {
+    display: flex;
+    justify-content: center;
+    padding-top: 4px;
+}
+
+.cleo-contact-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 190px;
+    min-height: 54px;
+    border: 0;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #df4b38, #ed6d4f);
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 1.05rem;
+    box-shadow: 0 16px 28px rgba(223, 75, 56, 0.25);
+}
+
+.cleo-contact-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 34px rgba(223, 75, 56, 0.30);
+}
+
+.cleo-contact-privacy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 0;
+    color: #50617b;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.cleo-contact-privacy i {
+    color: var(--cleo-blue);
+}
+
+.cleo-contact-side {
+    display: grid;
+    gap: 14px;
+}
+
+.cleo-contact-info-list {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.cleo-contact-info-list p {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 0;
+    color: #273e61;
+    font-weight: 650;
+    line-height: 1.4;
+}
+
+.cleo-contact-info-list i {
+    width: 18px;
+    margin-top: 2px;
+    color: var(--cleo-blue);
+}
+
+.cleo-contact-info-list a {
+    color: #273e61;
+    text-decoration: none;
+}
+
+.cleo-contact-info-list a:hover {
+    color: var(--cleo-red);
+}
+
+.cleo-contact-whatsapp-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    background: #f1fff6;
+    border: 1px solid rgba(37, 211, 102, 0.30);
+}
+
+.cleo-contact-whatsapp-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: var(--cleo-green);
+    color: #ffffff;
+    font-size: 2rem;
+    box-shadow: 0 12px 22px rgba(37, 211, 102, 0.22);
+}
+
+.cleo-contact-whatsapp-card strong {
+    color: var(--cleo-blue);
+    font-size: 1.02rem;
+    font-weight: 900;
+}
+
+.cleo-contact-whatsapp-card p {
+    margin: 3px 0 0;
+    color: #526279;
+    font-size: 0.88rem;
+    font-weight: 650;
+}
+
+.cleo-contact-whatsapp-card a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0 18px;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #149346;
+    border: 1px solid rgba(20, 147, 70, 0.45);
+    font-weight: 900;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.cleo-contact-map-card {
+    overflow: hidden;
+    height: 200px;
+}
+
+.cleo-contact-map-card iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+.cleo-contact-channels h3 {
+    margin: 0 0 16px;
+    color: var(--cleo-blue);
+    font-size: 1.12rem;
+    font-weight: 900;
+}
+
+.cleo-contact-channel-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.cleo-contact-channel-grid a {
+    min-height: 92px;
+    padding: 12px 8px;
+    border-radius: 10px;
+    background: #ffffff;
+    border: 1px solid #e5e9f0;
+    color: var(--cleo-blue);
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-weight: 800;
+}
+
+.cleo-contact-channel-grid a:hover {
+    border-color: #ffc20e;
+    box-shadow: 0 10px 20px rgba(6, 39, 93, 0.08);
+}
+
+.cleo-contact-channel-grid i {
+    color: var(--cleo-green);
+    font-size: 1.35rem;
+}
+
+.cleo-contact-channel-grid a:nth-child(2) i,
+.cleo-contact-channel-grid a:nth-child(3) i,
+.cleo-contact-channel-grid a:nth-child(4) i {
+    color: var(--cleo-blue);
+}
+
+.cleo-contact-channel-grid span {
+    color: #607089;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.cleo-contact-benefits {
+    padding: 12px 0 20px;
+}
+
+.cleo-contact-benefits__inner {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    border-radius: 16px;
+    background: linear-gradient(90deg, #fff7e1, #fff2cb);
+    border: 1px solid rgba(255, 194, 14, 0.25);
+    box-shadow: 0 10px 30px rgba(6, 39, 93, 0.06);
+    overflow: hidden;
+}
+
+.cleo-contact-benefits article {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 26px;
+    min-height: 104px;
+}
+
+.cleo-contact-benefits article:not(:last-child) {
+    border-right: 1px dashed rgba(223, 75, 56, 0.35);
+}
+
+.cleo-contact-benefits article > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: var(--cleo-blue);
+    border: 3px solid #ffc20e;
+    font-size: 1.65rem;
+}
+
+.cleo-contact-benefits h3 {
+    margin: 0 0 4px;
+    color: var(--cleo-blue);
+    font-weight: 900;
+    font-size: 1rem;
+}
+
+.cleo-contact-benefits p {
+    margin: 0;
+    color: #395170;
+    font-size: 0.86rem;
+    line-height: 1.35;
+    font-weight: 650;
+}
+
+.cleo-contact-before {
+    padding: 0 0 42px;
+}
+
+.cleo-contact-heading-center {
+    text-align: center;
+    margin: 4px 0 24px;
+}
+
+.cleo-contact-heading-center h2 {
+    margin: 0;
+    color: var(--cleo-blue);
+    font-size: 1.75rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+
+.cleo-contact-heading-center h2::after {
+    content: "";
+    display: block;
+    width: 52px;
+    height: 4px;
+    margin: 8px auto 8px;
+    border-radius: 999px;
+    background: #ffc20e;
+}
+
+.cleo-contact-heading-center p {
+    margin: 0;
+    color: #52637d;
+    font-weight: 650;
+}
+
+.cleo-contact-before__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.cleo-contact-before-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 18px;
+    min-height: 108px;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid rgba(6, 39, 93, 0.10);
+    color: var(--cleo-blue);
+    text-decoration: none;
+    box-shadow: 0 12px 28px rgba(6, 39, 93, 0.07);
+}
+
+.cleo-contact-before-card:hover {
+    color: var(--cleo-blue);
+    transform: translateY(-2px);
+    border-color: rgba(255, 194, 14, 0.7);
+}
+
+.cleo-contact-before-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 66px;
+    height: 66px;
+    border-radius: 16px;
+    background: #fff2bd;
+    color: var(--cleo-blue);
+    font-size: 1.55rem;
+}
+
+.cleo-contact-before-card h3 {
+    margin: 0 0 4px;
+    font-size: 0.98rem;
+    font-weight: 900;
+}
+
+.cleo-contact-before-card p {
+    margin: 0 0 6px;
+    color: #52637d;
+    font-size: 0.82rem;
+    line-height: 1.35;
+    font-weight: 650;
+}
+
+.cleo-contact-before-card strong {
+    color: var(--cleo-blue);
+    font-size: 0.82rem;
+    font-weight: 900;
+}
+
+@keyframes cleo-contact-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cleo-contact-hero__media img {
+        animation: none;
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .cleo-contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cleo-contact-side {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cleo-contact-info-card,
+    .cleo-contact-channels {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .cleo-contact-hero__inner {
+        grid-template-columns: 1fr;
+        padding: 34px 28px 20px;
+        text-align: center;
+    }
+
+    .cleo-contact-lead {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cleo-contact-hero__badges {
+        justify-content: center;
+    }
+
+    .cleo-contact-hero__media img {
+        max-width: 520px;
+        margin: 12px auto -10px;
+    }
+
+    .cleo-contact-benefits__inner,
+    .cleo-contact-before__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cleo-contact-benefits article:not(:last-child) {
+        border-right: 0;
+        border-bottom: 1px dashed rgba(223, 75, 56, 0.35);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .cleo-contact-container {
+        width: calc(100% - 28px);
+        max-width: 1200px;
+    }
+
+    .cleo-contact-form__row,
+    .cleo-contact-side {
+        grid-template-columns: 1fr;
+    }
+
+    .cleo-contact-channel-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cleo-contact-whatsapp-card {
+        grid-template-columns: auto 1fr;
+    }
+
+    .cleo-contact-whatsapp-card a {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cleo-contact-hero__inner,
+    .cleo-contact-form-card,
+    .cleo-contact-info-card,
+    .cleo-contact-channels {
+        padding: 22px;
+    }
+
+    .cleo-contact-mini-card {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cleo-contact-channel-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* Tarjeta dinámica del footer: alterna entre retiro en tienda y entrega a domicilio. */
+.cleo-footer-step--rotator {
+    position: relative;
+    min-height: 92px;
+    display: block;
+    overflow: hidden;
+}
+
+/* Cada tarjeta interna conserva el mismo diseño visual de .cleo-footer-step. */
+.cleo-footer-step--rotator .cleo-footer-step__slide {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    transform: rotateY(90deg) scale(0.96);
+    transform-origin: center center;
+    backface-visibility: hidden;
+}
+
+/* Primera tarjeta: visible los primeros 3 segundos. */
+.cleo-footer-step--rotator .cleo-footer-step__slide--one {
+    animation: cleo-footer-step-one 6s infinite ease-in-out;
+}
+
+/* Segunda tarjeta: visible los siguientes 3 segundos. */
+.cleo-footer-step--rotator .cleo-footer-step__slide--two {
+    animation: cleo-footer-step-two 6s infinite ease-in-out;
+}
+
+/* Animación de la tarjeta Retira en tienda. */
+@keyframes cleo-footer-step-one {
+    0% {
+        opacity: 1;
+        transform: rotateY(0deg) scale(1);
+    }
+
+    42% {
+        opacity: 1;
+        transform: rotateY(0deg) scale(1);
+    }
+
+    50% {
+        opacity: 0;
+        transform: rotateY(180deg) scale(0.96);
+    }
+
+    92% {
+        opacity: 0;
+        transform: rotateY(180deg) scale(0.96);
+    }
+
+    100% {
+        opacity: 1;
+        transform: rotateY(360deg) scale(1);
+    }
+}
+
+/* Animación de la tarjeta Entrega a domicilio. */
+@keyframes cleo-footer-step-two {
+    0% {
+        opacity: 0;
+        transform: rotateY(-180deg) scale(0.96);
+    }
+
+    42% {
+        opacity: 0;
+        transform: rotateY(-180deg) scale(0.96);
+    }
+
+    50% {
+        opacity: 1;
+        transform: rotateY(0deg) scale(1);
+    }
+
+    92% {
+        opacity: 1;
+        transform: rotateY(0deg) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: rotateY(180deg) scale(0.96);
+    }
+}
+
+/* En móviles se conserva el mismo comportamiento con columnas más pequeñas. */
+@media (max-width: 767.98px) {
+    .cleo-footer-step--rotator {
+        min-height: 88px;
+    }
+
+    .cleo-footer-step--rotator .cleo-footer-step__slide {
+        grid-template-columns: 60px 1fr;
+    }
+}
+/* ============================================================
+   Carrusel dinámico Lácteos y Huevos
+   Afecta la sección de productos frescos en la Home.
+   ============================================================ */
+
+.cleo-dairy-carousel-section {
+    padding: 42px 0 48px;
+    background:
+        radial-gradient(circle at 12% 16%, rgba(255, 194, 14, 0.16), transparent 28%),
+        linear-gradient(180deg, #fffaf0 0%, #fff5dc 100%);
+}
+
+/* Contenedor visual del carrusel. */
+.cleo-dairy-carousel {
+    position: relative;
+    padding: 36px 58px 38px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255, 194, 14, 0.28);
+    box-shadow: 0 18px 44px rgba(6, 39, 93, 0.08);
+    overflow: hidden;
+}
+
+/* Encabezado de la sección. */
+.cleo-dairy-carousel__header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.cleo-dairy-carousel__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 42px;
+    padding: 0 22px;
+    margin-bottom: 12px;
+    border-radius: 999px;
+    background: #fff2c7;
+    color: #06275d;
+    font-weight: 900;
+}
+
+.cleo-dairy-carousel__eyebrow i {
+    color: #f4ac00;
+}
+
+.cleo-dairy-carousel__header h2 {
+    margin: 0;
+    color: #06275d;
+    font-size: clamp(2.4rem, 5vw, 4.8rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.045em;
+}
+
+.cleo-dairy-carousel__header h2::after {
+    content: "";
+    display: block;
+    width: 70px;
+    height: 6px;
+    margin: 16px auto 0;
+    border-radius: 999px;
+    background: #ffc20e;
+}
+
+.cleo-dairy-carousel__header p {
+    margin: 18px 0 0;
+    color: #18355f;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Área visible del carrusel. */
+.cleo-dairy-carousel__viewport {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.cleo-dairy-carousel__viewport::-webkit-scrollbar {
+    display: none;
+}
+
+/* Fila de productos. */
+.cleo-dairy-carousel__track {
+    display: flex;
+    align-items: stretch;
+    gap: 18px;
+    width: max-content;
+}
+
+/* Tarjeta de producto. */
+.cleo-dairy-product-card {
+    width: 250px;
+    flex: 0 0 250px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #e7e9ef;
+    box-shadow: 0 10px 24px rgba(6, 39, 93, 0.07);
+    overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.cleo-dairy-product-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 194, 14, 0.85);
+    box-shadow: 0 18px 34px rgba(6, 39, 93, 0.12);
+}
+
+/* Imagen del producto. */
+.cleo-dairy-product-card__image {
+    position: relative;
+    height: 230px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    background: #ffffff;
+    text-decoration: none;
+}
+
+.cleo-dairy-product-card__image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}
+
+/* Etiqueta superior de producto fresco. */
+.cleo-dairy-product-card__badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: #eaf4ff;
+    color: #06275d;
+    font-size: 0.8rem;
+    font-weight: 900;
+}
+
+.cleo-dairy-product-card__badge i {
+    color: #0d6efd;
+}
+
+/* Contenido inferior de la tarjeta. */
+.cleo-dairy-product-card__body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 0 16px 16px;
+}
+
+/* Nombre del producto. */
+.cleo-dairy-product-card__name {
+    min-height: 48px;
+    color: #06275d;
+    font-size: 1rem;
+    line-height: 1.2;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.cleo-dairy-product-card__name:hover {
+    color: #df4b38;
+    text-decoration: none;
+}
+
+/* Precio del producto. */
+.cleo-dairy-product-card__price {
+    margin: 12px 0 14px;
+    color: #06275d;
+    font-size: 1.35rem;
+    font-weight: 900;
+}
+
+/* Formulario para agregar al carrito. */
+.cleo-dairy-product-card__form {
+    margin-top: auto;
+}
+
+/* Botón agregar. */
+.cleo-dairy-product-card__add {
+    width: 100%;
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    border: 1px solid #ffc20e;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #f4ac00;
+    font-weight: 900;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.cleo-dairy-product-card__add:hover {
+    background: #ffc20e;
+    color: #06275d;
+    transform: translateY(-1px);
+}
+
+/* Botones laterales del carrusel. */
+.cleo-dairy-carousel__btn {
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    width: 58px;
+    height: 58px;
+    border: 0;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    color: #f4ac00;
+    font-size: 2.3rem;
+    box-shadow: 0 10px 22px rgba(6, 39, 93, 0.13);
+    transform: translateY(-50%);
+}
+
+.cleo-dairy-carousel__btn:hover {
+    color: #06275d;
+}
+
+.cleo-dairy-carousel__btn--prev {
+    left: 18px;
+}
+
+.cleo-dairy-carousel__btn--next {
+    right: 18px;
+}
+
+/* Mensaje cuando no hay productos. */
+.cleo-dairy-carousel__empty {
+    padding: 28px;
+    border-radius: 16px;
+    background: #fff7df;
+    color: #06275d;
+    font-weight: 800;
+    text-align: center;
+}
+
+/* Responsive. */
+@media (max-width: 991.98px) {
+    .cleo-dairy-carousel {
+        padding: 30px 22px 34px;
+    }
+
+    .cleo-dairy-carousel__btn {
+        display: none;
+    }
+
+    .cleo-dairy-product-card {
+        width: 230px;
+        flex-basis: 230px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cleo-dairy-carousel-section {
+        padding: 28px 0 34px;
+    }
+
+    .cleo-dairy-carousel {
+        border-radius: 18px;
+    }
+
+    .cleo-dairy-product-card {
+        width: 210px;
+        flex-basis: 210px;
+    }
+
+    .cleo-dairy-product-card__image {
+        height: 190px;
+    }
+}
+/* Sección full width del carrusel Lácteos y Huevos */
+.cleo-dairy-carousel-section--full {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 42px 0 48px;
+    background:
+        radial-gradient(circle at 12% 16%, rgba(255, 194, 14, 0.16), transparent 28%),
+        linear-gradient(180deg, #fffaf0 0%, #fff5dc 100%);
+}
+
+/* Contenedor interno: permite que el contenido respire sin limitarlo como .container */
+.cleo-dairy-carousel-container {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0 42px;
+}
+
+/* Carrusel ocupando todo el ancho disponible */
+.cleo-dairy-carousel {
+    width: 100%;
+    max-width: none;
+    border-radius: 24px;
+}
+
+/* Viewport del carrusel a ancho completo */
+.cleo-dairy-carousel__viewport {
+    width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+    .cleo-dairy-carousel-container {
+        padding: 0 24px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cleo-dairy-carousel-container {
+        padding: 0 14px;
+    }
+
+    .cleo-dairy-carousel-section--full {
+        padding: 28px 0 34px;
+    }
+}
+/* Etiqueta negra para productos sin stock */
+.cleo-dairy-product-card__badge--out {
+    background: #111111;
+    color: #ffffff;
+}
+
+.cleo-dairy-product-card__badge--out i {
+    color: #ffffff;
+}
+/* Carrusel de productos más vendidos */
+.cleo-best-sellers-carousel-section {
+    background:
+        radial-gradient(circle at 12% 16%, rgba(255, 194, 14, 0.18), transparent 28%),
+        radial-gradient(circle at 88% 10%, rgba(6, 39, 93, 0.08), transparent 26%),
+        linear-gradient(180deg, #fffaf0 0%, #fff3d3 100%);
+}
+
+.cleo-best-sellers-carousel .cleo-dairy-carousel__eyebrow i {
+    color: #f4ac00;
+}
+
+/* ============================================================
+   Checkout visual Super Tienda Cleo
+   Solo modifica la presentación de /shop/checkout.
+   ============================================================ */
+
+.cleo-checkout-wrap {
+    background:
+        radial-gradient(circle at 10% 5%, rgba(255, 194, 14, 0.10), transparent 28%),
+        radial-gradient(circle at 92% 14%, rgba(223, 75, 56, 0.08), transparent 26%),
+        linear-gradient(180deg, #ffffff 0%, #fffaf0 58%, #ffffff 100%);
+}
+
+.cleo-checkout-page {
+    padding-top: 16px !important;
+    padding-bottom: 20px !important;
+}
+
+.cleo-checkout-page > .row {
+    align-items: flex-start;
+    row-gap: 24px;
+}
+
+.cleo-checkout-page .oe_cart {
+    padding-top: 10px;
+}
+
+/* Wizard superior */
+.cleo-checkout-page .o_wizard,
+.cleo-checkout-page .o_wsale_wizard,
+.cleo-checkout-page .o_wizard_checkout,
+.cleo-checkout-page .o_website_sale_checkout_wizard {
+    border-radius: 14px;
+    border: 1px solid rgba(6, 39, 93, 0.10);
+    box-shadow: 0 12px 28px rgba(6, 39, 93, 0.08);
+    background: #ffffff;
+    overflow: hidden;
+}
+
+/* Títulos de secciones */
+.cleo-checkout-section-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 22px 0 12px;
+    color: #06275d;
+}
+
+.cleo-checkout-section-title__icon {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #ffffff;
+    background: #df4b38;
+    box-shadow: 0 8px 18px rgba(223, 75, 56, 0.22);
+}
+
+.cleo-checkout-section-title--delivery .cleo-checkout-section-title__icon {
+    background: #06275d;
+    box-shadow: 0 8px 18px rgba(6, 39, 93, 0.18);
+}
+
+.cleo-checkout-section-title h2 {
+    margin: 0;
+    color: #06275d;
+    font-size: 1.18rem;
+    line-height: 1.15;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+}
+
+.cleo-checkout-section-title p {
+    margin: 4px 0 0;
+    color: #5b6472;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* Dirección */
+.cleo-checkout-address-section {
+    margin-bottom: 24px !important;
+}
+
+.cleo-checkout-address-section .all_delivery,
+.cleo-checkout-address-section .all_billing {
+    gap: 18px;
+    overflow-x: auto;
+    padding: 2px 2px 8px;
+}
+
+.cleo-checkout-address-card {
+    min-height: 172px;
+    border-radius: 14px !important;
+    border: 1.5px solid rgba(6, 39, 93, 0.12) !important;
+    background: #ffffff !important;
+    color: #1d2939 !important;
+    box-shadow: 0 10px 28px rgba(6, 39, 93, 0.07);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    overflow: hidden;
+}
+
+.cleo-checkout-address-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(223, 75, 56, 0.55) !important;
+    box-shadow: 0 16px 36px rgba(6, 39, 93, 0.11);
+}
+
+.cleo-checkout-address-card--selected {
+    border-color: #df4b38 !important;
+    background: linear-gradient(135deg, #fff7ef 0%, #ffffff 72%) !important;
+    box-shadow: 0 14px 34px rgba(223, 75, 56, 0.14);
+}
+
+.cleo-checkout-address-card .card-body {
+    position: relative;
+    padding: 22px 18px 18px 76px !important;
+    min-height: 170px;
+}
+
+.cleo-checkout-address-card .card-body::before {
+    content: "\f041";
+    font-family: FontAwesome;
+    position: absolute;
+    top: 22px;
+    left: 20px;
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #df4b38;
+    background: rgba(223, 75, 56, 0.12);
+    font-size: 1.25rem;
+}
+
+.cleo-checkout-address-card .card-body > div,
+.cleo-checkout-address-card .card-body address {
+    color: #1d2939;
+    font-size: 0.92rem;
+    line-height: 1.35;
+}
+
+.cleo-checkout-address-card .card-body b,
+.cleo-checkout-address-card .card-body strong {
+    color: #06275d;
+    font-weight: 900;
+}
+
+.cleo-checkout-address-card .js_edit_address,
+.cleo-checkout-address-card .btn-link {
+    margin-top: auto !important;
+    color: #df4b38 !important;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.cleo-checkout-address-section .o_wsale_add_address {
+    min-height: 172px;
+    border-radius: 14px !important;
+    border: 1.5px dashed rgba(223, 75, 56, 0.35) !important;
+    background: rgba(255, 247, 239, 0.52);
+    color: #df4b38;
+    flex-direction: column;
+    gap: 10px;
+    font-weight: 900;
+    box-shadow: 0 10px 24px rgba(6, 39, 93, 0.04);
+}
+
+.cleo-checkout-address-section .o_wsale_add_address .fa {
+    width: 54px;
+    height: 54px;
+    margin: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(223, 75, 56, 0.12);
+    font-size: 1.45rem;
+}
+
+/* Métodos de entrega */
+.cleo-checkout-delivery-form {
+    margin-top: 4px;
+    margin-bottom: 28px !important;
+}
+
+.cleo-checkout-delivery-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(6, 39, 93, 0.13);
+    box-shadow: 0 12px 28px rgba(6, 39, 93, 0.06);
+}
+
+.cleo-checkout-delivery-method {
+    padding: 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(6, 39, 93, 0.10) !important;
+    background: #ffffff;
+    color: #1d2939 !important;
+}
+
+.cleo-checkout-delivery-method:last-child {
+    border-bottom: 0 !important;
+}
+
+.cleo-checkout-delivery-method__main {
+    min-height: 72px;
+    align-items: center;
+    padding: 14px 18px;
+    gap: 12px !important;
+}
+
+.cleo-checkout-delivery-method .form-check {
+    position: relative;
+    align-items: center;
+    padding-left: 0;
+}
+
+.cleo-checkout-delivery-method .form-check::after {
+    content: "\f015";
+    font-family: FontAwesome;
+    width: 46px;
+    height: 46px;
+    margin-left: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #06275d;
+    background: #f1f5f9;
+    font-size: 1.25rem;
+}
+
+.cleo-checkout-delivery-method:first-child .form-check::after {
+    content: "\f0d1";
+}
+
+.cleo-checkout-delivery-method .form-check-input {
+    width: 22px;
+    height: 22px;
+    margin-top: 0;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 2px solid rgba(6, 39, 93, 0.20);
+}
+
+.cleo-checkout-delivery-method .form-check-input:checked {
+    background-color: #df4b38;
+    border-color: #df4b38;
+}
+
+.cleo-checkout-delivery-label {
+    color: #06275d;
+    font-size: 1rem;
+    font-weight: 900;
+}
+
+.cleo-checkout-delivery-price {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: #e9f8ef;
+    color: #057a46;
+    font-weight: 900 !important;
+}
+
+.cleo-checkout-pickup-location {
+    padding: 0 18px 16px 102px;
+    color: #5b6472;
+}
+
+.cleo-checkout-pickup-button {
+    margin-left: 0 !important;
+    border: 0 !important;
+    border-radius: 9px !important;
+    background: #df4b38 !important;
+    color: #ffffff !important;
+    font-weight: 900;
+    box-shadow: 0 8px 18px rgba(223, 75, 56, 0.18);
+}
+
+.cleo-checkout-pickup-edit {
+    border-radius: 8px !important;
+    background: #df4b38 !important;
+    color: #ffffff !important;
+}
+
+.cleo-checkout-delivery-form .text-muted.mt-1 {
+    margin: 0 !important;
+    padding: 0 18px 14px 102px;
+    color: #596579 !important;
+    font-size: 0.92rem;
+}
+
+/* Resumen del pedido */
+.cleo-checkout-summary-wrap {
+    margin-top: 12px;
+}
+
+.cleo-checkout-summary-card,
+#o_cart_summary .cleo-checkout-summary-card {
+    border-radius: 16px;
+    border: 1px solid rgba(6, 39, 93, 0.12);
+    background: #ffffff;
+    box-shadow: 0 18px 46px rgba(6, 39, 93, 0.12);
+    overflow: hidden;
+}
+
+.cleo-checkout-summary-inner {
+    border-radius: 16px;
+    background: #ffffff;
+}
+
+.cleo-checkout-summary-inner .accordion-header {
+    margin-bottom: 18px !important;
+}
+
+.cleo-checkout-summary-inner .accordion-button {
+    gap: 16px;
+    border-radius: 12px !important;
+    color: #06275d;
+    background: #ffffff;
+    box-shadow: none !important;
+}
+
+.cleo-checkout-summary-inner .accordion-button::before {
+    content: "\f290";
+    font-family: FontAwesome;
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #06275d;
+    background: #fff1d4;
+    font-size: 1.55rem;
+}
+
+.cleo-checkout-summary-inner .accordion-button b {
+    color: #06275d;
+    font-size: 1.12rem;
+    font-weight: 900;
+}
+
+.cleo-checkout-summary-inner table#cart_products {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.cleo-checkout-summary-inner .o_total,
+.cleo-checkout-summary-card .o_total {
+    color: #06275d;
+}
+
+.cleo-checkout-summary-card input[name="promo"] {
+    min-height: 44px;
+    border-radius: 8px 0 0 8px;
+}
+
+.cleo-checkout-summary-card .btn-secondary,
+.cleo-checkout-summary-card .btn-success {
+    min-height: 44px;
+    border-radius: 0 8px 8px 0;
+    border-color: #006b4f;
+    background: #006b4f;
+    font-weight: 900;
+}
+
+/* Botones de navegación */
+.cleo-checkout-main-button {
+    min-height: 54px;
+    border: 0 !important;
+    border-radius: 10px !important;
+    background: linear-gradient(135deg, #df4b38 0%, #c9392b 100%) !important;
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    box-shadow: 0 12px 24px rgba(223, 75, 56, 0.22);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+}
+
+.cleo-checkout-main-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 30px rgba(223, 75, 56, 0.28);
+}
+
+.cleo-checkout-main-button.disabled,
+.cleo-checkout-main-button[aria-disabled="true"] {
+    opacity: 0.55;
+    transform: none;
+    box-shadow: none;
+}
+
+.cleo-checkout-back-link {
+    color: #df4b38 !important;
+    font-weight: 700;
+    text-decoration: none !important;
+}
+
+.cleo-checkout-back-link:hover {
+    color: #06275d !important;
+}
+
+.cleo-checkout-summary-card .o_cta_navigation_container {
+    background: #ffffff;
+}
+
+@media (max-width: 991.98px) {
+    .cleo-checkout-page {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .cleo-checkout-summary-wrap {
+        margin-top: 0;
+    }
+
+    .cleo-checkout-address-card .card-body {
+        padding-left: 68px !important;
+    }
+
+    .cleo-checkout-pickup-location,
+    .cleo-checkout-delivery-form .text-muted.mt-1 {
+        padding-left: 78px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cleo-checkout-section-title h2 {
+        font-size: 1rem;
+    }
+
+    .cleo-checkout-address-section .all_delivery,
+    .cleo-checkout-address-section .all_billing {
+        flex-wrap: nowrap !important;
+    }
+
+    .cleo-checkout-address-section .one_kanban {
+        min-width: 270px;
+    }
+
+    .cleo-checkout-delivery-method__main {
+        padding: 12px 14px;
+    }
+
+    .cleo-checkout-delivery-method .form-check::after {
+        margin-left: 36px;
+    }
+
+    .cleo-checkout-pickup-location,
+    .cleo-checkout-delivery-form .text-muted.mt-1 {
+        padding-left: 70px;
+    }
+}
+
+
+/* ============================================================
+   Páginas legales: términos, privacidad, devoluciones
+   ============================================================ */
+.cleo-legal-page {
+    background: #fffaf0;
+    color: #06275d;
+}
+
+.cleo-legal-container {
+    width: calc(100% - 32px);
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.cleo-legal-hero {
+    padding: 54px 0 46px;
+    background:
+        radial-gradient(circle at 12% 16%, rgba(255, 194, 14, 0.22), transparent 28%),
+        radial-gradient(circle at 88% 14%, rgba(37, 211, 102, 0.12), transparent 24%),
+        linear-gradient(135deg, #fff7e6 0%, #fff0c9 100%);
+    border-bottom: 1px solid rgba(255, 194, 14, 0.32);
+}
+
+.cleo-legal-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 38px;
+    padding: 0 18px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #06275d;
+    font-weight: 900;
+    box-shadow: 0 8px 22px rgba(6, 39, 93, 0.08);
+}
+
+.cleo-legal-eyebrow i {
+    color: #f4ac00;
+}
+
+.cleo-legal-hero h1 {
+    max-width: 920px;
+    margin: 18px 0 12px;
+    font-size: clamp(2.35rem, 5vw, 4.6rem);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    font-weight: 950;
+    color: #06275d;
+}
+
+.cleo-legal-hero p {
+    max-width: 820px;
+    margin: 0;
+    color: #24446f;
+    font-size: 1.12rem;
+    line-height: 1.65;
+    font-weight: 650;
+}
+
+.cleo-legal-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.cleo-legal-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.74);
+    color: #18355f;
+    font-weight: 800;
+    font-size: 0.92rem;
+}
+
+.cleo-legal-main {
+    padding: 42px 0 64px;
+}
+
+.cleo-legal-grid {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 26px;
+    align-items: start;
+}
+
+.cleo-legal-sidebar {
+    position: sticky;
+    top: 18px;
+    display: grid;
+    gap: 10px;
+    padding: 18px;
+    border-radius: 22px;
+    background: #ffffff;
+    border: 1px solid rgba(255, 194, 14, 0.28);
+    box-shadow: 0 16px 42px rgba(6, 39, 93, 0.08);
+}
+
+.cleo-legal-sidebar strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #06275d;
+    font-size: 1.05rem;
+    font-weight: 950;
+}
+
+.cleo-legal-sidebar > a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 46px;
+    padding: 0 12px;
+    border-radius: 14px;
+    color: #18355f;
+    text-decoration: none;
+    font-weight: 850;
+    background: #fffaf0;
+    border: 1px solid rgba(255, 194, 14, 0.18);
+}
+
+.cleo-legal-sidebar > a:hover,
+.cleo-legal-sidebar > a.active {
+    background: #ffc20e;
+    color: #06275d;
+    text-decoration: none;
+}
+
+.cleo-legal-help-card {
+    margin-top: 8px;
+    padding: 16px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #06275d, #0b3e8a);
+    color: #ffffff;
+}
+
+.cleo-legal-help-card span {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #25d366;
+    font-size: 1.35rem;
+    margin-bottom: 10px;
+}
+
+.cleo-legal-help-card p {
+    margin: 0 0 10px;
+    font-weight: 850;
+}
+
+.cleo-legal-help-card a {
+    color: #ffc20e;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.cleo-legal-card {
+    padding: clamp(24px, 4vw, 44px);
+    border-radius: 24px;
+    background: #ffffff;
+    border: 1px solid rgba(255, 194, 14, 0.24);
+    box-shadow: 0 18px 48px rgba(6, 39, 93, 0.08);
+}
+
+.cleo-legal-card h2 {
+    margin: 30px 0 12px;
+    color: #06275d;
+    font-size: 1.45rem;
+    line-height: 1.25;
+    font-weight: 950;
+}
+
+.cleo-legal-card h2:first-child {
+    margin-top: 0;
+}
+
+.cleo-legal-card p,
+.cleo-legal-card li {
+    color: #24446f;
+    font-size: 1.02rem;
+    line-height: 1.75;
+    font-weight: 560;
+}
+
+.cleo-legal-card ul {
+    margin: 10px 0 18px;
+    padding-left: 1.35rem;
+}
+
+.cleo-legal-card a {
+    color: #0b3e8a;
+    font-weight: 850;
+}
+
+.cleo-legal-note {
+    margin-top: 28px;
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: #fff5d6;
+    border: 1px solid rgba(255, 194, 14, 0.38);
+    color: #18355f;
+    line-height: 1.65;
+}
+
+@media (max-width: 991.98px) {
+    .cleo-legal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cleo-legal-sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cleo-legal-container {
+        width: calc(100% - 20px);
+        max-width: 1180px;
+    }
+
+    .cleo-legal-hero {
+        padding: 38px 0 34px;
+    }
+
+    .cleo-legal-main {
+        padding: 26px 0 44px;
+    }
+}

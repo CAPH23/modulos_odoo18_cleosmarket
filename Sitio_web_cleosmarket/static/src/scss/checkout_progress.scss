@@ -1,0 +1,313 @@
+/* ============================================================
+   Super Tienda Cleo - Barra de progreso del checkout
+   /shop/cart - /shop/checkout - /shop/payment
+   ============================================================ */
+
+.cleo-checkout-progress-wrapper {
+    width: 100%;
+    padding: 18px 0 24px;
+}
+
+.cleo-checkout-progress {
+    width: 100%;
+    max-width: 1560px;
+    margin: 0 auto;
+    padding: 18px 26px;
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) minmax(80px, 180px) minmax(180px, 1fr) minmax(80px, 180px) minmax(180px, 1fr);
+    align-items: center;
+    gap: 14px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(6, 39, 93, 0.10);
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(8px);
+}
+
+.cleo-checkout-step {
+    display: grid;
+    grid-template-columns: 76px 1fr;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.cleo-checkout-icon-box {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 3px solid #d7dce3;
+    color: #8b929c;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    transition: all 0.28s ease;
+}
+
+.cleo-checkout-svg {
+    width: 38px;
+    height: 38px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.cleo-checkout-copy {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.cleo-checkout-copy strong {
+    color: #606773;
+    font-size: 1.05rem;
+    line-height: 1.15;
+    font-weight: 800;
+    transition: color 0.28s ease;
+}
+
+.cleo-checkout-copy span {
+    margin-top: 5px;
+    color: #7d8490;
+    font-size: 0.92rem;
+    line-height: 1.2;
+    transition: color 0.28s ease;
+}
+
+.cleo-checkout-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cleo-checkout-connector span {
+    width: 100%;
+    height: 4px;
+    border-radius: 999px;
+    background: repeating-linear-gradient(
+        90deg,
+        #c9ced6 0,
+        #c9ced6 8px,
+        transparent 8px,
+        transparent 16px
+    );
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Pendiente: escala de grises */
+.cleo-checkout-step.is-pending {
+    filter: grayscale(1);
+    opacity: 0.72;
+    animation: cleoPendingPulse 2.8s ease-in-out infinite;
+}
+
+.cleo-checkout-step.is-pending .cleo-checkout-icon-box {
+    background: #f8fafc;
+    border-color: #d7dce3;
+    color: #8b929c;
+}
+
+.cleo-checkout-step.is-pending .cleo-checkout-copy strong,
+.cleo-checkout-step.is-pending .cleo-checkout-copy span {
+    color: #7d8490;
+}
+
+/* Completado: queda a colores */
+.cleo-checkout-step.is-complete {
+    filter: none;
+    opacity: 1;
+}
+
+.cleo-checkout-step.is-complete .cleo-checkout-icon-box {
+    background: rgba(0, 122, 90, 0.10);
+    border-color: #007a5a;
+    color: #007a5a;
+    box-shadow: 0 10px 28px rgba(0, 122, 90, 0.15);
+}
+
+.cleo-checkout-step.is-complete .cleo-checkout-copy strong {
+    color: #007a5a;
+}
+
+.cleo-checkout-step.is-complete .cleo-checkout-copy span {
+    color: #4f5f73;
+}
+
+/* Activo: colores vivos + giro del icono cada segundo */
+.cleo-checkout-step.is-active {
+    filter: none;
+    opacity: 1;
+}
+
+.cleo-checkout-step.is-active .cleo-checkout-icon-box {
+    background: #ffffff;
+    border-color: #f15a3b;
+    color: #f15a3b;
+    box-shadow:
+        0 0 0 8px rgba(241, 90, 59, 0.10),
+        0 14px 32px rgba(241, 90, 59, 0.28);
+    animation: cleoActiveGlow 1.6s ease-in-out infinite;
+}
+
+.cleo-checkout-step.is-active .cleo-checkout-svg {
+    animation: cleoActiveIconSpin 3s linear infinite;
+    transform-origin: 50% 50%;
+}
+
+.cleo-checkout-step.is-active .cleo-checkout-copy strong {
+    color: #c73722;
+}
+
+.cleo-checkout-step.is-active .cleo-checkout-copy span {
+    color: #3c4656;
+}
+
+/* Conectores */
+.cleo-checkout-connector.is-pending span {
+    background: repeating-linear-gradient(
+        90deg,
+        #c9ced6 0,
+        #c9ced6 8px,
+        transparent 8px,
+        transparent 16px
+    );
+}
+
+.cleo-checkout-connector.is-complete span {
+    background: linear-gradient(90deg, #f15a3b, #007a5a);
+    box-shadow: 0 4px 12px rgba(241, 90, 59, 0.18);
+}
+
+/* Animaciones */
+@keyframes cleoActiveIconSpin {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@keyframes cleoActiveGlow {
+    0%, 100% {
+        box-shadow:
+            0 0 0 7px rgba(241, 90, 59, 0.09),
+            0 14px 32px rgba(241, 90, 59, 0.22);
+    }
+    50% {
+        box-shadow:
+            0 0 0 12px rgba(241, 90, 59, 0.15),
+            0 18px 38px rgba(241, 90, 59, 0.30);
+    }
+}
+
+@keyframes cleoPendingPulse {
+    0%, 100% {
+        opacity: 0.64;
+    }
+    50% {
+        opacity: 0.82;
+    }
+}
+
+/* Responsive tablet */
+@media (max-width: 991.98px) {
+    .cleo-checkout-progress {
+        grid-template-columns: 1fr 70px 1fr 70px 1fr;
+        padding: 16px 18px;
+        gap: 10px;
+    }
+
+    .cleo-checkout-step {
+        grid-template-columns: 58px 1fr;
+        gap: 10px;
+    }
+
+    .cleo-checkout-icon-box {
+        width: 58px;
+        height: 58px;
+    }
+
+    .cleo-checkout-svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .cleo-checkout-copy strong {
+        font-size: 0.92rem;
+    }
+
+    .cleo-checkout-copy span {
+        font-size: 0.78rem;
+    }
+}
+
+/* Responsive celular: solo iconos */
+@media (max-width: 767.98px) {
+    .cleo-checkout-progress-wrapper {
+        padding: 10px 0 16px;
+    }
+
+    .cleo-checkout-progress {
+        grid-template-columns: 58px 1fr 58px 1fr 58px;
+        gap: 8px;
+        padding: 12px 14px;
+        border-radius: 18px;
+    }
+
+    .cleo-checkout-step {
+        display: flex;
+        justify-content: center;
+    }
+
+    .cleo-checkout-copy {
+        display: none;
+    }
+
+    .cleo-checkout-icon-box {
+        width: 54px;
+        height: 54px;
+        border-width: 2px;
+    }
+
+    .cleo-checkout-svg {
+        width: 28px;
+        height: 28px;
+        stroke-width: 4;
+    }
+
+    .cleo-checkout-connector span {
+        height: 3px;
+    }
+}
+
+@media (max-width: 420px) {
+    .cleo-checkout-progress {
+        grid-template-columns: 50px 1fr 50px 1fr 50px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .cleo-checkout-icon-box {
+        width: 48px;
+        height: 48px;
+    }
+
+    .cleo-checkout-svg {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+/* Respeta usuarios que prefieren menos animación */
+@media (prefers-reduced-motion: reduce) {
+    .cleo-checkout-step.is-active .cleo-checkout-svg,
+    .cleo-checkout-step.is-active .cleo-checkout-icon-box,
+    .cleo-checkout-step.is-pending {
+        animation: none !important;
+    }
+}

@@ -1,0 +1,85 @@
+/* Validación de dirección mínima en /shop/checkout */
+
+.cleo-checkout-address-required-alert {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin: 16px 0 18px;
+    border-radius: 16px;
+}
+
+.cleo-checkout-address-required-alert__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.cleo-checkout-address-required-alert__body {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.cleo-checkout-address-required-alert__link {
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.cleo-address-required-disabled,
+.cleo-address-required-disabled:hover,
+.cleo-address-required-disabled:focus {
+    cursor: not-allowed !important;
+    pointer-events: auto !important;
+    opacity: 0.58;
+    filter: grayscale(0.15);
+}
+
+.cleo-checkout-address-card--incomplete {
+    border-style: dashed !important;
+}
+
+/* Fila de acciones "Editar" / "Eliminar": evita el solapamiento previo. */
+.cleo-address-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 18px;
+    margin-top: 14px;
+}
+
+.cleo-checkout-address-card .cleo-address-actions > a,
+.cleo-checkout-address-card .cleo-address-actions .js_edit_address,
+.cleo-checkout-address-card .cleo-address-actions .btn-link,
+.cleo-checkout-address-card .cleo-address-actions .cleo-address-delete-link {
+    position: static !important;
+    margin: 0 !important;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+/* Badge de estado en flujo normal (antes era absolute y se solapaba). */
+.cleo-address-required-badge {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    margin: 14px 16px 16px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    background: rgba(255, 193, 7, 0.18);
+    border: 1px solid rgba(255, 193, 7, 0.55);
+}
+
+/* Ya no se necesita reservar espacio inferior para un badge absoluto. */
+.cleo-checkout-address-card--incomplete .card-body,
+.cleo-checkout-address-card--incomplete [class*="card-body"] {
+    padding-bottom: 18px;
+}

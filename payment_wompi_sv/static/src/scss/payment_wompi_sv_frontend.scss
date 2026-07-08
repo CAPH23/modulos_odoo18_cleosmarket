@@ -1,0 +1,22 @@
+/* ============================================================
+   Wompi El Salvador - Logo HD del método de pago en /shop/payment
+   Alcance seguro: la clase la agrega el JS solo al método wompi_sv_card.
+   ============================================================ */
+
+.cleo-wompi-payment-method-logo {
+    width: 250px !important;
+    max-width: 34vw !important;
+    height: auto !important;
+    max-height: 52px !important;
+    object-fit: contain !important;
+    image-rendering: auto !important;
+    transform: translateZ(0);
+}
+
+@media (max-width: 575.98px) {
+    .cleo-wompi-payment-method-logo {
+        width: 170px !important;
+        max-width: 45vw !important;
+        max-height: 42px !important;
+    }
+}

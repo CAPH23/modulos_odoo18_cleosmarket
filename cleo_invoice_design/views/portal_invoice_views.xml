@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="portal_my_invoices_cleo_ticket" inherit_id="account.portal_my_invoices" name="Super Tienda Cleo - ticket en lista de facturas">
+            <xpath expr="//t[@t-call='portal.portal_table']/thead/tr/th[@name='status']" position="after">
+                <th name="cleo_ticket" class="text-center">Ticket</th>
+            </xpath>
+            <xpath expr="//td[@name='invoice_status']" position="after">
+                <td name="cleo_ticket_download" class="text-center">
+                    <a t-if="invoice.state == 'posted'"
+                       class="btn btn-sm btn-outline-primary cleo-portal-ticket-btn"
+                       t-att-href="'/my/invoices/%s/cleo-ticket?access_token=%s' % (invoice.id, invoice.access_token or '')"
+                       title="Descargar ticket Cleo">
+                        <i class="fa fa-ticket"/> <span class="d-none d-md-inline">Ticket</span>
+                    </a>
+                </td>
+            </xpath>
+        </template>
+
+        <template id="portal_invoice_page_cleo_ticket" inherit_id="account.portal_invoice_page" name="Super Tienda Cleo - botón ticket en factura portal">
+            <xpath expr="//div[hasclass('o_download_pdf')]" position="inside">
+                <a t-if="invoice.state == 'posted'"
+                   class="btn btn-light flex-grow-1 cleo-portal-ticket-btn"
+                   t-att-href="'/my/invoices/%s/cleo-ticket?access_token=%s' % (invoice.id, invoice.access_token or '')"
+                   title="Descargar ticket Cleo"
+                   role="button">
+                    <i class="fa fa-ticket"/> Ticket
+                </a>
+            </xpath>
+        </template>
+    </data>
+</odoo>

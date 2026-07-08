@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Anclaje deliberadamente conservador: el formulario de delivery.carrier
+        (delivery.view_delivery_carrier_form) tiene un único <notebook>. Agregar
+        una página dentro de él es la herencia con menor riesgo de XPath posible.
+    -->
+    <record id="view_delivery_carrier_form_pedidosya" model="ir.ui.view">
+        <field name="name">delivery.carrier.form.inherit.pedidosya</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="PedidosYa" name="pedidosya"
+                      invisible="delivery_type != 'pedidosya'">
+                    <group>
+                        <group string="Modo de operación">
+                            <field name="pedidosya_mode" widget="radio"/>
+                            <field name="pedidosya_default_item_type"/>
+                            <field name="pedidosya_notification_mail"/>
+                        </group>
+                        <group string="Parámetros del simulador"
+                               invisible="pedidosya_mode not in (False, 'mock')">
+                            <field name="pedidosya_sim_base_price"/>
+                            <field name="pedidosya_sim_km_price"/>
+                        </group>
+                    </group>
+                    <group string="Credenciales de la API"
+                           invisible="pedidosya_mode in (False, 'mock')">
+                        <group>
+                            <field name="pedidosya_auth_url"
+                                   placeholder="https://... (la entrega PedidosYa)"/>
+                            <field name="pedidosya_client_id"/>
+                            <field name="pedidosya_client_secret" password="True"/>
+                        </group>
+                        <group>
+                            <field name="pedidosya_user"/>
+                            <field name="pedidosya_password" password="True"/>
+                            <field name="pedidosya_token_expiration" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Webhook de estados (Fase 2)">
+                        <group>
+                            <field name="pedidosya_webhook_url" readonly="1"/>
+                            <field name="pedidosya_webhook_key" password="True"/>
+                        </group>
+                        <group>
+                            <field name="pedidosya_webhook_registered" readonly="1"/>
+                            <div colspan="2">
+                                <button name="action_pedidosya_generate_webhook_key"
+                                        type="object" string="Generar clave"
+                                        class="btn-secondary" icon="fa-key"/>
+                                <button name="action_pedidosya_register_webhook"
+                                        type="object" string="Registrar webhook"
+                                        class="btn-primary ms-2" icon="fa-plug"
+                                        invisible="not pedidosya_webhook_key"/>
+                            </div>
+                        </group>
+                    </group>
+                    <div class="text-muted"
+                         invisible="pedidosya_mode not in (False, 'mock')">
+                        Modo simulado: no se realiza ninguna llamada externa. El precio
+                        se calcula como tarifa base + precio/km (distancia Haversine si
+                        los contactos tienen coordenadas; 5 km por defecto) y los envíos
+                        creados avanzan de estado automáticamente con el paso de los
+                        minutos para poder probar el flujo completo.
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

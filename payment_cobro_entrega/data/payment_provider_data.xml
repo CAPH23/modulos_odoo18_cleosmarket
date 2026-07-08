@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="payment_provider_cobro_entrega" model="payment.provider">
+        <field name="name">Cobro contra entrega</field>
+        <field name="code">cleo_cod</field>
+        <field name="redirect_form_view_id" ref="payment_cobro_entrega.redirect_form"/>
+        <field name="image_128" type="base64" file="payment_cobro_entrega/static/img/cobro_contra_entrega.png"/>
+        <field name="pre_msg" type="html">
+<div>
+    <p>
+        Selecciona esta opción si deseas pagar cuando el transportista entregue tu pedido.
+        El pedido quedará confirmado para envío, pero el pago seguirá pendiente hasta la entrega.
+    </p>
+</div>
+        </field>
+        <field name="pending_msg" type="html">
+<div>
+    <h5>Pedido confirmado - pago pendiente contra entrega</h5>
+    <p>
+        Hemos recibido tu pedido y será preparado para envío.
+        El pago no se ha registrado todavía: deberás pagar el total del pedido al momento de recibirlo.
+    </p>
+    <p>
+        Nuestro transportista podrá cobrarte al entregar tus productos. Posteriormente la tienda registrará
+        internamente el pago recibido en efectivo o por transferencia bancaria.
+    </p>
+</div>
+        </field>
+        <field name="payment_method_ids" eval="[Command.set([ref('payment_cobro_entrega.payment_method_cobro_entrega')])]"/>
+    </record>
+
+</odoo>

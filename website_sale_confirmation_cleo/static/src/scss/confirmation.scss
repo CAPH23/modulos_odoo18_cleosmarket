@@ -1,0 +1,673 @@
+
+/* Super Tienda Cleo - página de confirmación de pedido */
+.cleo-confirmation-page {
+    --cleo-navy: #00285f;
+    --cleo-navy-2: #001c47;
+    --cleo-yellow: #ffcf00;
+    --cleo-green: #33a852;
+    --cleo-red: #d94b36;
+    --cleo-text: #0f172a;
+    --cleo-muted: #64748b;
+    --cleo-border: #dfe6ee;
+    --cleo-soft: #f6f9fc;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    color: var(--cleo-text);
+}
+
+.cleo-confirmation-page .container {
+    max-width: 1260px;
+}
+
+.cleo-confirmation-hero {
+    position: relative;
+    min-height: 330px;
+    padding: 0 0 45px;
+    background-image:
+        linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,.96) 42%, rgba(255,255,255,.64) 70%, rgba(255,255,255,.82) 100%),
+        url('/website_sale_confirmation_cleo/static/src/img/confirmation_delivery_bg.png');
+    background-size: cover;
+    background-position: right center;
+    overflow: hidden;
+}
+
+.cleo-confirmation-hero::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 80px;
+    background: linear-gradient(180deg, rgba(255,255,255,0), #f8fafc);
+    pointer-events: none;
+}
+
+.cleo-hero-topbar {
+    height: 74px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 12px 0;
+    color: #ffffff;
+    position: relative;
+    z-index: 1;
+}
+
+.cleo-confirmation-hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 74px;
+    background: linear-gradient(90deg, var(--cleo-navy) 0%, var(--cleo-navy-2) 100%);
+    z-index: 0;
+}
+
+.cleo-brand-mini,
+.cleo-trust-items,
+.cleo-confirmation-title-row {
+    position: relative;
+    z-index: 1;
+}
+
+.cleo-brand-mini {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cleo-brand-mini img {
+    width: 78px;
+    height: 78px;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 18px rgba(0,0,0,.20));
+}
+
+.cleo-brand-mini strong {
+    display: block;
+    color: var(--cleo-yellow);
+    font-size: 18px;
+    line-height: 1.1;
+}
+
+.cleo-brand-mini span {
+    display: block;
+    color: rgba(255,255,255,.9);
+    font-size: 14px;
+}
+
+.cleo-trust-items {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    font-size: 14px;
+}
+
+.cleo-trust-items i {
+    color: var(--cleo-yellow);
+    margin-right: 8px;
+}
+
+.cleo-trust-items strong {
+    color: var(--cleo-yellow);
+}
+
+.cleo-confirmation-title-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 22px;
+    padding-top: 54px;
+}
+
+.cleo-checkmark {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: var(--cleo-yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 28px;
+    box-shadow: 0 12px 24px rgba(255,207,0,.35);
+    flex: 0 0 auto;
+}
+
+.cleo-title-content h1 {
+    margin: 0;
+    color: var(--cleo-navy);
+    font-size: clamp(34px, 4.4vw, 58px);
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+}
+
+.cleo-order-ref {
+    margin: 10px 0 6px;
+    color: var(--cleo-navy);
+    font-size: 22px;
+}
+
+.cleo-order-ref strong {
+    color: #0f5cc0;
+}
+
+.cleo-main-message {
+    margin: 0;
+    color: var(--cleo-navy);
+    font-size: 17px;
+}
+
+.cleo-main-message strong {
+    color: #0f5cc0;
+}
+
+.cleo-print-btn {
+    margin-left: auto;
+    margin-top: 5px;
+    background: var(--cleo-red);
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 12px 22px;
+    font-weight: 700;
+    box-shadow: 0 10px 22px rgba(217,75,54,.18);
+}
+
+.cleo-print-btn:hover {
+    color: #ffffff;
+    filter: brightness(.96);
+}
+
+.cleo-confirmation-body {
+    padding: 0 0 65px;
+    margin-top: -30px;
+    position: relative;
+    z-index: 2;
+}
+
+.cleo-progress-card,
+.cleo-info-card,
+.cleo-summary-card,
+.cleo-help-strip,
+.cleo-secure-card,
+.cleo-side-action {
+    border: 1px solid rgba(15,23,42,.08);
+    background: rgba(255,255,255,.96);
+    box-shadow: 0 14px 35px rgba(15,23,42,.08);
+    backdrop-filter: blur(8px);
+}
+
+.cleo-progress-card {
+    border-radius: 18px;
+    padding: 25px 26px;
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr auto 1fr auto;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.cleo-step {
+    text-align: center;
+    min-width: 118px;
+}
+
+.cleo-step-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    background: #edf2f7;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    border: 4px solid #f7fafc;
+    box-shadow: 0 6px 15px rgba(15,23,42,.08);
+}
+
+.cleo-step-done .cleo-step-icon {
+    background: var(--cleo-green);
+    color: #ffffff;
+}
+
+.cleo-step-active .cleo-step-icon {
+    background: var(--cleo-navy);
+    color: #ffffff;
+}
+
+.cleo-step-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cleo-navy);
+}
+
+.cleo-step-status {
+    font-size: 12px;
+    color: var(--cleo-muted);
+    margin-top: 3px;
+}
+
+.cleo-step-done .cleo-step-status {
+    color: var(--cleo-green);
+}
+
+.cleo-step-active .cleo-step-status {
+    color: #0f5cc0;
+}
+
+.cleo-step-line {
+    height: 2px;
+    border-top: 2px dashed #cbd5e1;
+    min-width: 50px;
+}
+
+.cleo-line-done {
+    border-top-style: solid;
+    border-color: var(--cleo-green);
+}
+
+.cleo-info-card,
+.cleo-summary-card {
+    border-radius: 18px;
+    padding: 26px;
+}
+
+.cleo-info-card h2,
+.cleo-summary-card h2 {
+    color: var(--cleo-navy);
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 18px;
+}
+
+.cleo-info-card h2 i,
+.cleo-summary-card h2 i {
+    color: #0f5cc0;
+    margin-right: 8px;
+}
+
+.cleo-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 11px 0;
+    border-bottom: 1px solid #e7edf4;
+}
+
+.cleo-info-row span {
+    color: #334155;
+}
+
+.cleo-info-row span i {
+    width: 22px;
+    color: #0f5cc0;
+}
+
+.cleo-info-row strong {
+    text-align: right;
+    color: var(--cleo-navy);
+}
+
+.cleo-info-row-address {
+    align-items: flex-start;
+}
+
+.cleo-info-note {
+    margin-top: 18px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, rgba(15,92,192,.10), rgba(255,207,0,.13));
+    color: var(--cleo-navy);
+    font-weight: 600;
+}
+
+.cleo-info-note i {
+    color: #0f5cc0;
+    margin-right: 8px;
+}
+
+.cleo-action-row {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr 1fr;
+    gap: 18px;
+    margin-top: 22px;
+}
+
+.cleo-btn {
+    min-height: 58px;
+    border-radius: 11px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 10px 20px rgba(15,23,42,.08);
+}
+
+.cleo-btn-primary {
+    background: var(--cleo-navy);
+    color: #ffffff;
+}
+
+.cleo-btn-primary:hover {
+    color: #ffffff;
+    filter: brightness(1.08);
+}
+
+.cleo-btn-yellow {
+    background: var(--cleo-yellow);
+    color: #111827;
+}
+
+.cleo-btn-yellow:hover {
+    color: #111827;
+    filter: brightness(.98);
+}
+
+.cleo-btn-outline {
+    border: 1px solid var(--cleo-navy);
+    color: var(--cleo-navy);
+    background: #ffffff;
+}
+
+.cleo-btn-outline:hover {
+    background: var(--cleo-navy);
+    color: #ffffff;
+}
+
+.cleo-help-strip {
+    margin-top: 20px;
+    border-radius: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    overflow: hidden;
+}
+
+.cleo-help-strip > div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px;
+    min-height: 92px;
+    border-right: 1px solid #e7edf4;
+}
+
+.cleo-help-strip > div:last-child {
+    border-right: 0;
+}
+
+.cleo-help-strip i {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255,207,0,.16);
+    color: #0f5cc0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex: 0 0 auto;
+}
+
+.cleo-help-strip span {
+    color: #334155;
+    font-size: 14px;
+}
+
+.cleo-summary-card {
+    position: sticky;
+    top: 90px;
+}
+
+.cleo-summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cleo-summary-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 0;
+    color: #334155;
+}
+
+.cleo-summary-line strong {
+    color: var(--cleo-text);
+}
+
+.cleo-summary-divider {
+    border-top: 1px solid #e2e8f0;
+    margin: 14px 0;
+}
+
+.cleo-summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    padding: 15px 0 0;
+    border-top: 1px solid #e2e8f0;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--cleo-navy);
+}
+
+.cleo-side-actions {
+    display: grid;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.cleo-side-action {
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    text-decoration: none;
+    color: var(--cleo-navy);
+}
+
+.cleo-side-action:hover {
+    color: var(--cleo-navy);
+    transform: translateY(-1px);
+}
+
+.cleo-side-action i {
+    font-size: 25px;
+    color: #0f5cc0;
+    width: 34px;
+    text-align: center;
+}
+
+.cleo-side-action strong,
+.cleo-side-action small {
+    display: block;
+}
+
+.cleo-side-action small {
+    color: var(--cleo-muted);
+}
+
+.cleo-secure-card {
+    margin-top: 22px;
+    border-radius: 18px;
+    padding: 24px;
+    background: linear-gradient(135deg, var(--cleo-navy), var(--cleo-navy-2));
+    color: #ffffff;
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.cleo-secure-card i {
+    color: var(--cleo-yellow);
+    font-size: 44px;
+}
+
+.cleo-secure-card strong,
+.cleo-secure-card span {
+    display: block;
+}
+
+.cleo-secure-card strong {
+    font-size: 19px;
+    margin-bottom: 5px;
+}
+
+.cleo-secure-card span {
+    color: rgba(255,255,255,.86);
+}
+
+@media (max-width: 991.98px) {
+    .cleo-confirmation-hero {
+        background-position: center top;
+    }
+    .cleo-trust-items {
+        display: none;
+    }
+    .cleo-confirmation-title-row {
+        padding-top: 42px;
+    }
+    .cleo-print-btn {
+        display: none;
+    }
+    .cleo-progress-card {
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+    .cleo-step-line {
+        display: none;
+    }
+    .cleo-action-row,
+    .cleo-help-strip {
+        grid-template-columns: 1fr;
+    }
+    .cleo-help-strip > div {
+        border-right: 0;
+        border-bottom: 1px solid #e7edf4;
+    }
+    .cleo-help-strip > div:last-child {
+        border-bottom: 0;
+    }
+    .cleo-summary-card {
+        position: static;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cleo-confirmation-hero {
+        min-height: 300px;
+    }
+    .cleo-brand-mini img {
+        width: 64px;
+        height: 64px;
+    }
+    .cleo-confirmation-title-row {
+        gap: 14px;
+    }
+    .cleo-checkmark {
+        width: 48px;
+        height: 48px;
+        font-size: 22px;
+    }
+    .cleo-order-ref {
+        font-size: 18px;
+    }
+    .cleo-main-message {
+        font-size: 15px;
+    }
+    .cleo-progress-card,
+    .cleo-info-card,
+    .cleo-summary-card {
+        padding: 18px;
+        border-radius: 15px;
+    }
+    .cleo-info-row {
+        display: block;
+    }
+    .cleo-info-row strong {
+        display: block;
+        margin-top: 6px;
+        text-align: left;
+    }
+}
+
+@media print {
+    .cleo-confirmation-page {
+        background: #ffffff !important;
+    }
+    .cleo-confirmation-hero {
+        min-height: 0;
+        padding-bottom: 20px;
+        background-image: none !important;
+    }
+    .cleo-confirmation-hero::before,
+    .cleo-confirmation-hero::after {
+        display: none !important;
+    }
+    .cleo-confirmation-body {
+        margin-top: 0;
+    }
+    .cleo-progress-card,
+    .cleo-info-card,
+    .cleo-summary-card {
+        box-shadow: none !important;
+        border: 1px solid #d0d7de !important;
+    }
+}
+
+/* Ocultar barra superior azul personalizada de la página de confirmación */
+.cleo-confirmation-page .cleo-hero-topbar {
+    display: none !important;
+}
+
+.cleo-confirmation-page .cleo-confirmation-hero::before {
+    display: none !important;
+}
+
+/* Reacomodar el título después de quitar la barra */
+.cleo-confirmation-page .cleo-confirmation-title-row {
+    padding-top: 45px !important;
+}
+
+/* Ajuste imagen de fondo: más abajo y menos difuminada */
+.cleo-confirmation-page .cleo-confirmation-hero {
+    background-image:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,1) 0%,
+            rgba(255,255,255,.9) 25%,
+            rgba(255,255,255,.4) 50%,
+            rgba(255,255,255,.5) 100%
+        ),
+        url('/website_sale_confirmation_cleo/static/src/img/confirmation_delivery_bg.png') !important;
+
+    background-position:
+        center center,
+        right 40% !important;
+
+    background-size:
+        auto,
+        cover !important;
+}
+/* Ampliar franja visual superior de confirmación */
+.cleo-confirmation-page .cleo-confirmation-hero {
+    min-height: 520px !important;
+    padding-top: 70px !important;
+    padding-bottom: 70px !important;
+}
+/* Ajuste: mantener franja superior alta, pero subir los componentes */
+.cleo-confirmation-page .cleo-confirmation-hero {
+    min-height: 560px !important;
+}
+
+/* Este bloque sube las tarjetas sobre la franja de imagen */
+.cleo-confirmation-page .cleo-confirmation-body {
+    margin-top: -275px !important;
+    position: relative !important;
+    z-index: 5 !important;
+}

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Se inserta ANTES del primer elemento de #quote_content (la columna
+        derecha del portal de pedidos). Con priority=99 esta herencia se aplica
+        al final, después de otros módulos que modifiquen la vista, por lo que
+        la barra queda arriba de todo — incluido el aviso "Pedido confirmado -
+        pago pendiente contra entrega". La columna izquierda (sidebar) no se
+        toca en absoluto.
+    -->
+    <template id="sale_order_portal_pedidosya_progress"
+              inherit_id="sale.sale_order_portal_template"
+              priority="99"
+              name="PedidosYa - Barra de seguimiento en portal">
+        <xpath expr="//div[@id='quote_content']/*[1]" position="before">
+            <t t-set="py_progress" t-value="sale_order.pedidosya_portal_progress()"/>
+            <div t-if="py_progress.get('show')"
+                 class="cleo-py-card d-print-none"
+                 t-att-data-order-id="sale_order.id"
+                 t-att-data-access-token="request.params.get('access_token') or ''"
+                 t-att-data-finished="'1' if py_progress.get('finished') or py_progress.get('cancelled') else '0'">
+
+                <div class="cleo-py-head">
+                    <div class="cleo-py-title">
+                        <i class="fa fa-motorcycle"/>
+                        <span>Seguimiento de tu envío</span>
+                    </div>
+                    <span class="cleo-py-badge">
+                        <i class="fa fa-bolt"/> Entrega con PedidosYa
+                    </span>
+                </div>
+
+                <div t-if="py_progress.get('cancelled')" class="cleo-py-cancelled">
+                    <i class="fa fa-times-circle"/>
+                    El envío fue cancelado. Contacta a la tienda para coordinar
+                    una nueva entrega.
+                </div>
+
+                <div class="cleo-py-steps">
+                    <t t-foreach="py_progress.get('steps')" t-as="step">
+                        <div t-if="not step_first" class="cleo-py-line"
+                             t-att-data-step-line="step.get('key')"
+                             t-attf-class="cleo-py-line #{'cleo-py-line-done' if step.get('state') == 'done' else ''}"/>
+                        <div t-att-data-step-key="step.get('key')"
+                             t-attf-class="cleo-py-step cleo-py-#{step.get('state')}">
+                            <div class="cleo-py-icon">
+                                <i t-attf-class="fa #{'fa-check' if step.get('state') == 'done' else step.get('icon')}"
+                                   t-att-data-step-icon="step.get('icon')"/>
+                            </div>
+                            <div class="cleo-py-step-title" t-out="step.get('title')"/>
+                            <div class="cleo-py-step-status" t-out="step.get('label')"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Vista previa - Sobre Nosotros | Super Tienda Cleo</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet"/>
+<style>
+body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; margin: 0; }
+/* ============================================================
+   PÁGINA SOBRE NOSOTROS (v8 — autosuficiente)
+   Rejilla propia con CSS Grid: NO depende de Bootstrap.
+   Todas las columnas usan minmax(0, 1fr): imposible desbordar.
+   Breakpoints: <576 móvil, ≥576 móvil grande, ≥768 tablet,
+   ≥992 laptop, ≥1200 escritorio ancho.
+   ============================================================ */
+
+.cleo-about-page {
+    position: relative;
+    overflow-x: hidden;
+    background:
+        radial-gradient(circle at 12% 8%, rgba(255, 194, 14, 0.18), transparent 28%),
+        radial-gradient(circle at 90% 18%, rgba(255, 194, 14, 0.12), transparent 30%),
+        linear-gradient(180deg, #fff6df 0%, #fff3d8 38%, #fff7e6 70%, #fff2d2 100%);
+    color: #06275d;
+}
+
+.cleo-about-page * ,
+.cleo-about-page *::before,
+.cleo-about-page *::after {
+    box-sizing: border-box;
+}
+
+.cleo-about-page img {
+    max-width: 100%;
+    height: auto;
+}
+
+.cleo-about-page section {
+    position: relative;
+    padding: 56px 0;
+}
+
+/* Contenedor propio (no usa .container de Bootstrap) */
+.cleo-about-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ---------- Rejillas propias ---------- */
+.cleo-about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+    align-items: center;
+}
+
+@media (min-width: 992px) {
+    .cleo-about-grid--hero      { grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr); gap: 48px; }
+    .cleo-about-grid--story     { grid-template-columns: minmax(0, 0.95fr) minmax(0, 2.05fr); gap: 48px; }
+    .cleo-about-grid--freshness { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);    gap: 48px; }
+}
+
+/* En móvil la ilustración del hero va arriba */
+@media (max-width: 991.98px) {
+    .cleo-about-grid--hero .cleo-about-grid__media { order: -1; }
+}
+
+/* ---------- Tipografía ---------- */
+.cleo-about-script {
+    font-family: "Caveat", Georgia, "Segoe Script", "Brush Script MT", cursive;
+    font-style: italic;
+    font-weight: 700;
+    color: #f5b400;
+}
+
+.cleo-about-h1 {
+    margin: 0 0 16px;
+    color: #06275d;
+    font-size: clamp(2rem, 3.4vw, 2.75rem);
+    line-height: 1.06;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+
+.cleo-about-h1 span,
+.cleo-about-h1 em {
+    display: block;
+}
+
+.cleo-about-h1 .cleo-about-script {
+    font-size: 1.08em;
+}
+
+.cleo-about-h2 {
+    color: #06275d;
+    font-weight: 900;
+    font-size: clamp(1.55rem, 3vw, 2.25rem);
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.cleo-about-h2 .cleo-about-script {
+    font-size: 1.12em;
+}
+
+.cleo-about-h3 {
+    color: #06275d;
+    font-weight: 900;
+    font-size: clamp(1.3rem, 2.2vw, 1.65rem);
+    line-height: 1.2;
+    margin: 0 0 16px;
+    position: relative;
+    padding-bottom: 14px;
+}
+
+.cleo-about-h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 52px;
+    height: 4px;
+    border-radius: 99px;
+    background: #ffc20e;
+}
+
+.cleo-about-heading {
+    text-align: center;
+    margin-bottom: 46px;
+}
+
+.cleo-about-h2--underline {
+    display: inline-block;
+    position: relative;
+    padding-bottom: 14px;
+}
+
+.cleo-about-h2--underline::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 56px;
+    height: 4px;
+    border-radius: 99px;
+    background: #ffc20e;
+}
+
+.cleo-about-page p {
+    color: #21304f;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0 0 16px;
+}
+
+.cleo-about-lead {
+    max-width: 540px;
+}
+
+.cleo-about-thanks {
+    color: #06275d;
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
+/* ---------- Decoraciones laterales ---------- */
+.cleo-about-deco {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+    display: none;
+}
+
+@media (min-width: 1200px) {
+    .cleo-about-deco {
+        display: block;
+        opacity: 0.95;
+    }
+
+    .cleo-about-deco--left-top     { top: 40px;   left: -8px;   width: 170px; }
+    .cleo-about-deco--right-top    { top: 90px;   right: -8px;  width: 165px; }
+    .cleo-about-deco--left-mid     { top: 60px;   left: -10px;  width: 165px; }
+    .cleo-about-deco--right-mid    { bottom: 30px; right: -10px; width: 160px; }
+    .cleo-about-deco--left-bottom  { bottom: 40px; left: -8px;   width: 165px; transform: scaleX(-1); }
+    .cleo-about-deco--right-bottom { bottom: 20px; right: -8px;  width: 165px; transform: scaleX(-1); }
+}
+
+/* ---------- HERO ---------- */
+.cleo-about-hero {
+    padding-top: 64px;
+}
+
+.cleo-about-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 26px;
+}
+
+.cleo-about-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 26px;
+    border-radius: 12px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, color 0.22s ease;
+}
+
+.cleo-about-btn:hover {
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.cleo-about-btn--primary {
+    background: #06275d;
+    color: #ffffff;
+    box-shadow: 0 12px 24px rgba(6, 39, 93, 0.22);
+}
+
+.cleo-about-btn--primary:hover {
+    background: #ffc20e;
+    color: #06275d;
+}
+
+.cleo-about-btn--secondary {
+    background: rgba(255, 255, 255, 0.62);
+    color: #06275d;
+    border: 2px solid rgba(6, 39, 93, 0.82);
+}
+
+.cleo-about-btn--secondary:hover {
+    background: #ffffff;
+    color: #06275d;
+    box-shadow: 0 10px 22px rgba(6, 39, 93, 0.12);
+}
+
+.cleo-about-hero__visual {
+    text-align: center;
+}
+
+.cleo-about-hero__visual img {
+    width: 100%;
+    max-width: 560px;
+    animation: cleo-about-float 5.5s ease-in-out infinite;
+}
+
+/* ---------- Iconos circulares flotantes ---------- */
+.cleo-about-icon {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 24px;
+    border: 5px solid #fff6df;
+    box-shadow: 0 12px 22px rgba(6, 39, 93, 0.18);
+    z-index: 2;
+}
+
+.cleo-about-icon--blue   { background: #06275d; }
+.cleo-about-icon--red    { background: #d62839; }
+.cleo-about-icon--yellow { background: #ffc20e; color: #06275d; }
+
+/* ---------- Línea de tiempo ---------- */
+.cleo-about-timeline {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 52px 16px;
+    padding-top: 30px;
+}
+
+@media (min-width: 992px) {
+    .cleo-about-timeline {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+    }
+}
+
+.cleo-about-timeline__card {
+    position: relative;
+    padding: 44px 16px 22px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid rgba(6, 39, 93, 0.11);
+    box-shadow: 0 12px 28px rgba(6, 39, 93, 0.08);
+    text-align: center;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.cleo-about-timeline__card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 36px rgba(6, 39, 93, 0.14);
+}
+
+.cleo-about-timeline__card strong {
+    display: block;
+    color: #06275d;
+    font-size: 1.4rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.cleo-about-timeline__card p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+@media (min-width: 992px) {
+    .cleo-about-timeline__card:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: -14px;
+        width: 14px;
+        border-top: 3px dotted rgba(246, 165, 29, 0.85);
+    }
+}
+
+/* ---------- Tarjetas de valores ---------- */
+.cleo-about-values__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 52px 22px;
+    padding-top: 30px;
+}
+
+@media (min-width: 576px) {
+    .cleo-about-values__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 992px) {
+    .cleo-about-values__grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+.cleo-about-value-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 46px 18px 22px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid rgba(6, 39, 93, 0.10);
+    box-shadow: 0 12px 28px rgba(6, 39, 93, 0.09);
+    text-align: center;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.cleo-about-value-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 194, 14, 0.85);
+    box-shadow: 0 22px 42px rgba(6, 39, 93, 0.16);
+}
+
+.cleo-about-value-card h3 {
+    color: #06275d;
+    font-size: 1.05rem;
+    font-weight: 900;
+    margin: 4px 0 10px;
+}
+
+.cleo-about-value-card p {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin: 0 0 16px;
+    flex-grow: 1;
+}
+
+.cleo-about-value-card__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: #f5b400;
+    border: 2px solid rgba(246, 165, 29, 0.7);
+    background: rgba(255, 255, 255, 0.55);
+}
+
+/* ---------- Pasos de compra ---------- */
+.cleo-about-steps__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+}
+
+@media (min-width: 768px) {
+    .cleo-about-steps__row {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 36px;
+    }
+}
+
+.cleo-about-step {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.cleo-about-step__number {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    margin-top: 14px;
+    border-radius: 50%;
+    background: #ffc20e;
+    color: #06275d;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    box-shadow: 0 6px 12px rgba(246, 165, 29, 0.45);
+}
+
+.cleo-about-step__icon {
+    flex: 0 0 auto;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: #06275d;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 14px 28px rgba(6, 39, 93, 0.18);
+}
+
+.cleo-about-step h3 {
+    color: #06275d;
+    font-size: 1.02rem;
+    font-weight: 900;
+    margin: 0 0 6px;
+}
+
+.cleo-about-step p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+    .cleo-about-step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 30px;
+        right: -28px;
+        width: 22px;
+        border-top: 3px dotted rgba(246, 165, 29, 0.85);
+    }
+}
+
+/* ---------- Insignias ---------- */
+.cleo-about-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.cleo-about-badges span {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 42px;
+    padding: 6px 16px 6px 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.6);
+    color: #06275d;
+    font-weight: 800;
+    font-size: 0.9rem;
+    border: 1px solid rgba(246, 165, 29, 0.45);
+    box-shadow: 0 8px 20px rgba(6, 39, 93, 0.07);
+}
+
+.cleo-about-badges i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ffc20e;
+    color: #06275d;
+    font-size: 0.85rem;
+}
+
+/* ---------- Frescura ---------- */
+.cleo-about-freshness__image {
+    text-align: center;
+}
+
+.cleo-about-freshness__image img {
+    width: 100%;
+    max-width: 460px;
+    animation: cleo-about-float 6.5s ease-in-out infinite;
+}
+
+/* ---------- Comunidad ---------- */
+.cleo-about-community {
+    padding-bottom: 80px;
+}
+
+.cleo-about-community__inner {
+    max-width: 860px;
+}
+
+/* ---------- Animaciones ---------- */
+@keyframes cleo-about-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cleo-about-hero__visual img,
+    .cleo-about-freshness__image img {
+        animation: none;
+    }
+}
+
+/* ---------- Ajustes móviles ---------- */
+@media (max-width: 991.98px) {
+    .cleo-about-page section {
+        padding: 44px 0;
+    }
+
+    .cleo-about-hero {
+        padding-top: 36px;
+    }
+
+    .cleo-about-hero__visual img {
+        max-width: 440px;
+    }
+
+    .cleo-about-freshness__image img {
+        max-width: 380px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cleo-about-container {
+        padding: 0 18px;
+    }
+
+    .cleo-about-hero__actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cleo-about-btn {
+        width: 100%;
+    }
+
+    .cleo-about-timeline {
+        gap: 48px 12px;
+    }
+
+    .cleo-about-timeline__card p,
+    .cleo-about-value-card p {
+        font-size: 0.82rem;
+    }
+}
+
+</style>
+</head>
+<body>
+<div id="wrap" class="cleo-about-page">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&amp;display=swap">
+
+                <!-- ================= HERO ================= -->
+                <section class="cleo-about-hero" id="cleo_about_hero">
+                    <img class="cleo-about-deco cleo-about-deco--left-top" src="static/src/img/about/deco_lacteos.svg" alt="" loading="lazy">
+                    <img class="cleo-about-deco cleo-about-deco--right-top" src="static/src/img/about/deco_frutas.svg" alt="" loading="lazy">
+
+                    <div class="cleo-about-container">
+                        <div class="cleo-about-grid cleo-about-grid--hero">
+                            <div class="cleo-about-grid__text">
+                                <h1 class="cleo-about-h1">
+                                    <span>Más que una tienda,</span>
+                                    <em class="cleo-about-script">somos parte de tu día a día</em>
+                                </h1>
+                                <p class="cleo-about-lead">
+                                    En Super Tienda Cleo somos una tienda de familia que facilita tu compra
+                                    con productos frescos, precios justos y un servicio que te hace sentir
+                                    en casa. Compra fácil, retiro rápido y siempre con una sonrisa.
+                                </p>
+                                <div class="cleo-about-hero__actions">
+                                    <a class="cleo-about-btn cleo-about-btn--primary" href="/shop">
+                                        Comprar ahora
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    </a>
+                                    <a class="cleo-about-btn cleo-about-btn--secondary" href="#cleo_about_story">
+                                        Conoce nuestra historia
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="cleo-about-grid__media">
+                                <div class="cleo-about-hero__visual">
+                                    <img src="static/src/img/about/ilustracion_familia_carrito.svg" alt="Familia comprando con un carrito lleno de productos frescos" loading="eager">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============== NUESTRA HISTORIA ============== -->
+                <section class="cleo-about-story" id="cleo_about_story">
+                    <img class="cleo-about-deco cleo-about-deco--left-mid" src="static/src/img/about/deco_verduras.svg" alt="" loading="lazy">
+                    <img class="cleo-about-deco cleo-about-deco--right-mid" src="static/src/img/about/deco_panaderia.svg" alt="" loading="lazy">
+
+                    <div class="cleo-about-container">
+                        <div class="cleo-about-heading">
+                            <h2 class="cleo-about-h2 cleo-about-h2--underline">Nuestra historia</h2>
+                        </div>
+
+                        <div class="cleo-about-grid cleo-about-grid--story">
+                            <div class="cleo-about-grid__text">
+                                <h3 class="cleo-about-h3">De una tienda de barrio a tu tienda de confianza</h3>
+                                <p>
+                                    Super Tienda Cleo nació de un sueño familiar: ofrecer calidad,
+                                    cercanía y honestidad en cada compra. Con esfuerzo y dedicación,
+                                    crecimos escuchando a nuestra comunidad y mejorando cada día
+                                    para servirte mejor.
+                                </p>
+                                <p class="cleo-about-thanks cleo-about-script">
+                                    Gracias por ser parte de esta historia.
+                                </p>
+                            </div>
+
+                            <div class="cleo-about-grid__media">
+                                <div class="cleo-about-timeline" aria-label="Momentos importantes de Super Tienda Cleo">
+                                        <article class="cleo-about-timeline__card">
+                                            <span class="cleo-about-icon cleo-about-icon--blue">
+                                                <i class="fa fa-users" aria-hidden="true"></i>
+                                            </span>
+                                            <strong>2005</strong>
+                                            <p>Comenzamos como una pequeña tienda de barrio con grandes sueños.</p>
+                                        </article>
+                                        <article class="cleo-about-timeline__card">
+                                            <span class="cleo-about-icon cleo-about-icon--red">
+                                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                            </span>
+                                            <strong>2010</strong>
+                                            <p>Crecimos gracias a ti, ampliando nuestros productos y mejorando nuestro servicio.</p>
+                                        </article>
+                                        <article class="cleo-about-timeline__card">
+                                            <span class="cleo-about-icon cleo-about-icon--yellow">
+                                                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                                            </span>
+                                            <strong>2016</strong>
+                                            <p>Implementamos retiro en tienda para que tu compra sea más rápida y práctica.</p>
+                                        </article>
+                                        <article class="cleo-about-timeline__card">
+                                            <span class="cleo-about-icon cleo-about-icon--blue">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            </span>
+                                            <strong>Hoy</strong>
+                                            <p>Seguimos creciendo junto a nuestra comunidad, con el mismo compromiso de siempre.</p>
+                                        </article>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============== NUESTROS VALORES ============== -->
+                <section class="cleo-about-values" id="cleo_about_values">
+                    <div class="cleo-about-container">
+                        <div class="cleo-about-heading">
+                            <h2 class="cleo-about-h2 cleo-about-h2--underline">Nuestros valores</h2>
+                        </div>
+
+                        <div class="cleo-about-values__grid">
+                                <article class="cleo-about-value-card">
+                                    <span class="cleo-about-icon cleo-about-icon--yellow">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                    </span>
+                                    <h3>Atención cordial</h3>
+                                    <p>Te recibimos con amabilidad y estamos para ayudarte en cada paso.</p>
+                                    <span class="cleo-about-value-card__arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                                </article>
+                                <article class="cleo-about-value-card">
+                                    <span class="cleo-about-icon cleo-about-icon--red">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    </span>
+                                    <h3>Compra fácil</h3>
+                                    <p>Encuentra todo lo que necesitas de forma rápida, sencilla y segura.</p>
+                                    <span class="cleo-about-value-card__arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                                </article>
+                                <article class="cleo-about-value-card">
+                                    <span class="cleo-about-icon cleo-about-icon--yellow">
+                                        <i class="fa fa-car" aria-hidden="true"></i>
+                                    </span>
+                                    <h3>Retiro rápido</h3>
+                                    <p>Pide en línea y retira en tienda sin filas ni complicaciones.</p>
+                                    <span class="cleo-about-value-card__arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                                </article>
+                                <article class="cleo-about-value-card">
+                                    <span class="cleo-about-icon cleo-about-icon--blue">
+                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                    </span>
+                                    <h3>Para toda la familia</h3>
+                                    <p>Productos de calidad y precios justos para cada etapa de tu vida.</p>
+                                    <span class="cleo-about-value-card__arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                                </article>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============== PASOS DE COMPRA ============== -->
+                <section class="cleo-about-steps" id="cleo_about_steps">
+                    <div class="cleo-about-container">
+                        <div class="cleo-about-heading">
+                            <h2 class="cleo-about-h2 cleo-about-h2--underline">Así hacemos tu compra más fácil</h2>
+                        </div>
+
+                        <div class="cleo-about-steps__row">
+                                <article class="cleo-about-step">
+                                    <span class="cleo-about-step__number">1</span>
+                                    <span class="cleo-about-step__icon"><i class="fa fa-mobile" aria-hidden="true"></i></span>
+                                    <div>
+                                        <h3>Elige tus productos</h3>
+                                        <p>Explora miles de productos y agrégalos a tu carrito.</p>
+                                    </div>
+                                </article>
+                                <article class="cleo-about-step">
+                                    <span class="cleo-about-step__number">2</span>
+                                    <span class="cleo-about-step__icon"><i class="fa fa-check-square-o" aria-hidden="true"></i></span>
+                                    <div>
+                                        <h3>Confirma tu pedido</h3>
+                                        <p>Revisa tu pedido, elige la hora y confirma.</p>
+                                    </div>
+                                </article>
+                                <article class="cleo-about-step">
+                                    <span class="cleo-about-step__number">3</span>
+                                    <span class="cleo-about-step__icon"><i class="fa fa-home" aria-hidden="true"></i></span>
+                                    <div>
+                                        <h3>Retira en tienda</h3>
+                                        <p>Te esperamos. Tu pedido estará listo para ti.</p>
+                                    </div>
+                                </article>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============== FRESCURA ============== -->
+                <section class="cleo-about-freshness" id="cleo_about_freshness">
+                    <img class="cleo-about-deco cleo-about-deco--left-bottom" src="static/src/img/about/deco_frutas.svg" alt="" loading="lazy">
+                    <img class="cleo-about-deco cleo-about-deco--right-bottom" src="static/src/img/about/deco_lacteos.svg" alt="" loading="lazy">
+
+                    <div class="cleo-about-container">
+                        <div class="cleo-about-grid cleo-about-grid--freshness">
+                            <div class="cleo-about-grid__text">
+                                <h2 class="cleo-about-h2">
+                                    Frescura que se nota,<br>
+                                    confianza que <em class="cleo-about-script">se siente</em>
+                                </h2>
+                                <p>
+                                    Seleccionamos cuidadosamente cada producto para llevar a tu mesa
+                                    lo mejor en frutas, verduras, carnes, lácteos y más. Porque tu
+                                    familia merece lo mejor, todos los días.
+                                </p>
+                                <div class="cleo-about-badges">
+                                    <span><i class="fa fa-leaf" aria-hidden="true"></i> Productos frescos</span>
+                                    <span><i class="fa fa-check" aria-hidden="true"></i> Calidad garantizada</span>
+                                    <span><i class="fa fa-tag" aria-hidden="true"></i> Precios justos</span>
+                                    <span><i class="fa fa-handshake-o" aria-hidden="true"></i> Apoyo a proveedores locales</span>
+                                </div>
+                            </div>
+                            <div class="cleo-about-grid__media">
+                                <div class="cleo-about-freshness__image">
+                                    <img src="static/src/img/about/ilustracion_frescura.svg" alt="Persona sembrando una planta, símbolo de frescura y comunidad" loading="lazy">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============== CRECEMOS JUNTOS ============== -->
+                <section class="cleo-about-community" id="cleo_about_community">
+                    <div class="cleo-about-container">
+                        <div class="cleo-about-community__inner">
+                            <div>
+                                <h2 class="cleo-about-h2">
+                                    Crecemos juntos,<br>
+                                    <em class="cleo-about-script">cuidando lo que importa</em>
+                                </h2>
+                                <p>
+                                    Creemos en una comunidad más fuerte, saludable y sostenible. Por eso apoyamos
+                                    a productores locales, cuidamos el medio ambiente y construimos relaciones
+                                    basadas en confianza y respeto.
+                                </p>
+                                <div class="cleo-about-badges">
+                                    <span><i class="fa fa-pagelines" aria-hidden="true"></i> Cuidamos nuestro entorno</span>
+                                    <span><i class="fa fa-users" aria-hidden="true"></i> Apoyamos a nuestra comunidad</span>
+                                    <span><i class="fa fa-heart" aria-hidden="true"></i> Construimos confianza cada día</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        
+
+</body>
+</html>

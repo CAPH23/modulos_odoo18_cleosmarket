@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_report_cleo_pos_ticket" model="ir.actions.report">
+            <field name="name">Ticket POS Cleo 80mm</field>
+            <field name="model">pos.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">cleo_invoice_design.report_cleo_pos_ticket</field>
+            <field name="report_file">cleo_invoice_design.report_cleo_pos_ticket</field>
+            <field name="paperformat_id" ref="cleo_invoice_design.paperformat_cleo_ticket_80mm"/>
+            <field name="binding_model_id" ref="point_of_sale.model_pos_order"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">'Ticket POS Cleo - %s' % (object.pos_reference or object.name or 'POS')</field>
+        </record>
+
+        <template id="report_cleo_pos_ticket">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page cleo-ticket-page">
+                        <style>
+                            .cleo-ticket-page { width: 72mm; font-family: Arial, sans-serif; color: #111827; font-size: 10px; padding: 0; }
+                            .cleo-ticket-center { text-align: center; }
+                            .cleo-ticket-logo { max-width: 42mm; max-height: 18mm; margin: 0 auto 4px; }
+                            .cleo-ticket-title { font-weight: 900; font-size: 13px; color: #06275d; text-transform: uppercase; }
+                            .cleo-ticket-subtitle { font-size: 8.5px; color: #4b5563; }
+                            .cleo-ticket-line { border-top: 1px dashed #9ca3af; margin: 7px 0; }
+                            .cleo-ticket-row { display: table; width: 100%; }
+                            .cleo-ticket-row span { display: table-cell; }
+                            .cleo-ticket-row span:last-child { text-align: right; }
+                            .cleo-ticket-items { width: 100%; border-collapse: collapse; }
+                            .cleo-ticket-items td { padding: 3px 0; vertical-align: top; border-bottom: 1px dotted #d1d5db; }
+                            .cleo-ticket-product { font-weight: 700; }
+                            .cleo-ticket-small { color: #6b7280; font-size: 8.5px; }
+                            .cleo-ticket-total { font-size: 14px; font-weight: 900; color: #06275d; }
+                            .cleo-ticket-legal { font-size: 8px; color: #4b5563; text-align: center; line-height: 1.25; }
+                        </style>
+                        <div class="cleo-ticket-center">
+                            <img t-if="o.company_id.logo" class="cleo-ticket-logo" t-att-src="image_data_uri(o.company_id.logo)"/>
+                            <div class="cleo-ticket-title">Super Tienda Cleo</div>
+                            <div class="cleo-ticket-subtitle">Carretera a Planes de Renderos Km 6 1/2</div>
+                            <div class="cleo-ticket-subtitle">San Salvador · +503 6835-4506</div>
+                        </div>
+                        <div class="cleo-ticket-line"/>
+                        <div class="cleo-ticket-row"><span>Ticket:</span><span t-out="o.pos_reference or o.name"/></div>
+                        <div class="cleo-ticket-row"><span>Fecha:</span><span t-field="o.date_order" t-options="{'widget': 'datetime'}"/></div>
+                        <div class="cleo-ticket-row" t-if="o.partner_id"><span>Cliente:</span><span t-field="o.partner_id.display_name"/></div>
+                        <div class="cleo-ticket-row" t-if="o.session_id"><span>Caja:</span><span t-field="o.session_id.config_id.name"/></div>
+                        <div class="cleo-ticket-line"/>
+                        <table class="cleo-ticket-items">
+                            <tbody>
+                                <t t-foreach="o.lines" t-as="line">
+                                    <tr>
+                                        <td>
+                                            <div class="cleo-ticket-product"><span t-out="line.full_product_name or line.product_id.display_name"/></div>
+                                            <div class="cleo-ticket-small">
+                                                <span t-field="line.qty"/> x
+                                                <span t-out="line.price_unit" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                                <span t-if="line.discount"> · Desc. <span t-field="line.discount"/>%</span>
+                                            </div>
+                                        </td>
+                                        <td style="text-align:right; width:20mm;"><span t-out="line.price_subtotal_incl" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <div class="cleo-ticket-line"/>
+                        <div class="cleo-ticket-row"><span>Subtotal</span><span t-out="o.amount_total - o.amount_tax" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></div>
+                        <div class="cleo-ticket-row"><span>Impuestos</span><span t-field="o.amount_tax"/></div>
+                        <div class="cleo-ticket-row cleo-ticket-total"><span>Total</span><span t-field="o.amount_total"/></div>
+                        <div class="cleo-ticket-row"><span>Pagado</span><span t-field="o.amount_paid"/></div>
+                        <div class="cleo-ticket-row" t-if="o.amount_return"><span>Cambio</span><span t-field="o.amount_return"/></div>
+                        <div class="cleo-ticket-line"/>
+                        <div t-if="o.payment_ids">
+                            <div style="font-weight:800; color:#06275d; margin-bottom:3px;">Pagos</div>
+                            <t t-foreach="o.payment_ids" t-as="pay">
+                                <div class="cleo-ticket-row"><span t-field="pay.payment_method_id.display_name"/><span t-field="pay.amount"/></div>
+                            </t>
+                        </div>
+                        <div class="cleo-ticket-line"/>
+                        <div class="cleo-ticket-legal">
+                            Este documento es un comprobante informativo de compra. No constituye factura fiscal ni comprobante de crédito fiscal.
+                        </div>
+                        <div class="cleo-ticket-center" style="margin-top:7px; font-weight:800; color:#06275d;">¡Gracias por su compra!</div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

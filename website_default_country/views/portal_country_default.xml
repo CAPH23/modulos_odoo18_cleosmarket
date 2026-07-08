@@ -1,0 +1,74 @@
+<odoo>
+  <template id="portal_my_details_fields_inherit" inherit_id="portal.portal_my_details_fields" priority="20">
+    <!-- Insertamos JS para preseleccionar país si no hay ninguno -->
+    <xpath expr="//select[@name='country_id']" position="inside">
+      <t t-if="not partner.country_id">
+        <script>
+          document.addEventListener('DOMContentLoaded', function(){
+            var select = document.querySelector('select[name="country_id"]');
+            if(select){
+              select.value = '209';
+            }
+          });
+        </script>
+      </t>
+    </xpath>
+
+    <!-- Bloqueamos el select para que no sea editable -->
+    <xpath expr="//div[label[@for='country_id']]" position="attributes">
+      <attribute name="style">pointer-events:none;opacity:0.6;</attribute>
+    </xpath>
+  </template>
+
+  <template id="hide_invoice_edi_format" inherit_id="portal.portal_my_details_fields" priority="30">
+    <xpath expr="//select[@name='invoice_edi_format']/ancestor::div[@class='row m-0 mb-3 p-0']" position="attributes">
+      <attribute name="style">display: none !important;</attribute>
+    </xpath>
+  </template>
+
+  <template id="portal_my_details_fields_hide_company" inherit_id="portal.portal_my_details_fields">
+
+    <!-- Oculta el label del campo 'Nombre de la compañía' -->
+    <xpath expr="//label[@for='company_name']" position="attributes">
+      <attribute name="style">display: none;</attribute>
+    </xpath>
+
+    <!-- Oculta el input del campo 'company_name' -->
+    <xpath expr="//input[@name='company_name']" position="attributes">
+      <attribute name="style">display: none;</attribute>
+    </xpath>
+
+    <!-- Oculta el texto pequeño que explica por qué no se puede editar -->
+    <xpath expr="//input[@name='company_name']/following-sibling::small" position="attributes">
+      <attribute name="style">display: none;</attribute>
+    </xpath>
+
+  </template>
+
+  <template id="portal_my_details_fields_hide_vat" inherit_id="portal.portal_my_details_fields">
+
+    <!-- Oculta el label del campo NIF -->
+    <xpath expr="//label[@for='vat']" position="attributes">
+      <attribute name="style">display: none;</attribute>
+    </xpath>
+
+    <!-- Oculta el input del campo NIF -->
+    <xpath expr="//input[@name='vat']" position="attributes">
+      <attribute name="style">display: none;</attribute>
+    </xpath>
+
+    <!-- Oculta el texto pequeño debajo del campo NIF -->
+    <xpath expr="//input[@name='vat']/following-sibling::small" position="attributes">
+      <attribute name="style">display: none;</attribute>
+    </xpath>
+
+  </template>
+
+<!-- NUEVA PLANTILLA: Hace que el campo 'state_id' (Municipio) sea obligatorio -->
+  <template id="portal_my_details_fields_state_required" inherit_id="portal.portal_my_details_fields" priority="40">
+    <xpath expr="//select[@name='state_id']" position="attributes">
+      <attribute name="required">required</attribute>
+    </xpath>
+  </template>
+
+</odoo>

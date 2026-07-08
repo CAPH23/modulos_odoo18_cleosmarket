@@ -1,0 +1,7 @@
+<odoo>
+  <template id="snow_effect_script" inherit_id="website.layout" name="Snow Effect Script">
+    <xpath expr="//body" position="inside">
+      <script type="text/javascript" src="/website_snow_effect/static/lib/snow.js"></script>
+    </xpath>
+  </template>
+</odoo>

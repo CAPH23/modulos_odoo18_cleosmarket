@@ -1,0 +1,12 @@
+<odoo>
+  <template id="plausible_tracking" inherit_id="website.layout">
+    <xpath expr="//head" position="inside">
+      <script defer="true" data-domain="cleosmarket.com" src="https://plausible.io/js/script.file-downloads.hash.outbound-links.pageview-props.revenue.tagged-events.js"/>
+      <script>
+        window.plausible = window.plausible || function() {
+          (window.plausible.q = window.plausible.q || []).push(arguments)
+        }
+      </script>
+    </xpath>
+  </template>
+</odoo>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="90" viewBox="0 0 120 90" role="img" aria-label="Canasta de productos">
+  <defs>
+    <linearGradient id="basket" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F7C36A"/>
+      <stop offset="1" stop-color="#E89B32"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFD45A"/>
+      <stop offset="1" stop-color="#F2A000"/>
+    </linearGradient>
+  </defs>
+  <path d="M24 79h72c5 0 9-4 9-9V43H15v27c0 5 4 9 9 9Z" fill="url(#basket)"/>
+  <path d="M18 44h84c3 0 6 3 6 6v4H12v-4c0-3 3-6 6-6Z" fill="#F5B447"/>
+  <path d="M33 79V49M51 79V49M69 79V49M87 79V49" stroke="#C97B24" stroke-width="3" opacity=".45"/>
+  <path d="M30 45C31 25 47 14 61 14s30 11 31 31" fill="none" stroke="#D58A2E" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="36" cy="37" r="14" fill="#EA4D38"/>
+  <path d="M34 26c5-8 13-9 20-4-8 1-13 4-17 10" fill="#2E8B57"/>
+  <circle cx="58" cy="33" r="16" fill="url(#orange)"/>
+  <path d="M61 17c7-7 14-6 19-1-8 0-13 3-17 9" fill="#3D945D"/>
+  <path d="M76 45c-10-20 1-35 15-39 4 18-3 32-15 39Z" fill="#4FA35E"/>
+  <path d="M83 40c9-16 23-17 31-12-8 13-19 17-31 12Z" fill="#7BBE48"/>
+  <rect x="67" y="10" width="14" height="34" rx="5" fill="#1E7B5E"/>
+  <rect x="70" y="3" width="8" height="12" rx="2" fill="#0B3F87"/>
+  <path d="M6 30l9-5M13 17l9 5M29 10l3 10" stroke="#F4B21D" stroke-width="5" stroke-linecap="round"/>
+</svg>

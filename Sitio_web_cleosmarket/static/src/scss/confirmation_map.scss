@@ -1,0 +1,191 @@
+/* ============================================================
+   Super Tienda Cleo - Mapa en /shop/confirmation
+   No modifica footer ni header
+   ============================================================ */
+
+.cleo-confirmation-location {
+    padding: 24px clamp(16px, 3vw, 48px) 36px;
+    background: #ffffff;
+}
+
+.cleo-confirmation-location-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.cleo-confirmation-location-header {
+    margin-bottom: 14px;
+}
+
+.cleo-confirmation-location-header h3 {
+    margin: 0 0 6px;
+    color: #06275d;
+    font-size: clamp(1.45rem, 2vw, 2rem);
+    font-weight: 800;
+}
+
+.cleo-confirmation-location-header p {
+    margin: 0;
+    color: #4f5f73;
+    font-size: 1rem;
+}
+
+.cleo-confirmation-map-card {
+    padding: 14px;
+    border: 1px solid rgba(6, 39, 93, 0.13);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.cleo-confirmation-map {
+    width: 100%;
+    min-height: 380px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(6, 39, 93, 0.14);
+    background: #edf2f7;
+}
+
+.cleo-confirmation-logo-marker-wrapper {
+    background: transparent;
+    border: 0;
+}
+
+.cleo-confirmation-logo-marker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateY(-8px);
+}
+
+.cleo-confirmation-logo-pin {
+    width: 58px;
+    height: 58px;
+    border-radius: 50% 50% 50% 8px;
+    background: #ffffff;
+    border: 3px solid #f15a3b;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.24);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-45deg);
+    overflow: hidden;
+}
+
+.cleo-confirmation-logo-pin img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    transform: rotate(45deg);
+}
+
+.cleo-confirmation-logo-label {
+    background: #06275d;
+    color: #ffffff;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-weight: 800;
+    font-size: 0.92rem;
+    white-space: nowrap;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.2);
+}
+
+@media (max-width: 767.98px) {
+    .cleo-confirmation-location {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .cleo-confirmation-map {
+        min-height: 320px;
+    }
+
+    .cleo-confirmation-logo-label {
+        font-size: 0.82rem;
+        padding: 7px 10px;
+    }
+
+    .cleo-confirmation-logo-pin {
+        width: 50px;
+        height: 50px;
+    }
+
+    .cleo-confirmation-logo-pin img {
+        width: 36px;
+        height: 36px;
+    }
+}
+/* Marcador normal + etiqueta en /shop/confirmation */
+.cleo-confirmation-store-tooltip {
+    background: #06275d;
+    color: #ffffff;
+    border: 0;
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: 1rem;
+    font-weight: 800;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.22);
+}
+
+.cleo-confirmation-store-tooltip::before {
+    border-right-color: #06275d;
+}
+
+@media (max-width: 767.98px) {
+    .cleo-confirmation-store-tooltip {
+        font-size: 0.82rem;
+        padding: 8px 12px;
+        white-space: normal;
+        max-width: 210px;
+    }
+}
+/* ============================================================
+   Super Tienda Cleo - Mapa en /contactus
+   Reemplaza el mapa actual manteniendo posición y tamaño
+   ============================================================ */
+
+.cleo-contactus-location {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    overflow: hidden;
+}
+
+.cleo-contactus-map {
+    width: 100%;
+    min-height: 250px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(6, 39, 93, 0.14);
+    background: #edf2f7;
+}
+
+/* Etiqueta del puntero, usada en /shop/confirmation y /contactus */
+.cleo-confirmation-store-tooltip {
+    background: #06275d;
+    color: #ffffff;
+    border: 0;
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: 1rem;
+    font-weight: 800;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.22);
+}
+
+.cleo-confirmation-store-tooltip::before {
+    border-right-color: #06275d;
+}
+
+@media (max-width: 767.98px) {
+    .cleo-contactus-map {
+        min-height: 220px;
+    }
+
+    .cleo-confirmation-store-tooltip {
+        font-size: 0.82rem;
+        padding: 8px 12px;
+        white-space: normal;
+        max-width: 210px;
+    }
+}

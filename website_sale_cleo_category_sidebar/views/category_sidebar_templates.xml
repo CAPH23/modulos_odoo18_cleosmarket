@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Reemplaza únicamente el listado lateral interno de categorías de /shop.
+        Vista padre validada en la instalación del cliente: website_sale.products_categories_list.
+    -->
+    <template id="cleo_products_categories_list_custom"
+              inherit_id="website_sale.products_categories_list"
+              name="Super Tienda Cleo - Menú lateral visual de categorías">
+
+        <xpath expr="//div[@name='wsale_products_categories_list']" position="replace">
+            <div name="wsale_products_categories_list"
+                 class="wsale_products_categories_list cleo-shop-categories-sidebar"
+                 data-cleo-category-sidebar="1">
+
+                <t t-set="slug" t-value="request.env['ir.http']._slug"/>
+                <t t-set="cleo_current_category_id" t-value="category.id if category else False"/>
+
+                <t t-set="cleo_excluded_category_names"
+                   t-value="[
+                        'CANASTAS',
+                        'CELOFAN',
+                        'CELOFÁN',
+                        'PRODUCTOS PLÁSTICOS',
+                        'PRODUCTOS PLASTICOS'
+                   ]"/>
+
+                <t t-set="cleo_shop_categories"
+                   t-value="request.env['product.public.category'].sudo().search([
+                        ('parent_id', '=', False)
+                   ], order='sequence asc, name asc')"/>
+
+                <aside class="cleo-category-panel" aria-label="Categorías de productos">
+                    <div class="cleo-category-panel__head">
+                        <div class="cleo-category-panel__title-area">
+                            <h6 class="cleo-category-panel__title">Categorías</h6>
+                            <span class="cleo-category-panel__accent" aria-hidden="true"></span>
+                        </div>
+
+                        <img class="cleo-category-panel__basket"
+                             src="/website_sale_cleo_category_sidebar/static/src/img/category_basket.svg"
+                             alt="" loading="lazy"/>
+
+                        <button type="button"
+                                class="cleo-category-panel__toggle"
+                                data-cleo-category-toggle="1"
+                                aria-expanded="true"
+                                title="Contraer o extender categorías"
+                                aria-label="Contraer o extender categorías">
+                            <i class="fa fa-angle-up cleo-category-panel__toggle-icon" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                    <div class="cleo-category-panel__body" data-cleo-category-body="1">
+                        <a t-att-href="keep('/shop', category=0)"
+                           t-attf-class="cleo-category-link cleo-category-link--all #{not category and 'is-active'}">
+                            <span class="cleo-category-link__icon" aria-hidden="true">
+                                <i class="fa fa-th-large"></i>
+                            </span>
+                            <span class="cleo-category-link__label">Todos los productos</span>
+                            <span class="cleo-category-link__arrow" aria-hidden="true">
+                                <i class="fa fa-angle-right"></i>
+                            </span>
+                        </a>
+
+                        <t t-if="cleo_shop_categories">
+                            <t t-foreach="cleo_shop_categories" t-as="cleo_category">
+                                <t t-set="cleo_category_name" t-value="(cleo_category.name or '').strip()"/>
+                                <t t-set="cleo_category_name_upper" t-value="cleo_category_name.upper()"/>
+
+                                <t t-if="cleo_category_name_upper not in cleo_excluded_category_names">
+                                    <t t-set="cleo_icon_class"
+                                       t-value="'fa-leaf' if 'FRESCO' in cleo_category_name_upper else 'fa-shopping-basket' if 'ABARROTE' in cleo_category_name_upper else 'fa-cutlery' if 'BOQUITA' in cleo_category_name_upper else 'fa-flask' if 'BEBIDA' in cleo_category_name_upper else 'fa-snowflake-o' if 'CONGELADO' in cleo_category_name_upper else 'fa-user-o' if 'PERSONAL' in cleo_category_name_upper else 'fa-home' if 'HOGAR' in cleo_category_name_upper else 'fa-child' if 'BEB' in cleo_category_name_upper else 'fa-paw' if 'MASCOTA' in cleo_category_name_upper else 'fa-cube' if 'MERCANC' in cleo_category_name_upper else 'fa-tag'"/>
+
+                                    <a t-att-href="'/shop/category/%s' % slug(cleo_category)"
+                                       t-attf-class="cleo-category-link #{cleo_current_category_id == cleo_category.id and 'is-active'}">
+                                        <span class="cleo-category-link__icon" aria-hidden="true">
+                                            <i t-attf-class="fa #{cleo_icon_class}"></i>
+                                        </span>
+                                        <span class="cleo-category-link__label">
+                                            <t t-esc="cleo_category_name"/>
+                                        </span>
+                                        <span class="cleo-category-link__arrow" aria-hidden="true">
+                                            <i class="fa fa-angle-right"></i>
+                                        </span>
+                                    </a>
+                                </t>
+                            </t>
+                        </t>
+
+                        <t t-else="">
+                            <div class="cleo-category-panel__empty">
+                                Todavía no hay categorías públicas para mostrar.
+                            </div>
+                        </t>
+
+                        <div class="cleo-category-panel__promo">
+                            <span class="cleo-category-panel__promo-icon" aria-hidden="true">
+                                <i class="fa fa-shopping-cart"></i>
+                            </span>
+                            <div class="cleo-category-panel__promo-text">
+                                <strong>Compra fácil, vida más simple</strong>
+                                <span>Miles de productos para tu día a día, con la calidad que tu familia merece.</span>
+                            </div>
+                            <span class="cleo-category-panel__leaf" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </xpath>
+    </template>
+</odoo>

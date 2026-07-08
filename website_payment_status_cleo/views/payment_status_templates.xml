@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cleo_payment_status" inherit_id="payment.payment_status" name="Cleo - Estado de pago mejorado">
+        <xpath expr="//div[@name='o_payment_status']/ancestor::div[hasclass('row')][1]" position="replace">
+            <section class="cleo-payment-status-page" data-cleo-countdown="5" data-cleo-redirect-url="/shop/confirmation">
+                <div class="cleo-payment-bg" aria-hidden="true"></div>
+                <div class="cleo-payment-content">
+
+                    <div t-if="payment_not_found" class="cleo-payment-main-card cleo-payment-main-card-not-found">
+                        <div class="cleo-gear-panel">
+                            <div class="cleo-gear-ring">
+                                <i class="fa fa-clock-o"></i>
+                            </div>
+                        </div>
+                        <div class="cleo-payment-copy">
+                            <span class="cleo-status-pill cleo-status-pill-warning">
+                                <i class="fa fa-info-circle"></i>
+                                Pago en proceso
+                            </span>
+                            <h1>Su pago está en camino</h1>
+                            <p>
+                                Estamos esperando la confirmación del pago. En unos minutos recibirá un correo electrónico
+                                con la confirmación de su pedido.
+                            </p>
+                            <div class="cleo-payment-notice-line">
+                                <i class="fa fa-info-circle"></i>
+                                <span>Contáctenos si no recibe confirmación en unos minutos.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div t-else="" name="o_payment_status" class="cleo-payment-status-live">
+                        <!-- Se conserva el bloque original de estado para mantener compatibilidad con el post-processing JS de Odoo. -->
+                        <div class="d-none cleo-original-status-holder">
+                            <t t-call="payment.state_header">
+                                <t t-set="is_processing" t-value="True"/>
+                            </t>
+                        </div>
+
+                        <t t-set="cleo_state_label" t-value="(tx.state in ('done', 'authorized', 'pending') and 'Verificando pedido') or (tx.state == 'error' and 'Revisar pago') or (tx.state == 'cancel' and 'Pago cancelado') or 'Validando pago'"/>
+                        <t t-set="cleo_state_badge" t-value="(tx.state in ('done', 'authorized') and 'Pago procesado') or (tx.state == 'pending' and 'Validando pago') or (tx.state == 'error' and 'Revisar pago') or (tx.state == 'cancel' and 'Pago cancelado') or 'Procesando'"/>
+
+                        <div class="cleo-payment-main-card">
+                            <div class="cleo-gear-panel">
+                                <div class="cleo-gear-ring">
+                                    <i class="fa fa-cog"></i>
+                                </div>
+                            </div>
+
+                            <div class="cleo-payment-copy">
+                                <span t-attf-class="cleo-status-pill #{'cleo-status-pill-success' if tx.state in ('done', 'authorized') else 'cleo-status-pill-warning'}">
+                                    <i t-attf-class="fa #{'fa-check-circle' if tx.state in ('done', 'authorized') else 'fa-refresh'}"></i>
+                                    <span t-out="cleo_state_badge"/>
+                                </span>
+
+                                <h1>
+                                    <t t-if="tx.state in ('done', 'authorized')">Su pago ha sido procesado con éxito</t>
+                                    <t t-else="">Estamos validando su pago</t>
+                                </h1>
+                                <p>
+                                    Estamos validando su transacción y preparando la confirmación de su pedido.
+                                    Será redirigido automáticamente en unos segundos.
+                                </p>
+
+                                <div class="cleo-countdown-row">
+                                    <span class="cleo-countdown-spinner" aria-hidden="true"></span>
+                                    <span>Serás redirigido en <strong class="cleo-countdown-number">5</strong> segundos</span>
+                                </div>
+                                <div class="cleo-payment-notice-line">
+                                    <i class="fa fa-info-circle"></i>
+                                    <span>No cierre esta ventana</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cleo-payment-info-grid">
+                            <article class="cleo-payment-info-card cleo-info-amount">
+                                <div class="cleo-info-icon"><i class="fa fa-credit-card"></i></div>
+                                <div>
+                                    <span class="cleo-info-label">Monto de la compra</span>
+                                    <strong class="cleo-info-value" t-out="tx.amount" t-options="{'widget': 'monetary', 'display_currency': tx.currency_id}"/>
+                                </div>
+                            </article>
+
+                            <article class="cleo-payment-info-card cleo-info-reference">
+                                <div class="cleo-info-icon"><i class="fa fa-clipboard"></i></div>
+                                <div>
+                                    <span class="cleo-info-label">Referencia del pedido</span>
+                                    <strong class="cleo-info-value" t-out="tx.reference"/>
+                                </div>
+                            </article>
+
+                            <article class="cleo-payment-info-card cleo-info-provider">
+                                <div class="cleo-info-icon"><i class="fa fa-credit-card-alt"></i></div>
+                                <div>
+                                    <span class="cleo-info-label">Método de pago</span>
+                                    <strong class="cleo-info-value" t-out="tx.provider_id.name"/>
+                                </div>
+                            </article>
+
+                            <article class="cleo-payment-info-card cleo-info-state">
+                                <div class="cleo-info-icon"><i class="fa fa-shield"></i></div>
+                                <div>
+                                    <span class="cleo-info-label">Estado actual</span>
+                                    <strong class="cleo-info-value" t-out="cleo_state_label"/>
+                                </div>
+                            </article>
+                        </div>
+
+                        <div class="cleo-payment-bottom-note">
+                            <div class="cleo-bottom-note-main">
+                                <i class="fa fa-info-circle"></i>
+                                <span>Si la página tarda más de lo esperado, no se preocupe: su pago ya fue recibido.</span>
+                            </div>
+                            <div class="cleo-bottom-actions">
+                                <a class="cleo-help-link" href="tel:+50368354506">
+                                    <i class="fa fa-phone"></i>
+                                    <span>+503 6835-4506</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,38 @@
+/* ============================================================
+   Super Tienda Cleo - Login
+   Botón "¿No tiene una cuenta?"
+   ============================================================ */
+
+.oe_login_form .cleo-login-signup-btn,
+.o_web_login .cleo-login-signup-btn {
+    width: 100% !important;
+    min-height: 38px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #06275d !important;
+    border-color: #06275d !important;
+    color: #ffffff !important;
+
+    font-weight: 700;
+    text-decoration: none !important;
+    border-radius: 0.375rem;
+    box-shadow: none;
+}
+
+.oe_login_form .cleo-login-signup-btn:hover,
+.o_web_login .cleo-login-signup-btn:hover {
+    background-color: #041b42 !important;
+    border-color: #041b42 !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+
+.oe_login_form .cleo-login-signup-btn:focus,
+.o_web_login .cleo-login-signup-btn:focus {
+    background-color: #041b42 !important;
+    border-color: #041b42 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 0 0.2rem rgba(6, 39, 93, 0.25) !important;
+}

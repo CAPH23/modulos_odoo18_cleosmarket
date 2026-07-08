@@ -1,0 +1,244 @@
+/* Super Tienda Cleo - Recibo nativo del POS */
+.pos-receipt.cleo-pos-receipt {
+    width: 72mm;
+    max-width: 72mm;
+    padding: 8px 10px !important;
+    color: #06275d;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    background: #ffffff;
+}
+
+.cleo-pos-top-cut {
+    height: 8px;
+    margin: -8px -10px 8px;
+    background: repeating-linear-gradient(-45deg, #ffffff 0 6px, #f1f5f9 6px 12px);
+}
+
+.cleo-pos-header {
+    text-align: center;
+}
+
+.cleo-pos-logo {
+    display: block;
+    max-width: 36mm;
+    max-height: 18mm;
+    margin: 0 auto 4px;
+    object-fit: contain;
+}
+
+.cleo-pos-brand {
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: .4px;
+    color: #06275d;
+    margin-bottom: 3px;
+}
+
+.cleo-pos-contact-row {
+    font-size: 9px;
+    color: #0b2148;
+    line-height: 1.25;
+}
+
+.cleo-pos-dotted {
+    border-top: 1px dashed #9ca3af;
+    margin: 8px 0;
+}
+
+.cleo-pos-title-wrap {
+    text-align: center;
+}
+
+.cleo-pos-title {
+    font-size: 17px;
+    font-weight: 900;
+    color: #06275d;
+    line-height: 1.1;
+}
+
+.cleo-pos-title-line {
+    width: 30mm;
+    height: 2px;
+    background: #f4ac00;
+    margin: 4px auto 6px;
+    border-radius: 6px;
+}
+
+.cleo-pos-badges {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 4px;
+}
+
+.cleo-pos-badge {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 4px 8px;
+    font-size: 8px;
+    line-height: 1;
+    color: #ffffff;
+    font-weight: 900;
+}
+
+.cleo-pos-badge-green { background: #24a148; }
+.cleo-pos-badge-yellow { background: #f4ac00; color: #06275d; }
+
+.cleo-pos-info-list {
+    font-size: 9.5px;
+}
+
+.cleo-pos-info-row {
+    display: grid;
+    grid-template-columns: 15px 1fr 1.1fr;
+    gap: 3px;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 4px 0;
+}
+
+.cleo-pos-info-icon { text-align: center; }
+.cleo-pos-info-label { color: #334155; }
+.cleo-pos-info-value { text-align: right; color: #06275d; }
+
+.cleo-pos-items {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8.5px;
+}
+
+.cleo-pos-items thead th {
+    background: #06275d;
+    color: #ffffff;
+    padding: 4px 3px;
+    font-size: 7px;
+    text-align: right;
+}
+
+.cleo-pos-items thead th:first-child {
+    text-align: left;
+    border-radius: 6px 0 0 6px;
+}
+
+.cleo-pos-items thead th:last-child {
+    border-radius: 0 6px 6px 0;
+}
+
+.cleo-pos-col-product { width: 47%; }
+.cleo-pos-col-qty { width: 13%; }
+.cleo-pos-col-price { width: 20%; }
+.cleo-pos-col-total { width: 20%; }
+
+.cleo-pos-items tbody td {
+    border-bottom: 1px dotted #cbd5e1;
+    padding: 5px 2px;
+    vertical-align: middle;
+}
+
+.cleo-pos-item-product {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.cleo-pos-product-img-box {
+    width: 20px;
+    min-width: 20px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cleo-pos-product-img {
+    max-width: 20px;
+    max-height: 24px;
+    object-fit: contain;
+}
+
+.cleo-pos-product-placeholder {
+    color: #f4ac00;
+    font-size: 12px;
+}
+
+.cleo-pos-product-name {
+    color: #0b2148;
+    line-height: 1.1;
+}
+
+.cleo-pos-item-num {
+    text-align: right;
+    color: #111827;
+}
+
+.cleo-pos-line-total {
+    font-weight: 900;
+    color: #06275d;
+}
+
+.cleo-pos-empty {
+    text-align: center;
+    color: #64748b;
+    padding: 10px 0 !important;
+}
+
+.cleo-pos-totals {
+    font-size: 10px;
+}
+
+.cleo-pos-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 3px 0;
+}
+
+.cleo-pos-total-line {
+    border-top: 2px solid #06275d;
+    margin: 5px 0;
+}
+
+.cleo-pos-grand-total {
+    font-size: 13px;
+    font-weight: 900;
+    color: #06275d;
+}
+
+.cleo-pos-payment-title {
+    margin-top: 5px;
+    font-size: 9px;
+    font-weight: 900;
+    color: #06275d;
+}
+
+.cleo-pos-payment-row {
+    font-size: 9px;
+    color: #334155;
+}
+
+.cleo-pos-thanks {
+    text-align: center;
+    font-weight: 900;
+    font-size: 14px;
+    color: #06275d;
+    margin: 5px 0 2px;
+}
+
+.cleo-pos-legal {
+    text-align: center;
+    color: #475569;
+    font-size: 8px;
+    line-height: 1.25;
+    margin-bottom: 6px;
+}
+
+.cleo-pos-footer {
+    margin: 0 -10px -8px;
+    background: #06275d;
+    color: #ffffff;
+    text-align: center;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 7px 4px;
+}

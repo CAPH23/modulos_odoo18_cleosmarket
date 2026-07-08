@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <template id="product_image_variant_js" inherit_id="website_sale.product">
+    <xpath expr="//div[@id='product_details']" position="inside">
+      <script type="application/json" id="variant_images_json">
+        <t t-raw="json.dumps({v.id: v.image_1920.decode('utf-8') if v.image_1920 else '' for v in product.product_variant_ids})"/>
+      </script>
+    </xpath>
+  </template>
+</odoo>

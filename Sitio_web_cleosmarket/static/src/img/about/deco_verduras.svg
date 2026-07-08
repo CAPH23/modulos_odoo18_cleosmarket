@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 660">
+  <defs>
+    <filter id="ds3" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#1f2a5e" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <!-- Pimiento rojo -->
+  <g filter="url(#ds3)" transform="rotate(-10 120 120)">
+    <path d="M120 76 q-44 -10 -62 28 q-18 40 8 74 q26 32 54 32 q28 0 54 -32 q26 -34 8 -74 q-18 -38 -62 -28 z" fill="#dd3d34"/>
+    <path d="M96 86 q-26 10 -32 44" stroke="#f37a6e" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <path d="M120 78 q-2 -20 14 -28" stroke="#3f8f47" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M118 70 q14 -8 26 0 q-12 10 -26 4 z" fill="#4f9d4f"/>
+  </g>
+
+  <!-- Brócoli -->
+  <g filter="url(#ds3)" transform="rotate(8 120 350)">
+    <path d="M104 366 l8 64 q8 10 18 0 l6 -64 z" fill="#a8c46a"/>
+    <circle cx="86" cy="332" r="34" fill="#4f9d4f"/>
+    <circle cx="124" cy="312" r="40" fill="#3f8f47"/>
+    <circle cx="162" cy="338" r="32" fill="#4f9d4f"/>
+    <circle cx="124" cy="354" r="30" fill="#6fbf73"/>
+    <circle cx="98" cy="306" r="9" fill="#6fbf73" opacity="0.8"/>
+    <circle cx="146" cy="298" r="8" fill="#8fd193" opacity="0.8"/>
+    <circle cx="166" cy="322" r="7" fill="#8fd193" opacity="0.8"/>
+  </g>
+
+  <!-- Zanahoria -->
+  <g filter="url(#ds3)" transform="rotate(-26 120 540)">
+    <path d="M120 470 q34 0 30 38 q-6 64 -22 108 q-6 16 -16 0 q-16 -44 -22 -108 q-4 -38 30 -38 z" fill="#f08c2e"/>
+    <path d="M102 510 l36 8 M104 552 l30 8 M110 594 l20 6" stroke="#d9731a" stroke-width="6" stroke-linecap="round"/>
+    <path d="M112 466 q-18 -22 -38 -24 q12 -14 32 -6 q-4 -16 8 -26 q6 14 8 26 q14 -12 30 -8 q-10 16 -24 20 q-8 8 -16 18 z" fill="#4f9d4f"/>
+  </g>
+</svg>

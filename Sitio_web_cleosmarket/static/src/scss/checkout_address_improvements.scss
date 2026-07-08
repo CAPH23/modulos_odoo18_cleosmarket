@@ -1,0 +1,421 @@
+/* ============================================================
+   Super Tienda Cleo - Mejoras /shop/checkout
+   Direcciones + métodos de entrega
+   ============================================================ */
+
+/* Link Eliminar junto a Editar */
+
+.cleo-address-delete-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 14px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #dc2626;
+    font-weight: 800;
+    font-size: 1rem;
+    line-height: 1.2;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.cleo-address-delete-link:hover {
+    color: #b91c1c;
+    text-decoration: underline;
+}
+
+.cleo-address-delete-link.is-loading {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+/* Ocultar bloque original de Odoo */
+
+.cleo-delivery-original-hidden {
+    display: none !important;
+}
+
+/* ============================================================
+   Métodos de envío rediseñados
+   ============================================================ */
+
+.cleo-delivery-redesign {
+    width: 100%;
+    margin-top: 16px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(6, 39, 93, 0.12);
+    background: #ffffff;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
+}
+
+/* Cada tarjeta */
+
+.cleo-delivery-option {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    min-height: 108px;
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr) 58px minmax(92px, auto);
+    grid-template-rows: auto auto auto;
+    column-gap: 18px;
+    row-gap: 8px;
+    align-items: start;
+    padding: 22px 24px;
+    border: 0;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 0;
+    background: #ffffff;
+    color: #06275d;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: none;
+    outline: none;
+    transition:
+        background 0.22s ease,
+        box-shadow 0.22s ease,
+        transform 0.22s ease;
+}
+
+.cleo-delivery-option:last-child {
+    border-bottom: 0;
+}
+
+.cleo-delivery-option:hover {
+    background: #fbfdff;
+}
+
+.cleo-delivery-option:focus,
+.cleo-delivery-option:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px rgba(233, 75, 56, 0.18);
+}
+
+.cleo-delivery-option.is-selected {
+    background: linear-gradient(90deg, rgba(241, 90, 59, 0.07), #ffffff 72%);
+}
+
+/* Radio visual */
+
+.cleo-delivery-radio-dot {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    width: 26px;
+    height: 26px;
+    margin-top: 1px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    background: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cleo-delivery-radio-dot span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: transparent;
+    transition: background 0.2s ease;
+}
+
+.cleo-delivery-option.is-selected .cleo-delivery-radio-dot {
+    border-color: #e94b38;
+    box-shadow: 0 0 0 5px rgba(233, 75, 56, 0.10);
+}
+
+.cleo-delivery-option.is-selected .cleo-delivery-radio-dot span {
+    background: #e94b38;
+}
+
+/* Texto */
+
+.cleo-delivery-main {
+    grid-column: 2 / 3;
+    grid-row: 1 / 4;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.cleo-delivery-title {
+    color: #06275d;
+    font-size: 1.1rem;
+    font-weight: 900;
+    line-height: 1.25;
+    margin: 0;
+}
+
+.cleo-delivery-description {
+    margin-top: 8px;
+    color: #4f5f73;
+    font-size: 0.98rem;
+    line-height: 1.45;
+    max-width: 720px;
+}
+
+/* Icono alineado con el nombre */
+
+.cleo-delivery-icon-badge {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+    width: 52px;
+    height: 52px;
+    margin-top: -8px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: #06275d;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    align-self: start;
+}
+
+.cleo-delivery-option.is-selected .cleo-delivery-icon-badge {
+    background: rgba(0, 122, 90, 0.10);
+    color: #007a5a;
+}
+
+.cleo-delivery-svg {
+    width: 28px;
+    height: 28px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Precio alineado con el nombre */
+
+.cleo-delivery-price {
+    grid-column: 4 / 5;
+    grid-row: 1 / 2;
+    justify-self: end;
+    align-self: start;
+    min-width: 92px;
+    margin-top: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 9px 18px;
+    background: rgba(0, 122, 90, 0.10);
+    color: #007a5a;
+    font-weight: 900;
+    font-size: 1rem;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.cleo-delivery-option.is-selected .cleo-delivery-price {
+    background: rgba(0, 122, 90, 0.14);
+}
+
+/* Punto de recogida seleccionado */
+
+.cleo-pickup-info {
+    margin-top: 12px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.cleo-delivery-option.is-selected[data-delivery-type="pickup"] .cleo-pickup-info {
+    display: flex;
+}
+
+.cleo-pickup-selected {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 7px 12px;
+    background: rgba(0, 122, 90, 0.10);
+    color: #007a5a;
+    font-size: 0.9rem;
+    font-weight: 900;
+}
+
+.cleo-pickup-change {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 7px 14px;
+    background: #ffffff;
+    color: #e94b38;
+    border: 1px solid rgba(233, 75, 56, 0.35);
+    font-size: 0.9rem;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.cleo-pickup-change:hover {
+    background: rgba(233, 75, 56, 0.08);
+}
+
+.cleo-pickup-info.is-loading .cleo-pickup-selected {
+    opacity: 0.65;
+}
+
+/* ============================================================
+   Responsive celular
+   ============================================================ */
+
+@media (max-width: 767.98px) {
+    .cleo-address-delete-link {
+        display: inline-flex;
+        margin-left: 10px;
+        margin-top: 8px;
+        font-size: 0.95rem;
+    }
+
+    .cleo-delivery-option {
+        min-height: 104px;
+        grid-template-columns: 26px minmax(0, 1fr) auto;
+        grid-template-rows: auto auto auto;
+        column-gap: 12px;
+        row-gap: 8px;
+        padding: 18px 16px;
+    }
+
+    .cleo-delivery-radio-dot {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        width: 24px;
+        height: 24px;
+        margin-top: 1px;
+    }
+
+    .cleo-delivery-main {
+        grid-column: 2 / 3;
+        grid-row: 1 / 4;
+    }
+
+    .cleo-delivery-title {
+        font-size: 1rem;
+        line-height: 1.22;
+    }
+
+    .cleo-delivery-description {
+        margin-top: 7px;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        max-width: none;
+    }
+
+    .cleo-delivery-icon-badge {
+        grid-column: 3 / 4;
+        grid-row: 1 / 2;
+        width: 44px;
+        height: 44px;
+        margin-top: -7px;
+        justify-self: end;
+    }
+
+    .cleo-delivery-svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .cleo-delivery-price {
+        grid-column: 3 / 4;
+        grid-row: 2 / 3;
+        justify-self: end;
+        align-self: start;
+        min-width: auto;
+        padding: 7px 13px;
+        font-size: 0.88rem;
+    }
+
+    .cleo-pickup-info {
+        margin-top: 10px;
+        gap: 8px;
+    }
+
+    .cleo-pickup-selected,
+    .cleo-pickup-change {
+        font-size: 0.82rem;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 430px) {
+    .cleo-delivery-option {
+        grid-template-columns: 26px minmax(0, 1fr);
+    }
+
+    .cleo-delivery-main {
+        grid-column: 2 / 3;
+        grid-row: 1 / 4;
+    }
+
+    .cleo-delivery-icon-badge {
+        grid-column: 2 / 3;
+        grid-row: 4 / 5;
+        justify-self: start;
+        margin-top: 6px;
+    }
+
+    .cleo-delivery-price {
+        grid-column: 2 / 3;
+        grid-row: 5 / 6;
+        justify-self: start;
+        margin-top: 2px;
+    }
+}
+/* ============================================================
+   Mensaje mínimo para entrega a domicilio
+   ============================================================ */
+
+.cleo-delivery-minimum-message {
+    margin-top: 6px;
+    color: #4f5f73;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.cleo-delivery-minimum-amount {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(233, 75, 56, 0.10);
+    color: #e94b38;
+    font-weight: 900;
+    white-space: nowrap;
+    box-shadow: 0 0 0 0 rgba(233, 75, 56, 0.22);
+    animation: cleoMinimumAmountPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes cleoMinimumAmountPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(233, 75, 56, 0.22);
+    }
+
+    45% {
+        transform: scale(1.035);
+        box-shadow: 0 0 0 7px rgba(233, 75, 56, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(233, 75, 56, 0);
+    }
+}
+
+/* Respeta usuarios que prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+    .cleo-delivery-minimum-amount {
+        animation: none;
+    }
+}

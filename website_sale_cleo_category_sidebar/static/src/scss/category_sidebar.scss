@@ -1,0 +1,359 @@
+/* Super Tienda Cleo - Menú lateral visual de categorías en /shop */
+
+.o_categories_collapse_title {
+    display: none !important;
+}
+
+.cleo-shop-categories-sidebar {
+    position: sticky;
+    top: 104px;
+    z-index: 20;
+    margin-bottom: 24px;
+}
+
+.cleo-category-panel {
+    position: relative;
+    width: 100%;
+    background:
+        radial-gradient(circle at 92% 6%, rgba(255, 210, 29, .18), transparent 30%),
+        radial-gradient(circle at 0% 100%, rgba(255, 210, 29, .12), transparent 34%),
+        linear-gradient(180deg, #fffaf0 0%, #fff7e6 100%);
+    border: 1px solid rgba(7, 43, 99, .10);
+    border-radius: 24px;
+    box-shadow:
+        0 18px 42px rgba(7, 43, 99, .10),
+        inset 0 1px 0 rgba(255, 255, 255, .86);
+    overflow: hidden;
+}
+
+.cleo-category-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .58);
+}
+
+.cleo-category-panel__head {
+    position: relative;
+    min-height: 124px;
+    padding: 28px 26px 12px;
+}
+
+.cleo-category-panel__title-area {
+    position: relative;
+    z-index: 2;
+    padding-right: 118px;
+}
+
+.cleo-category-panel__title {
+    margin: 0;
+    color: #072b63;
+    font-size: 34px;
+    line-height: 1.04;
+    font-weight: 900;
+    letter-spacing: -.04em;
+    text-shadow: 0 2px 0 rgba(255, 255, 255, .55);
+}
+
+.cleo-category-panel__accent {
+    display: block;
+    width: 70px;
+    height: 5px;
+    margin-top: 17px;
+    border-radius: 999px;
+    background: #f4b21d;
+    box-shadow: 0 2px 0 rgba(255, 255, 255, .72);
+}
+
+.cleo-category-panel__basket {
+    position: absolute;
+    top: 16px;
+    right: 26px;
+    width: 95px;
+    height: auto;
+    z-index: 1;
+    filter: drop-shadow(0 8px 12px rgba(7, 43, 99, .12));
+}
+
+.cleo-category-panel__toggle {
+    position: absolute;
+    top: 18px;
+    right: 16px;
+    z-index: 3;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(7, 43, 99, .12);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, .82);
+    color: #072b63;
+    box-shadow: 0 8px 18px rgba(7, 43, 99, .12);
+    cursor: pointer;
+    transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+.cleo-category-panel__toggle:hover {
+    background: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 24px rgba(7, 43, 99, .16);
+}
+
+.cleo-category-panel__toggle-icon {
+    font-size: 18px;
+    transition: transform .22s ease;
+}
+
+.cleo-category-panel__body {
+    padding: 0 24px 24px;
+    overflow: visible;
+}
+
+.cleo-category-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 54px;
+    padding: 7px 2px;
+    color: #072b63;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -.015em;
+    border-bottom: 1px solid rgba(220, 164, 63, .34);
+    transition: color .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.cleo-category-link:hover {
+    color: #072b63;
+    text-decoration: none;
+    transform: translateX(2px);
+}
+
+.cleo-category-link__icon {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #072b63;
+    font-size: 20px;
+}
+
+.cleo-category-link__label {
+    flex: 1 1 auto;
+    min-width: 0;
+    line-height: 1.12;
+    text-transform: uppercase;
+}
+
+.cleo-category-link__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: #0a1833;
+    font-size: 25px;
+    opacity: .95;
+    flex: 0 0 auto;
+    transition: transform .18s ease;
+}
+
+.cleo-category-link:hover .cleo-category-link__arrow {
+    transform: translateX(2px);
+}
+
+.cleo-category-link--all,
+.cleo-category-link.is-active {
+    min-height: 58px;
+    margin: 0 0 12px;
+    padding: 10px 18px;
+    border: 1px solid rgba(7, 43, 99, .10);
+    border-bottom: 1px solid rgba(7, 43, 99, .10);
+    border-radius: 14px;
+    background: linear-gradient(180deg, #ffd52b 0%, #f8bd16 100%);
+    color: #072b63;
+    box-shadow:
+        0 8px 18px rgba(244, 178, 29, .22),
+        inset 0 1px 0 rgba(255, 255, 255, .56);
+}
+
+.cleo-category-link--all .cleo-category-link__icon,
+.cleo-category-link.is-active .cleo-category-link__icon {
+    color: #072b63;
+}
+
+.cleo-category-link--all .cleo-category-link__label,
+.cleo-category-link.is-active .cleo-category-link__label {
+    text-transform: none;
+    font-weight: 900;
+}
+
+.cleo-category-panel__empty {
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .72);
+    color: #52627a;
+    font-size: 14px;
+}
+
+.cleo-category-panel__promo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 22px;
+    padding: 18px 18px;
+    border: 1px solid rgba(244, 178, 29, .72);
+    border-radius: 20px;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, .76), rgba(255, 247, 230, .92));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .70);
+    overflow: hidden;
+}
+
+.cleo-category-panel__promo-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 64px;
+    background: radial-gradient(circle at 35% 30%, #ffe78b, #f4b21d 70%);
+    color: #072b63;
+    font-size: 29px;
+    box-shadow: 0 10px 18px rgba(244, 178, 29, .22);
+}
+
+.cleo-category-panel__promo-text {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #072b63;
+}
+
+.cleo-category-panel__promo-text strong {
+    font-size: 16px;
+    line-height: 1.12;
+    font-weight: 900;
+}
+
+.cleo-category-panel__promo-text span {
+    color: #263d63;
+    font-size: 14px;
+    line-height: 1.35;
+}
+
+.cleo-category-panel__leaf {
+    position: absolute;
+    right: 18px;
+    bottom: 14px;
+    width: 34px;
+    height: 60px;
+    opacity: .36;
+}
+
+.cleo-category-panel__leaf::before,
+.cleo-category-panel__leaf::after {
+    content: "";
+    position: absolute;
+    left: 15px;
+    bottom: 0;
+    width: 3px;
+    height: 58px;
+    border-radius: 999px;
+    background: #f4b21d;
+    transform: rotate(19deg);
+}
+
+.cleo-category-panel__leaf::after {
+    width: 17px;
+    height: 26px;
+    left: 6px;
+    bottom: 24px;
+    border-radius: 70% 10% 70% 10%;
+    transform: rotate(41deg);
+    background: rgba(244, 178, 29, .78);
+}
+
+.cleo-shop-categories-sidebar.is-collapsed .cleo-category-panel__body {
+    display: none;
+}
+
+.cleo-shop-categories-sidebar.is-collapsed .cleo-category-panel__head {
+    min-height: 104px;
+}
+
+.cleo-shop-categories-sidebar.is-collapsed .cleo-category-panel__toggle-icon {
+    transform: rotate(180deg);
+}
+
+@media (max-width: 1199.98px) {
+    .cleo-category-panel__title {
+        font-size: 30px;
+    }
+
+    .cleo-category-link {
+        font-size: 16px;
+        min-height: 50px;
+        gap: 11px;
+    }
+
+    .cleo-category-panel__body {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .cleo-shop-categories-sidebar {
+        position: relative;
+        top: auto;
+        z-index: 1;
+    }
+
+    .cleo-category-panel {
+        border-radius: 22px;
+    }
+
+    .cleo-category-panel__body {
+        max-height: 420px;
+        overflow-y: auto;
+        padding-bottom: 20px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cleo-category-panel__head {
+        min-height: 106px;
+        padding: 22px 20px 10px;
+    }
+
+    .cleo-category-panel__title {
+        font-size: 28px;
+    }
+
+    .cleo-category-panel__basket {
+        width: 76px;
+        right: 18px;
+        top: 16px;
+    }
+
+    .cleo-category-panel__body {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .cleo-category-link {
+        font-size: 15px;
+    }
+}

@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 760" role="img" aria-label="Familia comprando con un carrito lleno de productos frescos">
+  <defs>
+    <filter id="sombraSuave" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#1f2a5e" flood-opacity="0.16"/>
+    </filter>
+    <linearGradient id="blobGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe6b0"/>
+      <stop offset="1" stop-color="#ffd98f"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo: mancha cálida -->
+  <ellipse cx="465" cy="420" rx="430" ry="330" fill="url(#blobGrad)" opacity="0.85"/>
+  <ellipse cx="465" cy="430" rx="350" ry="265" fill="#ffefc9" opacity="0.6"/>
+
+  <!-- Estanterías sugeridas al fondo -->
+  <g opacity="0.55">
+    <rect x="70" y="130" width="170" height="320" rx="16" fill="#f6e0b4"/>
+    <rect x="88" y="170" width="134" height="8" rx="4" fill="#e8c98f"/>
+    <rect x="88" y="262" width="134" height="8" rx="4" fill="#e8c98f"/>
+    <rect x="88" y="354" width="134" height="8" rx="4" fill="#e8c98f"/>
+    <rect x="100" y="196" width="26" height="58" rx="6" fill="#d98f5f"/>
+    <rect x="136" y="206" width="24" height="48" rx="6" fill="#b9cf8e"/>
+    <rect x="170" y="200" width="26" height="54" rx="6" fill="#e2aa6a"/>
+    <rect x="100" y="296" width="28" height="50" rx="7" fill="#c9dba0"/>
+    <rect x="140" y="290" width="24" height="56" rx="6" fill="#dd9a64"/>
+    <rect x="176" y="298" width="24" height="48" rx="6" fill="#c2b07e"/>
+  </g>
+  <g opacity="0.55">
+    <rect x="690" y="150" width="160" height="300" rx="16" fill="#f6e0b4"/>
+    <rect x="706" y="190" width="128" height="8" rx="4" fill="#e8c98f"/>
+    <rect x="706" y="278" width="128" height="8" rx="4" fill="#e8c98f"/>
+    <rect x="706" y="366" width="128" height="8" rx="4" fill="#e8c98f"/>
+    <rect x="716" y="216" width="26" height="56" rx="6" fill="#c9dba0"/>
+    <rect x="752" y="222" width="24" height="50" rx="6" fill="#dd9a64"/>
+    <rect x="788" y="214" width="26" height="58" rx="6" fill="#d98f5f"/>
+    <rect x="716" y="306" width="24" height="54" rx="6" fill="#e2aa6a"/>
+    <rect x="752" y="312" width="26" height="48" rx="7" fill="#b9cf8e"/>
+    <rect x="790" y="304" width="24" height="56" rx="6" fill="#c2b07e"/>
+  </g>
+
+  <!-- ===================== FAMILIA ===================== -->
+  <!-- Mamá (izquierda) -->
+  <g filter="url(#sombraSuave)">
+    <path d="M232 470 q-6 -120 68 -132 q74 -12 92 52 l14 80 z" fill="#e9c9a0"/>
+    <circle cx="302" cy="262" r="46" fill="#f3c39d"/>
+    <path d="M256 262 q-8 -64 46 -70 q56 -6 52 62 q-2 30 -10 16 q-10 -36 -42 -36 q-30 0 -36 34 q-4 14 -10 -6 z" fill="#5d3a26"/>
+    <path d="M256 258 q-14 56 6 96 q-26 -8 -22 -52 q2 -30 16 -44 z" fill="#5d3a26"/>
+    <path d="M348 258 q14 56 -6 96 q26 -8 22 -52 q-2 -30 -16 -44 z" fill="#5d3a26"/>
+    <circle cx="288" cy="262" r="5" fill="#3a2a20"/>
+    <circle cx="318" cy="262" r="5" fill="#3a2a20"/>
+    <path d="M292 286 q11 10 22 0" stroke="#3a2a20" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <circle cx="276" cy="278" r="7" fill="#f0a884" opacity="0.6"/>
+    <circle cx="330" cy="278" r="7" fill="#f0a884" opacity="0.6"/>
+    <!-- brazo hacia el carrito -->
+    <path d="M330 372 q60 26 96 56 l-16 22 q-50 -28 -92 -50 z" fill="#e9c9a0"/>
+    <circle cx="428" cy="442" r="15" fill="#f3c39d"/>
+  </g>
+
+  <!-- Papá (derecha) -->
+  <g filter="url(#sombraSuave)">
+    <path d="M548 478 q-10 -136 76 -148 q84 -12 102 58 l16 90 z" fill="#3f63a0"/>
+    <path d="M548 478 q-2 -30 8 -56 l36 -10 l-8 66 z" fill="#33548c"/>
+    <circle cx="630" cy="248" r="50" fill="#ecaf87"/>
+    <path d="M580 244 q-6 -66 50 -72 q58 -6 54 64 q-2 22 -10 10 q-8 -38 -46 -38 q-36 0 -40 36 q-4 16 -8 0 z" fill="#3a2a20"/>
+    <path d="M584 236 q-10 10 -8 30 q-8 -4 -6 -22 q2 -12 14 -8 z" fill="#3a2a20"/>
+    <circle cx="614" cy="250" r="5" fill="#2a1d15"/>
+    <circle cx="646" cy="250" r="5" fill="#2a1d15"/>
+    <path d="M618 276 q12 11 24 0" stroke="#2a1d15" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- barba sugerida -->
+    <path d="M596 272 q4 30 34 30 q30 0 34 -30 q4 26 -10 40 q-12 12 -24 12 q-12 0 -24 -12 q-14 -14 -10 -40 z" fill="#3a2a20" opacity="0.85"/>
+    <!-- cuello camiseta -->
+    <path d="M606 332 q24 14 48 0 l-6 26 q-18 8 -36 0 z" fill="#f6f1e6"/>
+    <!-- brazo hacia el carrito -->
+    <path d="M566 392 q-46 24 -76 50 l16 22 q40 -26 74 -46 z" fill="#3f63a0"/>
+    <circle cx="498" cy="448" r="15" fill="#ecaf87"/>
+  </g>
+
+  <!-- Niña (centro) -->
+  <g filter="url(#sombraSuave)">
+    <path d="M414 486 q-4 -84 50 -92 q54 -8 64 44 l8 52 z" fill="#fbf6ea"/>
+    <circle cx="468" cy="332" r="38" fill="#f3c39d"/>
+    <path d="M430 330 q-6 -54 38 -58 q46 -4 42 52 q-2 18 -8 8 q-6 -30 -36 -30 q-28 0 -30 28 q-4 12 -6 0 z" fill="#4a3322"/>
+    <path d="M432 326 q-10 40 2 66 q-18 -8 -16 -40 q2 -20 14 -26 z" fill="#4a3322"/>
+    <path d="M504 326 q10 40 -2 66 q18 -8 16 -40 q-2 -20 -14 -26 z" fill="#4a3322"/>
+    <circle cx="456" cy="334" r="4.5" fill="#3a2a20"/>
+    <circle cx="480" cy="334" r="4.5" fill="#3a2a20"/>
+    <path d="M459 352 q9 9 18 0" stroke="#3a2a20" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <circle cx="446" cy="346" r="6" fill="#f0a884" opacity="0.6"/>
+    <circle cx="490" cy="346" r="6" fill="#f0a884" opacity="0.6"/>
+  </g>
+
+  <!-- ===================== PRODUCTOS EN EL CARRITO ===================== -->
+  <g filter="url(#sombraSuave)">
+    <!-- hojas verdes izquierda -->
+    <g>
+      <ellipse cx="368" cy="420" rx="34" ry="26" fill="#4f9d4f"/>
+      <ellipse cx="340" cy="436" rx="28" ry="22" fill="#3f8f47"/>
+      <ellipse cx="392" cy="440" rx="30" ry="22" fill="#6fbf73"/>
+    </g>
+    <!-- piña -->
+    <g>
+      <path d="M438 366 l10 -28 m0 28 l-2 -30 m4 30 l12 -26" stroke="#3f8f47" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <ellipse cx="444" cy="412" rx="30" ry="42" fill="#e8a13f"/>
+      <path d="M420 392 l48 28 m-48 0 l48 -28 m-50 14 l52 0 m-26 -42 l0 70" stroke="#c97f24" stroke-width="3" opacity="0.65"/>
+    </g>
+    <!-- plátanos -->
+    <g>
+      <path d="M492 388 q44 -26 78 6 q-38 16 -78 -6 z" fill="#f5c542"/>
+      <path d="M496 406 q46 -24 82 8 q-40 18 -82 -8 z" fill="#f0b83a"/>
+      <path d="M500 424 q48 -22 84 10 q-42 18 -84 -10 z" fill="#e8ab2e"/>
+    </g>
+    <!-- manzanas y naranja -->
+    <circle cx="404" cy="452" r="24" fill="#dd3d34"/>
+    <path d="M404 430 q2 -12 12 -14" stroke="#3f8f47" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="596" cy="446" r="24" fill="#e34a3d"/>
+    <circle cx="548" cy="450" r="23" fill="#f59f3a"/>
+    <circle cx="640" cy="452" r="20" fill="#8bc34a"/>
+  </g>
+
+  <!-- ===================== CARRITO ===================== -->
+  <g filter="url(#sombraSuave)">
+    <!-- canasta -->
+    <path d="M330 442 L676 442 L646 596 L364 596 Z" fill="#ffffff" opacity="0.45"/>
+    <!-- rejilla -->
+    <g stroke="#2a3a6e" stroke-width="4" opacity="0.8">
+      <line x1="372" y1="448" x2="386" y2="590"/>
+      <line x1="424" y1="448" x2="432" y2="590"/>
+      <line x1="476" y1="448" x2="480" y2="590"/>
+      <line x1="528" y1="448" x2="526" y2="590"/>
+      <line x1="580" y1="448" x2="572" y2="590"/>
+      <line x1="632" y1="448" x2="618" y2="590"/>
+      <line x1="344" y1="490" x2="662" y2="490"/>
+      <line x1="354" y1="540" x2="652" y2="540"/>
+    </g>
+    <!-- marco -->
+    <path d="M330 442 L676 442 L646 596 L364 596 Z" fill="none" stroke="#1f2a5e" stroke-width="9" stroke-linejoin="round"/>
+    <!-- mango -->
+    <path d="M676 442 L726 386 L758 386" fill="none" stroke="#1f2a5e" stroke-width="10" stroke-linecap="round"/>
+    <rect x="744" y="376" width="36" height="20" rx="10" fill="#e23a32"/>
+    <!-- patas y ruedas -->
+    <line x1="380" y1="596" x2="372" y2="668" stroke="#1f2a5e" stroke-width="9" stroke-linecap="round"/>
+    <line x1="630" y1="596" x2="640" y2="668" stroke="#1f2a5e" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="372" cy="688" r="22" fill="#1f2a5e"/>
+    <circle cx="372" cy="688" r="9" fill="#c9d2ea"/>
+    <circle cx="640" cy="688" r="22" fill="#1f2a5e"/>
+    <circle cx="640" cy="688" r="9" fill="#c9d2ea"/>
+  </g>
+
+  <!-- sombra del piso -->
+  <ellipse cx="505" cy="712" rx="240" ry="22" fill="#1f2a5e" opacity="0.10"/>
+
+  <!-- chispas decorativas -->
+  <g fill="#f6a51d">
+    <circle cx="208" cy="170" r="7"/>
+    <circle cx="770" cy="120" r="6"/>
+    <circle cx="120" cy="520" r="6"/>
+    <path d="M812 300 l6 14 l14 6 l-14 6 l-6 14 l-6 -14 l-14 -6 l14 -6 z"/>
+    <path d="M150 90 l5 12 l12 5 l-12 5 l-5 12 l-5 -12 l-12 -5 l12 -5 z"/>
+  </g>
+</svg>

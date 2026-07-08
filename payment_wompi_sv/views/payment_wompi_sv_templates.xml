@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Redirect form used by Odoo's redirect payment flow. -->
+    <template id="redirect_form" name="Wompi El Salvador Redirect Form">
+        <form id="o_payment_redirect_form" t-att-action="api_url" method="get">
+            <t t-if="url_params">
+                <t t-foreach="url_params" t-as="param">
+                    <input type="hidden" t-att-name="param" t-att-value="url_params[param]" />
+                </t>
+            </t>
+        </form>
+    </template>
+</odoo>

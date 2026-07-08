@@ -1,0 +1,464 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="action_report_cleo_invoice_letter" model="ir.actions.report">
+            <field name="name">Comprobante de compra Cleo</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="is_invoice_report">True</field>
+            <field name="report_name">cleo_invoice_design.report_cleo_invoice_letter</field>
+            <field name="report_file">cleo_invoice_design.report_cleo_invoice_letter</field>
+            <field name="paperformat_id" ref="cleo_invoice_design.paperformat_cleo_letter"/>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">'Comprobante Cleo - %s' % (object.name or 'Documento')</field>
+        </record>
+
+        <record id="action_report_cleo_invoice_ticket" model="ir.actions.report">
+            <field name="name">Ticket Cleo 80mm</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">cleo_invoice_design.report_cleo_invoice_ticket</field>
+            <field name="report_file">cleo_invoice_design.report_cleo_invoice_ticket</field>
+            <field name="paperformat_id" ref="cleo_invoice_design.paperformat_cleo_ticket_80mm"/>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">'Ticket Cleo - %s' % (object.name or 'Documento')</field>
+        </record>
+
+        <template id="report_cleo_invoice_letter_body">
+            <t t-set="ctx" t-value="o._cleo_get_invoice_ticket_context()"/>
+            <t t-set="sale_order" t-value="ctx.get('sale_order')"/>
+            <t t-set="document_lines" t-value="ctx.get('lines')"/>
+            <t t-set="amounts" t-value="ctx.get('amounts')"/>
+            <t t-set="customer_address" t-value="(o.partner_shipping_id.contact_address if o.partner_shipping_id else o.partner_id.contact_address)"/>
+            <div class="page cleo-letter-page">
+                        <style>
+                            .cleo-letter-page { font-family: Arial, Helvetica, sans-serif; color: #0b2148; font-size: 12px; padding: 4px 10px 0; }
+                            .cleo-top { display: table; width: 100%; margin-bottom: 18px; }
+                            .cleo-brand, .cleo-doc-title { display: table-cell; vertical-align: top; }
+                            .cleo-brand { width: 48%; padding-right: 22px; border-right: 1px solid #d8dee8; }
+                            .cleo-doc-title { width: 52%; padding-left: 28px; }
+                            .cleo-logo-row { display: table; width: 100%; }
+                            .cleo-logo-cell, .cleo-name-cell { display: table-cell; vertical-align: middle; }
+                            .cleo-logo-cell { width: 120px; }
+                            .cleo-logo { max-width: 105px; max-height: 95px; }
+                            .cleo-brand-name { font-size: 34px; line-height: 0.95; font-weight: 900; color: #06275d; letter-spacing: .4px; text-transform: uppercase; }
+                            .cleo-brand-tagline { margin-top: 7px; color: #f4ac00; font-size: 13px; font-style: italic; }
+                            .cleo-contact { margin-top: 14px; line-height: 1.55; color: #20324f; }
+                            .cleo-contact-row { margin: 4px 0; }
+                            .cleo-contact-icon { display: inline-block; width: 20px; height: 20px; line-height: 20px; text-align: center; border-radius: 50%; background: #06275d; color: #fff; font-weight: 700; font-size: 10px; margin-right: 8px; }
+                            .cleo-big-title-row { display: table; width: 100%; }
+                            .cleo-title-icon, .cleo-title-text { display: table-cell; vertical-align: middle; }
+                            .cleo-title-icon { width: 78px; }
+                            .cleo-title-circle { width: 60px; height: 60px; line-height: 60px; text-align: center; border-radius: 50%; background: #06275d; color: #ffc20e; font-size: 30px; font-weight: 900; }
+                            .cleo-title-text h1 { margin: 0; font-size: 31px; line-height: 1.06; font-weight: 900; color: #06275d; text-transform: uppercase; }
+                            .cleo-title-line { width: 78%; border-bottom: 3px solid #ffc20e; margin-top: 9px; }
+                            .cleo-legal-pill { display: inline-block; margin-top: 18px; padding: 9px 14px; background: #fff3cf; border-radius: 8px; color: #3f3f46; font-weight: 600; }
+                            .cleo-legal-dot { display: inline-block; width: 19px; height: 19px; line-height: 19px; text-align: center; border-radius: 50%; background: #ffc20e; color: #fff; font-weight: 900; margin-right: 8px; }
+                            .cleo-mid { display: table; width: 100%; margin: 10px 0 18px; border-spacing: 0; }
+                            .cleo-client-card, .cleo-info-card { display: table-cell; vertical-align: top; }
+                            .cleo-client-card { width: 42%; padding-right: 20px; }
+                            .cleo-info-card { width: 58%; }
+                            .cleo-card-box { border: 1px solid #e0e6ef; border-radius: 14px; overflow: hidden; background: #fff; }
+                            .cleo-card-title { background: #06275d; color: #fff; padding: 9px 14px; font-weight: 800; text-transform: uppercase; letter-spacing: .4px; font-size: 12px; }
+                            .cleo-card-body { padding: 13px 15px; line-height: 1.55; }
+                            .cleo-kv { margin: 4px 0; }
+                            .cleo-kv strong { color: #06275d; }
+                            .cleo-info-grid { border: 1px solid #e0e6ef; border-radius: 14px; overflow: hidden; background: #fff; display: table; width: 100%; }
+                            .cleo-info-row { display: table-row; }
+                            .cleo-info-cell { display: table-cell; width: 50%; padding: 13px 15px; border-bottom: 1px solid #e8edf5; vertical-align: top; }
+                            .cleo-info-cell:nth-child(odd) { border-right: 1px solid #e8edf5; }
+                            .cleo-info-row:last-child .cleo-info-cell { border-bottom: 0; }
+                            .cleo-info-label { color: #56677d; font-size: 11px; margin-bottom: 3px; }
+                            .cleo-info-value { color: #06275d; font-weight: 800; font-size: 13px; }
+                            .cleo-lines { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; border: 1px solid #e4eaf2; border-radius: 12px; overflow: hidden; }
+                            .cleo-lines thead th { background: #06275d; color: #fff; padding: 9px 8px; font-size: 11px; text-transform: uppercase; letter-spacing: .4px; }
+                            .cleo-lines tbody td { border-bottom: 1px solid #e4eaf2; padding: 8px 8px; vertical-align: middle; }
+                            .cleo-lines tbody tr:last-child td { border-bottom: 0; }
+                            .cleo-lines tbody tr:nth-child(even) td { background: #fbfcfe; }
+                            .cleo-product-cell { display: table; width: 100%; }
+                            .cleo-product-img-wrap, .cleo-product-name-wrap { display: table-cell; vertical-align: middle; }
+                            .cleo-product-img-wrap { width: 52px; }
+                            .cleo-product-img { width: 42px; max-height: 42px; object-fit: contain; }
+                            .cleo-product-placeholder { width: 42px; height: 42px; border-radius: 8px; background: #f1f5f9; }
+                            .cleo-product-name { color: #0b2148; font-weight: 800; font-size: 12px; line-height: 1.25; }
+                            .cleo-text-right { text-align: right; }
+                            .cleo-bottom { display: table; width: 100%; margin-top: 18px; }
+                            .cleo-thank-box, .cleo-summary { display: table-cell; vertical-align: bottom; }
+                            .cleo-thank-box { width: 48%; padding-right: 25px; }
+                            .cleo-thank-inner { border: 1px solid #f0e2b8; background: #fff9e8; border-radius: 15px; padding: 15px 16px; color: #0b2148; }
+                            .cleo-thank-title { font-size: 16px; font-weight: 900; color: #06275d; margin-bottom: 4px; }
+                            .cleo-thank-icon { display: inline-block; width: 45px; height: 45px; line-height: 45px; text-align: center; border-radius: 12px; background: #ffc20e; color: #fff; font-weight: 900; margin-right: 10px; font-size: 24px; vertical-align: middle; }
+                            .cleo-thank-copy { display: inline-block; vertical-align: middle; width: 78%; }
+                            .cleo-summary { width: 52%; }
+                            .cleo-summary-box { background: #fff; border: 1px solid #dfe6ef; border-radius: 15px; padding: 14px 16px; box-shadow: 0 4px 14px rgba(15,23,42,.08); }
+                            .cleo-summary-row { display: table; width: 100%; padding: 5px 0; }
+                            .cleo-summary-row span { display: table-cell; }
+                            .cleo-summary-row span:last-child { text-align: right; font-weight: 700; }
+                            .cleo-summary-sep { border-top: 1px dashed #9aa8b7; margin: 8px 0; }
+                            .cleo-total-row { display: table; width: 100%; color: #06275d; font-weight: 900; font-size: 15px; }
+                            .cleo-total-row span { display: table-cell; vertical-align: middle; }
+                            .cleo-total-row span:last-child { text-align: right; font-size: 24px; }
+                            .cleo-status-row { margin-top: 12px; display: table; width: 100%; }
+                            .cleo-status-label, .cleo-status-pill { display: table-cell; vertical-align: middle; }
+                            .cleo-status-label { color: #56677d; font-weight: 700; }
+                            .cleo-status-pill { text-align: right; }
+                            .cleo-pill-green { display: inline-block; padding: 8px 18px; background: #d5f2dd; color: #037a3d; border-radius: 999px; font-weight: 900; }
+                            .cleo-separator { margin: 23px 0 13px; border-top: 2px solid #ffc20e; text-align: center; }
+                            .cleo-separator span { display: inline-block; margin-top: -15px; background: #fff; border: 2px solid #ffc20e; color: #f4ac00; width: 28px; height: 28px; line-height: 26px; border-radius: 50%; font-weight: 900; }
+                            .cleo-footer { display: table; width: 100%; color: #0b2148; font-size: 11px; }
+                            .cleo-footer-left, .cleo-footer-right { display: table-cell; vertical-align: top; }
+                            .cleo-footer-left { width: 70%; }
+                            .cleo-footer-right { width: 30%; text-align: right; }
+                            .cleo-muted { color: #56677d; }
+                        </style>
+
+                        <div class="cleo-top">
+                            <div class="cleo-brand">
+                                <div class="cleo-logo-row">
+                                    <div class="cleo-logo-cell">
+                                        <img t-if="o.company_id.logo" class="cleo-logo" t-att-src="image_data_uri(o.company_id.logo)"/>
+                                    </div>
+                                    <div class="cleo-name-cell">
+                                        <div class="cleo-brand-name">SUPER TIENDA<br/>CLEO</div>
+                                        <div class="cleo-brand-tagline">Lo que tu familia necesita, cerca de ti.</div>
+                                    </div>
+                                </div>
+                                <div class="cleo-contact">
+                                    <div class="cleo-contact-row"><span class="cleo-contact-icon">P</span>Carretera a Planes de Renderos Km 6 1/2, San Salvador, El Salvador</div>
+                                    <div class="cleo-contact-row"><span class="cleo-contact-icon">M</span>supertiendacleo25@gmail.com</div>
+                                    <div class="cleo-contact-row"><span class="cleo-contact-icon">T</span>+503 6835-4506</div>
+                                </div>
+                            </div>
+                            <div class="cleo-doc-title">
+                                <div class="cleo-big-title-row">
+                                    <div class="cleo-title-icon"><div class="cleo-title-circle">✓</div></div>
+                                    <div class="cleo-title-text">
+                                        <h1>Comprobante<br/>de compra</h1>
+                                        <div class="cleo-title-line"/>
+                                    </div>
+                                </div>
+                                <div class="cleo-legal-pill"><span class="cleo-legal-dot">i</span>Documento informativo - no factura fiscal</div>
+                            </div>
+                        </div>
+
+                        <div class="cleo-mid">
+                            <div class="cleo-client-card">
+                                <div class="cleo-card-box">
+                                    <div class="cleo-card-title">Datos del cliente</div>
+                                    <div class="cleo-card-body">
+                                        <div class="cleo-kv"><strong>Nombre:</strong> <span t-out="o._cleo_text(o.partner_id.display_name)"/></div>
+                                        <div class="cleo-kv" t-if="o.partner_id.phone or o.partner_id.mobile"><strong>Telefono:</strong> <span t-out="o._cleo_text(o.partner_id.mobile or o.partner_id.phone)"/></div>
+                                        <div class="cleo-kv" t-if="o.partner_id.email"><strong>Correo electronico:</strong> <span t-out="o._cleo_text(o.partner_id.email)"/></div>
+                                        <div class="cleo-kv" t-if="customer_address"><strong>Direccion de entrega:</strong><br/><span t-out="o._cleo_text(customer_address)"/></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cleo-info-card">
+                                <div class="cleo-info-grid">
+                                    <div class="cleo-info-row">
+                                        <div class="cleo-info-cell">
+                                            <div class="cleo-info-label">No. de pedido</div>
+                                            <div class="cleo-info-value"><span t-out="o._cleo_text(ctx.get('reference'))"/></div>
+                                        </div>
+                                        <div class="cleo-info-cell">
+                                            <div class="cleo-info-label">Fecha de emision</div>
+                                            <div class="cleo-info-value"><span t-field="o.invoice_date" t-options="{'widget': 'date'}"/></div>
+                                        </div>
+                                    </div>
+                                    <div class="cleo-info-row">
+                                        <div class="cleo-info-cell">
+                                            <div class="cleo-info-label">Metodo de pago</div>
+                                            <div class="cleo-info-value"><span t-out="o._cleo_text(ctx.get('payment_method'))"/></div>
+                                        </div>
+                                        <div class="cleo-info-cell">
+                                            <div class="cleo-info-label">Metodo de entrega</div>
+                                            <div class="cleo-info-value"><span t-out="o._cleo_text(ctx.get('delivery_method'))"/></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="cleo-lines">
+                            <thead>
+                                <tr>
+                                    <th style="width:54%; text-align:left;">Producto</th>
+                                    <th class="cleo-text-right" style="width:13%;">Cant.</th>
+                                    <th class="cleo-text-right" style="width:17%;">Precio Unit.</th>
+                                    <th class="cleo-text-right" style="width:16%;">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-if="document_lines" t-foreach="document_lines" t-as="line">
+                                    <tr>
+                                        <td>
+                                            <div class="cleo-product-cell">
+                                                <div class="cleo-product-img-wrap">
+                                                    <img t-if="line.get('product') and line.get('product').image_128" class="cleo-product-img" t-att-src="image_data_uri(line.get('product').image_128)"/>
+                                                    <div t-else="" class="cleo-product-placeholder"/>
+                                                </div>
+                                                <div class="cleo-product-name-wrap">
+                                                    <div class="cleo-product-name"><span t-out="o._cleo_text(line.get('name'))"/></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="cleo-text-right"><span t-out="o._cleo_ticket_qty(line.get('qty'))"/></td>
+                                        <td class="cleo-text-right"><span t-out="o._cleo_ticket_money(line.get('price_unit'))"/></td>
+                                        <td class="cleo-text-right"><strong><span t-out="o._cleo_ticket_money(line.get('subtotal'))"/></strong></td>
+                                    </tr>
+                                </t>
+                                <tr t-if="not document_lines">
+                                    <td colspan="4" class="cleo-muted">No hay lineas de producto disponibles para mostrar.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="cleo-bottom">
+                            <div class="cleo-thank-box">
+                                <div class="cleo-thank-inner">
+                                    <span class="cleo-thank-icon">♥</span>
+                                    <span class="cleo-thank-copy">
+                                        <div class="cleo-thank-title">Gracias por tu compra!</div>
+                                        <div>En Super Tienda Cleo trabajamos para llevar lo mejor a tu hogar.</div>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="cleo-summary">
+                                <div class="cleo-summary-box">
+                                    <div class="cleo-summary-row"><span>Subtotal</span><span t-out="o._cleo_ticket_money(amounts.get('subtotal'))"/></div>
+                                    <div class="cleo-summary-row"><span>IVA incluido (13%)</span><span t-out="o._cleo_ticket_money(amounts.get('tax'))"/></div>
+                                    <div class="cleo-summary-row"><span>Costo de entrega</span><span t-out="o._cleo_ticket_money(amounts.get('delivery'))"/></div>
+                                    <div class="cleo-summary-sep"/>
+                                    <div class="cleo-total-row"><span>TOTAL PAGADO</span><span t-out="o._cleo_ticket_money(amounts.get('paid') or amounts.get('total'))"/></div>
+                                    <div class="cleo-status-row">
+                                        <div class="cleo-status-label">Estado del pedido:</div>
+                                        <div class="cleo-status-pill"><span class="cleo-pill-green">Entregado</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cleo-separator"><span>🛒</span></div>
+
+                        <div class="cleo-footer">
+                            <div class="cleo-footer-left">
+                                <strong>Necesitas ayuda?</strong> Nuestro equipo esta para ti.<br/>
+                                <span class="cleo-muted">Atencion al cliente: +503 6835-4506 | WhatsApp: +503 6835-4506 | supertiendacleo25@gmail.com</span>
+                            </div>
+                            <div class="cleo-footer-right">
+                                <strong>Horarios de atencion:</strong><br/>
+                                <span class="cleo-muted">Lunes a Domingo<br/>8:00 a.m. - 5:00 p.m.</span>
+                            </div>
+                        </div>
+                    </div>
+        </template>
+
+        <template id="report_cleo_invoice_letter">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                    <t t-call="cleo_invoice_design.report_cleo_invoice_letter_body"/>
+                </t></t>
+        </template>
+
+        <template id="cleo_standard_invoice_document_override" inherit_id="account.report_invoice_document" priority="999">
+            <xpath expr="//t[@t-call='web.external_layout']" position="replace">
+                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                <t t-call="cleo_invoice_design.report_cleo_invoice_letter_body"/>
+            </xpath>
+        </template>
+
+        <template id="report_cleo_invoice_ticket">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="ticket_ctx" t-value="o._cleo_get_invoice_ticket_context()"/>
+                    <t t-set="ticket_lines" t-value="ticket_ctx.get('lines')"/>
+                    <t t-set="ticket_amounts" t-value="ticket_ctx.get('amounts')"/>
+                    <div class="page cleo-ticket-page-v2">
+                        <style>
+                            .cleo-ticket-page-v2 {
+                                width: 74mm;
+                                margin: 0 auto;
+                                padding: 0;
+                                font-family: Arial, Helvetica, sans-serif;
+                                color: #06275d;
+                                font-size: 9.5px;
+                                line-height: 1.25;
+                                background: #ffffff;
+                            }
+                            .cleo-ticket-card { padding: 3mm 2mm 0; }
+                            .cleo-ticket-center { text-align: center; }
+                            .cleo-ticket-logo { max-width: 57mm; max-height: 27mm; margin: 0 auto 2mm; display: block; }
+                            .cleo-ticket-contact { display: table; width: 100%; margin: 1mm auto 0; color: #243b63; font-size: 9px; }
+                            .cleo-ticket-contact-row { display: table-row; }
+                            .cleo-ticket-contact-icon, .cleo-ticket-contact-text { display: table-cell; vertical-align: top; padding: 1px 0; }
+                            .cleo-ticket-contact-icon { display: none; }
+                            .cleo-ticket-contact-text { text-align: left; width: 100%; }
+                            .cleo-ticket-dash { border-top: 1px dashed #b9c0cc; margin: 3mm 0; }
+                            .cleo-ticket-title-wrap { text-align: center; margin: 1mm 0 2mm; }
+                            .cleo-ticket-title { font-size: 17px; line-height: 1.1; color: #06275d; font-weight: 900; }
+                            .cleo-ticket-title-underline { width: 24mm; height: 2px; background: #ffc20e; margin: 1.2mm auto 0; }
+                            .cleo-ticket-badges { text-align: center; margin: 1mm 0 3mm; }
+                            .cleo-ticket-badge { display: inline-block; border-radius: 12px; padding: 2.2mm 4mm; margin: 0 1mm; color: #ffffff; font-size: 9px; font-weight: 900; text-transform: uppercase; }
+                            .cleo-ticket-badge-green { background: #29a64a; }
+                            .cleo-ticket-badge-yellow { background: #ffc20e; color: #06275d; }
+                            .cleo-ticket-badge-gray { background: #6b7280; }
+                            .cleo-ticket-info { width: 100%; border-collapse: collapse; margin: 2mm 0; }
+                            .cleo-ticket-info td { padding: 1.45mm 0; border-bottom: 1px dotted #d8dde6; vertical-align: middle; }
+                            .cleo-ticket-info .label { width: 33mm; color: #243b63; font-weight: 500; padding-right: 1.5mm; }
+                            .cleo-ticket-info .value { text-align: right; color: #06275d; font-weight: 800; }
+                            .cleo-ticket-table { width: 100%; border-collapse: collapse; margin-top: 2mm; }
+                            .cleo-ticket-table thead th { background: #06275d; color: #ffffff; padding: 2mm 1.4mm; font-size: 8px; font-weight: 900; text-transform: uppercase; }
+                            .cleo-ticket-table thead th:first-child { border-top-left-radius: 7px; border-bottom-left-radius: 7px; }
+                            .cleo-ticket-table thead th:last-child { border-top-right-radius: 7px; border-bottom-right-radius: 7px; }
+                            .cleo-ticket-table tbody td { padding: 2mm 1mm; border-bottom: 1px dotted #d5dae3; vertical-align: middle; }
+                            .cleo-ticket-product-wrap { display: table; width: 100%; }
+                            .cleo-ticket-product-img-cell { display: table-cell; width: 9mm; vertical-align: top; }
+                            .cleo-ticket-product-img { width: 7.5mm; height: 9mm; object-fit: contain; }
+                            .cleo-ticket-product-text { display: table-cell; vertical-align: top; padding-left: 1mm; }
+                            .cleo-ticket-product-name { color: #111827; font-weight: 800; font-size: 8.9px; line-height: 1.15; }
+                            .cleo-ticket-product-desc { display: none; }
+                            .cleo-text-right { text-align: right; }
+                            .cleo-ticket-summary { margin-top: 3mm; }
+                            .cleo-ticket-summary-row { display: table; width: 100%; margin: 1.6mm 0; }
+                            .cleo-ticket-summary-label, .cleo-ticket-summary-value { display: table-cell; vertical-align: middle; }
+                            .cleo-ticket-summary-label { color: #06275d; font-weight: 700; padding-left: 1mm; }
+                            .cleo-ticket-summary-value { text-align: right; color: #06275d; font-weight: 900; }
+                            .cleo-ticket-total-line { border-top: 2px solid #06275d; margin: 2mm 0 2mm; }
+                            .cleo-ticket-total { display: table; width: 100%; padding: 1mm 0; color: #06275d; }
+                            .cleo-ticket-total-label { display: table-cell; font-size: 12px; font-weight: 900; text-transform: uppercase; }
+                            .cleo-ticket-total-value { display: table-cell; text-align: right; font-size: 17px; font-weight: 900; }
+                            .cleo-ticket-thanks { text-align: center; color: #06275d; font-weight: 900; font-size: 14px; margin: 3mm 0 1mm; }
+                            .cleo-ticket-legal { text-align: center; color: #4b5563; font-size: 7.7px; line-height: 1.25; margin: 1mm 2mm 3mm; }
+                            .cleo-ticket-footer { background: #06275d; color: #ffffff; border-top: 2px solid #ffc20e; text-align: center; padding: 2.5mm 1mm; font-size: 8.5px; font-weight: 700; }
+                            .cleo-ticket-muted { color: #607088; font-size: 8px; }
+                        </style>
+
+                        <div class="cleo-ticket-card">
+                            <div class="cleo-ticket-center">
+                                <img t-if="o.company_id.logo" class="cleo-ticket-logo" t-att-src="image_data_uri(o.company_id.logo)"/>
+                            </div>
+
+                            <div class="cleo-ticket-contact">
+                                <div class="cleo-ticket-contact-row">
+                                    <div class="cleo-ticket-contact-icon"/>
+                                    <div class="cleo-ticket-contact-text">Carretera a Planes de Renderos Km 6 1/2, San Salvador, El Salvador</div>
+                                </div>
+                                <div class="cleo-ticket-contact-row">
+                                    <div class="cleo-ticket-contact-icon"/>
+                                    <div class="cleo-ticket-contact-text">supertiendacleo25@gmail.com</div>
+                                </div>
+                                <div class="cleo-ticket-contact-row">
+                                    <div class="cleo-ticket-contact-icon"/>
+                                    <div class="cleo-ticket-contact-text">+503 6835-4506</div>
+                                </div>
+                            </div>
+
+                            <div class="cleo-ticket-dash"/>
+
+                            <div class="cleo-ticket-title-wrap">
+                                <div class="cleo-ticket-title">Ticket de Compra</div>
+                                <div class="cleo-ticket-title-underline"/>
+                            </div>
+
+                            <div class="cleo-ticket-badges">
+                                <span t-if="ticket_ctx.get('is_paid')" class="cleo-ticket-badge cleo-ticket-badge-green">PAGADO</span>
+                                <span t-else="" class="cleo-ticket-badge cleo-ticket-badge-gray">PENDIENTE</span>
+                                <span class="cleo-ticket-badge cleo-ticket-badge-yellow">EN PREPARACION</span>
+                            </div>
+
+                            <table class="cleo-ticket-info">
+                                <tr>
+                                    <td class="label">Referencia de pedido:</td>
+                                    <td class="value"><span t-out="ticket_ctx.get('reference')"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="label">Fecha y hora:</td>
+                                    <td class="value"><span t-field="o.create_date" t-options="{'widget': 'datetime'}"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="label">Origen:</td>
+                                    <td class="value"><span t-out="ticket_ctx.get('origin_label')"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="label">Metodo de pago:</td>
+                                    <td class="value"><span t-out="ticket_ctx.get('payment_method')"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="label">Metodo de entrega:</td>
+                                    <td class="value"><span t-out="ticket_ctx.get('delivery_method')"/></td>
+                                </tr>
+                            </table>
+
+                            <table class="cleo-ticket-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 48%; text-align:left;">Producto</th>
+                                        <th style="width: 14%;" class="cleo-text-right">Cant.</th>
+                                        <th style="width: 18%;" class="cleo-text-right">Precio</th>
+                                        <th style="width: 20%;" class="cleo-text-right">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="ticket_lines" t-foreach="ticket_lines" t-as="line">
+                                        <tr>
+                                            <td>
+                                                <div class="cleo-ticket-product-wrap">
+                                                    <div class="cleo-ticket-product-img-cell">
+                                                        <img t-if="line.get('product') and line.get('product').image_128" class="cleo-ticket-product-img" t-att-src="image_data_uri(line.get('product').image_128)"/>
+                                                    </div>
+                                                    <div class="cleo-ticket-product-text">
+                                                        <div class="cleo-ticket-product-name"><span t-out="line.get('name')"/></div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="cleo-text-right"><span t-out="o._cleo_ticket_qty(line.get('qty'))"/></td>
+                                            <td class="cleo-text-right"><span t-out="o._cleo_ticket_money(line.get('price_unit'))"/></td>
+                                            <td class="cleo-text-right"><strong><span t-out="o._cleo_ticket_money(line.get('subtotal'))"/></strong></td>
+                                        </tr>
+                                    </t>
+                                    <tr t-if="not ticket_lines">
+                                        <td colspan="4" class="cleo-ticket-muted">Sin lineas de producto disponibles.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="cleo-ticket-summary">
+                                <div class="cleo-ticket-summary-row">
+                                    <div class="cleo-ticket-summary-label">Subtotal:</div>
+                                    <div class="cleo-ticket-summary-value"><span t-out="o._cleo_ticket_money(ticket_amounts.get('subtotal'))"/></div>
+                                </div>
+                                <div class="cleo-ticket-summary-row">
+                                    <div class="cleo-ticket-summary-label">IVA incluido (13%):</div>
+                                    <div class="cleo-ticket-summary-value"><span t-out="o._cleo_ticket_money(ticket_amounts.get('tax'))"/></div>
+                                </div>
+                                <div class="cleo-ticket-summary-row">
+                                    <div class="cleo-ticket-summary-label">Costo de entrega:</div>
+                                    <div class="cleo-ticket-summary-value"><span t-out="o._cleo_ticket_money(ticket_amounts.get('delivery'))"/></div>
+                                </div>
+                            </div>
+
+                            <div class="cleo-ticket-total-line"/>
+                            <div class="cleo-ticket-total">
+                                <div class="cleo-ticket-total-label">TOTAL PAGADO:</div>
+                                <div class="cleo-ticket-total-value"><span t-out="o._cleo_ticket_money(ticket_amounts.get('total'))"/></div>
+                            </div>
+
+                            <div class="cleo-ticket-dash"/>
+                            <div class="cleo-ticket-thanks">Gracias por tu compra</div>
+                            <div class="cleo-ticket-legal">
+                                Este documento es un comprobante informativo de compra. No constituye factura fiscal ni comprobante de credito fiscal.
+                            </div>
+                        </div>
+
+                        <div class="cleo-ticket-footer">
+                            Facebook | Instagram | WhatsApp | @supertiendacleo
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

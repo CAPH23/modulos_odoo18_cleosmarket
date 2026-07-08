@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_move_form_cleo_invoice_design" model="ir.ui.view">
+            <field name="name">account.move.form.cleo.invoice.design</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='action_print_pdf'][1]" position="after">
+                    <button name="action_print_cleo_purchase_document"
+                            type="object"
+                            string="Comprobante Cleo"
+                            class="btn-primary"
+                            groups="account.group_account_invoice"
+                            invisible="state != 'posted' or move_type not in ('out_invoice', 'out_receipt')"/>
+                    <button name="action_print_cleo_invoice_ticket"
+                            type="object"
+                            string="Ticket Cleo"
+                            groups="account.group_account_invoice"
+                            invisible="state != 'posted' or move_type not in ('out_invoice', 'out_receipt')"/>
+                </xpath>
+
+                <xpath expr="//sheet/notebook" position="inside">
+                    <page string="Comprobantes Cleo" name="cleo_invoice_documents_page" invisible="move_type not in ('out_invoice', 'out_receipt')">
+                        <div class="cleo_invoice_backend_panel">
+                            <div class="cleo_invoice_backend_panel__title">Documentos de Super Tienda Cleo</div>
+                            <div class="cleo_invoice_backend_panel__text">
+                                Desde esta factura puedes generar el comprobante tamaño carta o el ticket de compra de 80 mm.
+                            </div>
+                            <div class="cleo_invoice_backend_panel__actions">
+                                <button name="action_print_cleo_purchase_document" type="object" string="Imprimir comprobante carta" class="btn-primary" invisible="state != 'posted'"/>
+                                <button name="action_print_cleo_invoice_ticket" type="object" string="Imprimir ticket 80 mm" class="btn-secondary" invisible="state != 'posted'"/>
+                            </div>
+                        </div>
+                        <group string="Resumen ecommerce / POS">
+                            <group>
+                                <field name="name" readonly="1"/>
+                                <field name="invoice_origin" readonly="1"/>
+                                <field name="payment_reference" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="payment_state" readonly="1"/>
+                                <field name="amount_total" readonly="1"/>
+                                <field name="amount_residual" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Órdenes POS vinculadas" invisible="not pos_order_ids">
+                            <field name="pos_order_ids" readonly="1" nolabel="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="pos_reference"/>
+                                    <field name="date_order"/>
+                                    <field name="amount_total"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

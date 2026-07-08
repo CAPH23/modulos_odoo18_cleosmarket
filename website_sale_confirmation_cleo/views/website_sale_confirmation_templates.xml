@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cleo_website_sale_confirmation" inherit_id="website_sale.confirmation" priority="99" name="Cleo - Confirmación de pedido mejorada">
+        <xpath expr="//t[@t-call='website_sale.checkout_layout']" position="replace">
+            <t t-call="website.layout">
+                <t t-set="additional_title">Confirmación de pedido</t>
+                <t t-set="no_footer" t-value="False"/>
+            <div id="wrap" class="cleo-confirmation-page o_website_sale_checkout">
+                <t t-set="confirmation_order" t-value="order"/>
+                <t t-set="invoice_pdf_url" t-value="confirmation_order.cleo_confirmation_invoice_pdf_url()"/>
+                <t t-set="order_url" t-value="confirmation_order.cleo_confirmation_order_url()"/>
+                <t t-set="payment_label" t-value="confirmation_order.cleo_confirmation_payment_label()"/>
+                <t t-set="delivery_amount" t-value="confirmation_order.cleo_confirmation_delivery_amount()"/>
+                <t t-set="products_amount" t-value="confirmation_order.cleo_confirmation_products_amount()"/>
+                <t t-set="product_line_count" t-value="confirmation_order.cleo_confirmation_product_line_count()"/>
+                <t t-set="delivery_text" t-value="confirmation_order.cleo_confirmation_delivery_text()"/>
+                <t t-set="is_ready" t-value="confirmation_order.cleo_confirmation_is_ready()"/>
+                <t t-set="is_delivered" t-value="confirmation_order.cleo_confirmation_is_delivered()"/>
+
+                <section class="cleo-confirmation-hero">
+                    <div class="container">
+                        <div class="cleo-hero-topbar d-print-none">
+                            <div class="cleo-brand-mini">
+                                <img src="/website_sale_confirmation_cleo/static/src/img/logo_super_tienda_cleo.png" alt="Super Tienda Cleo"/>
+                                <div>
+                                    <strong>Super Tienda Cleo</strong>
+                                    <span>Tu súper de confianza</span>
+                                </div>
+                            </div>
+                            <div class="cleo-trust-items">
+                                <div><i class="fa fa-shield"/> Compra segura</div>
+                                <div><i class="fa fa-headphones"/> ¿Necesita ayuda? <strong>+503 6835-4506</strong></div>
+                            </div>
+                        </div>
+
+                        <div class="cleo-confirmation-title-row">
+                            <div class="cleo-checkmark"><i class="fa fa-check"/></div>
+                            <div class="cleo-title-content">
+                                <h1>¡Gracias por su pedido!</h1>
+                                <p class="cleo-order-ref">
+                                    Pedido <strong t-out="confirmation_order.name"/> confirmado <span class="cleo-celebrate">🎉</span>
+                                </p>
+                                <p class="cleo-main-message">
+                                    Su pago ha sido procesado con éxito y su pedido está <strong>en preparación</strong>.
+                                </p>
+                            </div>
+                            <button type="button" class="btn cleo-print-btn d-print-none" onclick="window.print();">
+                                <i class="fa fa-print me-1"/> Imprimir
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="cleo-confirmation-body">
+                    <div class="container">
+                        <div class="row g-4">
+                            <div class="col-lg-8">
+                                <div class="cleo-progress-card">
+                                    <div class="cleo-step cleo-step-done">
+                                        <div class="cleo-step-icon"><i class="fa fa-check"/></div>
+                                        <div class="cleo-step-title">Pago confirmado</div>
+                                        <div class="cleo-step-status">Completado</div>
+                                    </div>
+                                    <div class="cleo-step-line cleo-line-done"/>
+                                    <div class="cleo-step cleo-step-active">
+                                        <div class="cleo-step-icon"><i class="fa fa-cube"/></div>
+                                        <div class="cleo-step-title">Pedido en preparación</div>
+                                        <div class="cleo-step-status">En progreso</div>
+                                    </div>
+                                    <div class="cleo-step-line"/>
+                                    <div t-attf-class="cleo-step #{'cleo-step-active' if is_ready and not is_delivered else ''}">
+                                        <div class="cleo-step-icon"><i class="fa fa-shopping-bag"/></div>
+                                        <div class="cleo-step-title">Listo para retiro o entrega</div>
+                                        <div class="cleo-step-status"><t t-out="'En progreso' if is_ready and not is_delivered else 'Pendiente'"/></div>
+                                    </div>
+                                    <div class="cleo-step-line"/>
+                                    <div t-attf-class="cleo-step #{'cleo-step-done' if is_delivered else ''}">
+                                        <div class="cleo-step-icon"><i class="fa fa-check-circle"/></div>
+                                        <div class="cleo-step-title">Pedido completado</div>
+                                        <div class="cleo-step-status"><t t-out="'Completado' if is_delivered else 'Pendiente'"/></div>
+                                    </div>
+                                </div>
+
+                                <div class="cleo-info-card">
+                                    <h2><i class="fa fa-list-alt"/> Información de su pedido</h2>
+                                    <div class="cleo-info-row">
+                                        <span><i class="fa fa-hashtag"/> Número de pedido</span>
+                                        <strong t-out="confirmation_order.name"/>
+                                    </div>
+                                    <div class="cleo-info-row">
+                                        <span><i class="fa fa-credit-card"/> Método de pago</span>
+                                        <strong t-out="payment_label"/>
+                                    </div>
+                                    <div class="cleo-info-row">
+                                        <span><i class="fa fa-dollar"/> Total pagado</span>
+                                        <strong t-field="confirmation_order.amount_total" t-options="{'widget': 'monetary', 'display_currency': confirmation_order.currency_id}"/>
+                                    </div>
+                                    <div class="cleo-info-row cleo-info-row-address">
+                                        <span><i class="fa fa-map-marker"/> Dirección de facturación / entrega</span>
+                                        <strong t-out="delivery_text or 'Dirección no disponible'"/>
+                                    </div>
+                                    <div class="cleo-info-row">
+                                        <span><i class="fa fa-clock-o"/> Estado de preparación</span>
+                                        <strong>Te notificaremos cuando esté listo.</strong>
+                                    </div>
+                                    <div class="cleo-info-note">
+                                        <i class="fa fa-bell"/>
+                                        Le notificaremos cuando su pedido esté listo para retiro o entrega.
+                                    </div>
+                                </div>
+
+                                <div class="cleo-action-row d-print-none">
+                                    <a href="/" class="btn cleo-btn cleo-btn-primary">
+                                        <i class="fa fa-home"/> Volver al inicio
+                                    </a>
+                                    <a href="/shop" class="btn cleo-btn cleo-btn-yellow">
+                                        <i class="fa fa-shopping-cart"/> Continuar comprando
+                                    </a>
+                                    <a t-att-href="order_url" class="btn cleo-btn cleo-btn-outline">
+                                        <i class="fa fa-user-circle"/> Ver mi pedido
+                                    </a>
+                                </div>
+
+                                <div class="cleo-help-strip d-print-none">
+                                    <div>
+                                        <i class="fa fa-bell-o"/>
+                                        <span>Le notificaremos cuando su pedido esté listo para retiro o entrega.</span>
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-user-o"/>
+                                        <span>Puede consultar el estado de su pedido desde su cuenta.</span>
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-headphones"/>
+                                        <span>¿Necesita ayuda? <strong>+503 6835-4506</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="cleo-summary-card">
+                                    <div class="cleo-summary-header">
+                                        <h2><i class="fa fa-shopping-basket"/> Resumen del pedido</h2>
+                                    </div>
+                                    <div class="cleo-summary-line">
+                                        <span><t t-out="product_line_count"/> producto(s)</span>
+                                        <strong t-out="products_amount" t-options="{'widget': 'monetary', 'display_currency': confirmation_order.currency_id}"/>
+                                    </div>
+                                    <div class="cleo-summary-divider"/>
+                                    <div class="cleo-summary-line">
+                                        <span>Entrega</span>
+                                        <strong t-out="delivery_amount" t-options="{'widget': 'monetary', 'display_currency': confirmation_order.currency_id}"/>
+                                    </div>
+                                    <div class="cleo-summary-line">
+                                        <span>Subtotal</span>
+                                        <strong t-field="confirmation_order.amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': confirmation_order.currency_id}"/>
+                                    </div>
+                                    <div class="cleo-summary-line">
+                                        <span>Impuestos</span>
+                                        <strong t-field="confirmation_order.amount_tax" t-options="{'widget': 'monetary', 'display_currency': confirmation_order.currency_id}"/>
+                                    </div>
+                                    <div class="cleo-summary-total">
+                                        <span>Total</span>
+                                        <strong t-field="confirmation_order.amount_total" t-options="{'widget': 'monetary', 'display_currency': confirmation_order.currency_id}"/>
+                                    </div>
+                                </div>
+
+                                <div class="cleo-side-actions d-print-none">
+                                    <a t-if="invoice_pdf_url" t-att-href="invoice_pdf_url" class="cleo-side-action">
+                                        <i class="fa fa-file-pdf-o"/>
+                                        <span><strong>Descargar comprobante</strong><small>PDF de factura</small></span>
+                                    </a>
+                                    <a t-att-href="order_url" class="cleo-side-action">
+                                        <i class="fa fa-eye"/>
+                                        <span><strong>Ver mi pedido</strong><small>Ver detalles y estado</small></span>
+                                    </a>
+                                </div>
+
+                                <div class="cleo-secure-card d-print-none">
+                                    <i class="fa fa-shield"/>
+                                    <div>
+                                        <strong>Compra segura</strong>
+                                        <span>Su información está protegida y su pago fue procesado correctamente.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="hide_empty_categories" inherit_id="website_sale.products_categories">
+    <xpath expr="//t[@t-foreach='categories']" position="before">
+      <t t-set="categories" t-value="[c for c in categories if c.website_published and any(p.website_published for p in c.product_tmpl_ids)]"/>
+    </xpath>
+  </template>
+</odoo>

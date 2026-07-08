@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <template id="product_ribbon_out_of_stock"
+            inherit_id="website_sale.products_item">
+    <xpath expr="//div[contains(@class, 'o_wsale_product_grid_wrapper')]" position="inside">
+      <t t-if="product.qty_available == 0">
+        <div class="product-ribbon">Fuera de stock</div>
+      </t>
+    </xpath>
+  </template>
+</odoo>

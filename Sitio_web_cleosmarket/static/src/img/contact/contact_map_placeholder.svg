@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e7f7ef"/><stop offset="1" stop-color="#eef3fb"/></linearGradient>
+  </defs>
+  <rect width="800" height="320" rx="26" fill="url(#g)"/>
+  <path d="M-20 260C150 190 220 290 360 220S610 100 830 170" fill="none" stroke="#b9cce0" stroke-width="24" stroke-linecap="round" opacity=".85"/>
+  <path d="M-10 95C150 150 218 70 356 104S554 215 820 75" fill="none" stroke="#d3deea" stroke-width="18" stroke-linecap="round"/>
+  <path d="M74 0c60 84 40 204 120 320" fill="none" stroke="#ffffff" stroke-width="16" opacity=".9"/>
+  <path d="M492 0c-30 96-24 220 42 320" fill="none" stroke="#ffffff" stroke-width="16" opacity=".9"/>
+  <g transform="translate(424 62)">
+    <path d="M62 0C28 0 0 27 0 61c0 48 62 118 62 118s62-70 62-118C124 27 96 0 62 0z" fill="#df4b38"/>
+    <circle cx="62" cy="61" r="26" fill="#ffffff"/>
+    <circle cx="62" cy="61" r="13" fill="#df4b38"/>
+  </g>
+  <g transform="translate(242 84)">
+    <rect width="245" height="86" rx="16" fill="#ffffff" filter="drop-shadow(0 10px 16px rgba(6,39,93,.13))"/>
+    <text x="22" y="34" font-family="Arial, sans-serif" font-weight="800" font-size="20" fill="#06275d">Super Tienda Cleo</text>
+    <text x="22" y="62" font-family="Arial, sans-serif" font-size="16" fill="#51637e">Km 6 1/2 Carretera a</text>
+    <text x="22" y="80" font-family="Arial, sans-serif" font-size="16" fill="#51637e">Planes de Renderos</text>
+  </g>
+</svg>

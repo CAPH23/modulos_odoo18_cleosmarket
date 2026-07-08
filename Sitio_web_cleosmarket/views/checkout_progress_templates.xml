@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!--
+            Super Tienda Cleo
+            Rediseño de barra de progreso del checkout.
+            Aplica a /shop/cart, /shop/checkout, /shop/address y /shop/payment.
+        -->
+        <record id="website_sale.wizard_checkout" model="ir.ui.view">
+            <field name="name">Checkout Progress - Super Tienda Cleo</field>
+            <field name="arch" type="xml">
+                <t t-name="website_sale.wizard_checkout">
+
+                    <t t-set="cleo_path" t-value="request.httprequest.path or ''"/>
+
+                    <t t-set="cleo_active_step"
+                       t-value="'cart' if cleo_path.startswith('/shop/cart') else ('delivery' if cleo_path.startswith('/shop/checkout') or cleo_path.startswith('/shop/address') else ('payment' if cleo_path.startswith('/shop/payment') else 'cart'))"/>
+
+                    <t t-set="cleo_step_index"
+                       t-value="0 if cleo_active_step == 'cart' else (1 if cleo_active_step == 'delivery' else 2)"/>
+
+                    <section class="cleo-checkout-progress-wrapper" aria-label="Progreso de compra">
+                        <div class="cleo-checkout-progress">
+
+                            <!-- Paso 1: Revisar pedido -->
+                            <div t-attf-class="cleo-checkout-step {{ 'is-active' if cleo_active_step == 'cart' else ('is-complete' if cleo_step_index &gt; 0 else 'is-pending') }}">
+                                <div class="cleo-checkout-icon-box">
+                                    <svg class="cleo-checkout-svg" viewBox="0 0 64 64" aria-hidden="true">
+                                        <circle cx="24" cy="52" r="4"/>
+                                        <circle cx="46" cy="52" r="4"/>
+                                        <path d="M10 12h8l6 30h25l6-22H23"/>
+                                        <path d="M26 42h24"/>
+                                    </svg>
+                                </div>
+                                <div class="cleo-checkout-copy">
+                                    <strong>Revisar pedido</strong>
+                                    <span>Verifica tus productos</span>
+                                </div>
+                            </div>
+
+                            <div t-attf-class="cleo-checkout-connector {{ 'is-complete' if cleo_step_index &gt;= 1 else 'is-pending' }}">
+                                <span/>
+                            </div>
+
+                            <!-- Paso 2: Entrega -->
+                            <div t-attf-class="cleo-checkout-step {{ 'is-active' if cleo_active_step == 'delivery' else ('is-complete' if cleo_step_index &gt; 1 else 'is-pending') }}">
+                                <div class="cleo-checkout-icon-box">
+                                    <!-- Mapa con puntero -->
+                                    <svg class="cleo-checkout-svg" viewBox="0 0 64 64" aria-hidden="true">
+                                        <path d="M10 14l14-6 16 6 14-6v42l-14 6-16-6-14 6z"/>
+                                        <path d="M24 8v42"/>
+                                        <path d="M40 14v42"/>
+                                        <path d="M42 27c0 8-10 18-10 18S22 35 22 27a10 10 0 0 1 20 0z"/>
+                                        <circle cx="32" cy="27" r="4"/>
+                                    </svg>
+                                </div>
+                                <div class="cleo-checkout-copy">
+                                    <strong>Entrega</strong>
+                                    <span>Ingresa tus datos de envío</span>
+                                </div>
+                            </div>
+
+                            <div t-attf-class="cleo-checkout-connector {{ 'is-complete' if cleo_step_index &gt;= 2 else 'is-pending' }}">
+                                <span/>
+                            </div>
+
+                            <!-- Paso 3: Pagos -->
+                            <div t-attf-class="cleo-checkout-step {{ 'is-active' if cleo_active_step == 'payment' else ('is-complete' if cleo_step_index &gt; 2 else 'is-pending') }}">
+                                <div class="cleo-checkout-icon-box">
+                                    <svg class="cleo-checkout-svg" viewBox="0 0 64 64" aria-hidden="true">
+                                        <rect x="10" y="16" width="44" height="32" rx="5"/>
+                                        <path d="M10 25h44"/>
+                                        <path d="M18 38h13"/>
+                                        <path d="M38 38h8"/>
+                                    </svg>
+                                </div>
+                                <div class="cleo-checkout-copy">
+                                    <strong>Pagos</strong>
+                                    <span>Selecciona tu método de pago</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                </t>
+            </field>
+        </record>
+
+    </data>
+</odoo>

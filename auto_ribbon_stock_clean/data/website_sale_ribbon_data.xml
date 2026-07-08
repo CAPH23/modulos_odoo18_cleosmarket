@@ -1,0 +1,10 @@
+<odoo>
+    <record id="ribbon_out_of_stock" model="website.sale.ribbon">
+        <field name="name">Fuera de Stock</field>
+        <field name="text">Fuera de stock</field>
+        <field name="color">danger</field>
+        <field name="position">top-left</field>
+        <field name="condition_python">product.qty_available == 0</field>
+        <field name="auto_display_condition">True</field>
+    </record>
+</odoo>

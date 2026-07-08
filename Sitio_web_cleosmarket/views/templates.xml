@@ -1,0 +1,1282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+            <!--
+                Etapa 3:
+                Encabezado global + hero principal + categorías del comercio electrónico.
+
+                Corrección importante:
+                - El carrusel ahora usa product.public.category.
+                - Las URLs /shop/category/... deben generarse con categorías públicas,
+                  no con product.category.
+            -->
+
+            <template id="cleosmarket_website_header" inherit_id="website.layout" name="Super Tienda Cleo - Barra superior">
+	        <xpath expr="//header[@id='top']/*[1]" position="before">
+	            <div class="cleo-topbar">
+	                <div class="container cleo-topbar__inner">
+	                    <div class="cleo-topbar__item">
+	                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+	                        <span>Abierto todos los días de 8:00 a.m. a 8:00 p.m.</span>
+	                    </div>
+		
+	                    <div class="cleo-topbar__item cleo-topbar__item--center">
+	                        <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+	                        <span>Retiro en tienda en menos de 15 minutos</span>
+	                    </div>
+
+	                    <a class="cleo-topbar__item cleo-topbar__link" href="tel:+50368354506">
+	                        <i class="fa fa-whatsapp" aria-hidden="true"></i>
+	                        <span>+503 6835-4506</span>
+	                    </a>
+	                </div>
+	            </div>
+	        </xpath>
+	    </template>
+
+	    <template id="cleosmarket_dynamic_products_menu"
+          	inherit_id="website.navbar_nav"
+	        name="Super Tienda Cleo - Menú dinámico Productos">
+
+	        <xpath expr="//t[@t-out='0']" position="after">
+
+	            <li class="nav-item dropdown cleo-products-menu-dynamic">
+	                <a t-att-class="'nav-link dropdown-toggle active' if request.httprequest.path.startswith('/shop/category') else 'nav-link dropdown-toggle'"
+	                   href="#"
+	                   role="button"
+	                   data-bs-toggle="dropdown"
+	                   aria-expanded="false">
+	                    Productos
+	                </a>
+ 
+	                <t t-set="slug" t-value="request.env['ir.http']._slug"/>
+ 
+	                <t t-set="excluded_menu_categories"
+	                   t-value="[
+    	                        'CANASTAS',
+	                        'CELOFAN',
+	                        'CELOFÁN',
+	                        'PRODUCTOS PLÁSTICOS',
+	                        'PRODUCTOS PLASTICOS',
+	                        'PRODUCTOS PLÁSTICO',
+	                        'PRODUCTOS PLASTICO'
+	                   ]"/>
+
+	                <t t-set="menu_public_categories"
+	                   t-value="request.env['product.public.category'].sudo().search([
+	                        ('parent_id', '=', False),
+	                        ('name', 'not in', excluded_menu_categories)
+	                   ], order='sequence asc, name asc')"/>
+	
+	                <div class="dropdown-menu cleo-dropdown">
+	                    <t t-if="menu_public_categories">
+	                        <t t-foreach="menu_public_categories" t-as="menu_category">
+	                            <a class="dropdown-item"
+	                               t-att-href="'/shop/category/%s' % slug(menu_category)">
+	                                <t t-esc="menu_category.name"/>
+	                            </a>
+	                        </t>
+	                    </t>
+	
+	                    <t t-else="">
+	                        <a class="dropdown-item" href="/shop">
+	                            Ver tienda
+	                        </a>
+	                    </t>
+	                </div>
+	            </li>
+	
+	         </xpath>
+	    </template>
+
+            <template id="cleosmarket_home_hero" inherit_id="website.layout" name="Super Tienda Cleo - Home Hero y Categorías">
+                <xpath expr="//header[@id='top']" position="after">
+                    <t t-if="request and request.httprequest and request.httprequest.path in ['/', '/-1', '/-2']">
+
+                        <!-- =====================================================
+                             HERO PRINCIPAL
+                             ===================================================== -->
+                        <section class="cleo-home-hero" id="cleo_home_hero">
+                            <div class="cleo-home-hero__inner">
+                                <div class="cleo-home-hero__content">
+                                    <p class="cleo-home-hero__eyebrow">Super Tienda Cleo</p>
+
+                                    <h1 class="cleo-home-hero__title">
+                                        <span>Tu tienda</span>
+                                        <em>de confianza</em>
+                                        <span>ahora en línea</span>
+                                    </h1>
+
+                                    <p class="cleo-home-hero__subtitle">
+                                        Abarrotes, bebidas, limpieza y más.<br />
+                                        Compra rápido, fácil y retira en tienda.
+                                    </p>
+
+                                    <div class="cleo-home-hero__buttons">
+                                        <a class="btn cleo-btn cleo-btn--primary" href="/shop">
+                                            <span>Comprar ahora</span>
+                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                        </a>
+
+                                        <a class="btn cleo-btn cleo-btn--secondary" href="/shop/cart">
+                                             Carrito de compras
+                                        </a>
+                                    </div>
+
+                                    <div class="cleo-home-hero__pickup">
+                                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        <span>Retiro en tienda en menos de 15 minutos</span>
+                                    </div>
+                                </div>
+
+                                <div class="cleo-home-hero__visual" aria-hidden="true">
+                                    <img src="/Sitio_web_cleosmarket/static/src/img/hero_grocery.webp" alt="" loading="eager" />
+                                </div>
+                            </div>
+
+                            <div class="cleo-awning-divider" aria-hidden="true"></div>
+                        </section>
+
+                        <!-- =====================================================
+                             CATEGORÍAS DE COMERCIO ELECTRÓNICO
+                             ===================================================== -->
+                        <section class="cleo-home-categories" id="cleo_home_categories">
+
+                            <!-- Helper para generar URLs tipo /shop/category/boquitas-1844 -->
+                            <t t-set="slug" t-value="request.env['ir.http']._slug" />
+
+                            <!--
+                                Categorías visibles del eCommerce.
+                                Se usa product.public.category, no product.category.
+                            -->
+                            <t t-set="excluded_categories"
+                               t-value="[
+                                    'CANASTAS',
+                                    'CELOFAN',
+                                    'CELOFÁN',
+                                    'PRODUCTOS PLÁSTICOS',
+                                    'PRODUCTOS PLASTICOS',
+                                    'PRODUCTOS PLÁSTICO',
+                                    'PRODUCTOS PLASTICO'
+                               ]" />
+
+                            <t t-set="cleo_categories"
+                               t-value="request.env['product.public.category'].sudo().search([
+                                    ('parent_id', '=', False),
+                                    ('name', 'not in', excluded_categories)
+                               ], order='sequence asc, name asc')" />
+
+                            <div class="cleo-category-carousel" data-cleo-carousel="categories">
+                                <button class="cleo-category-carousel__btn cleo-category-carousel__btn--prev"
+                                        type="button"
+                                        aria-label="Ver categorías anteriores"
+                                        data-cleo-carousel-prev="categories">
+                                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                </button>
+
+                                <div class="cleo-category-carousel__viewport" data-cleo-carousel-viewport="categories">
+                                    <t t-if="cleo_categories">
+                                        <div class="cleo-category-carousel__track">
+
+                                            <t t-foreach="cleo_categories" t-as="category">
+                                                <t t-set="category_name" t-value="(category.name or '').strip()" />
+                                                <t t-set="category_name_upper" t-value="category_name.upper()" />
+
+                                                <!-- Seguridad adicional por si alguna variante pasa el dominio -->
+                                                <t t-if="category_name_upper not in excluded_categories">
+
+                                                    <!--
+                                                        Producto de respaldo para imagen.
+                                                        Ahora se busca por categoría pública de eCommerce.
+                                                    -->
+                                                    <t t-set="category_product"
+                                                       t-value="request.env['product.template'].sudo().search([
+                                                            ('public_categ_ids', 'child_of', category.id),
+                                                            ('sale_ok', '=', True),
+                                                            ('is_published', '=', True),
+                                                            ('image_1920', '!=', False)
+                                                       ], limit=1)" />
+
+                                                    <a class="cleo-category-tile"
+                                                       t-att-href="'/shop/category/%s' % slug(category)">
+
+                                                        <span class="cleo-category-tile__image">
+                                                            <!--
+                                                                Nombre normalizado para imagen personalizada:
+                                                                ABARROTES -> abarrotes.png
+                                                                PRODUCTOS FRESCOS -> productos_frescos.png
+                                                                CUIDADO DEL BEBÉ -> cuidado_del_bebe.png
+                                                            -->
+                                                            <t t-set="category_image_name"
+                                                               t-value="category_name.lower()
+                                                                    .replace(' ', '_')
+                                                                    .replace('/', '_')
+                                                                    .replace('-', '_')
+                                                                    .replace('á', 'a')
+                                                                    .replace('é', 'e')
+                                                                    .replace('í', 'i')
+                                                                    .replace('ó', 'o')
+                                                                    .replace('ú', 'u')
+                                                                    .replace('Á', 'a')
+                                                                    .replace('É', 'e')
+                                                                    .replace('Í', 'i')
+                                                                    .replace('Ó', 'o')
+                                                                    .replace('Ú', 'u')
+                                                                    .replace('ñ', 'n')
+                                                                    .replace('Ñ', 'n')" />
+
+                                                            <!-- Imagen personalizada desde static/src/img/categories -->
+                                                            <img class="cleo-category-tile__custom-img"
+                                                                 t-att-src="'/Sitio_web_cleosmarket/static/src/img/categories/%s.webp' % category_image_name"
+                                                                 t-att-alt="category_name"
+                                                                 loading="lazy"
+								 decoding="async"
+                                                                 onerror="this.style.display='none'; var n=this.nextElementSibling; if(n){n.style.display='inline-flex';}" />
+
+                                                            <!-- Imagen tomada de un producto publicado de esa categoría pública -->
+                                                            <t t-if="category_product">
+                                                                <img class="cleo-category-tile__product-img"
+                                                                     style="display: none;"
+                                                                     t-att-src="'/web/image/product.template/%s/image_256' % category_product.id"
+                                                                     t-att-alt="category_name"
+                                                                     loading="lazy" />
+                                                            </t>
+
+                                                            <!-- Respaldo si no existe imagen personalizada ni producto con imagen -->
+                                                            <t t-else="">
+                                                                <span class="cleo-category-tile__fallback" style="display: none;">
+                                                                    <t t-esc="category_name[:1].upper() or 'C'" />
+                                                                </span>
+                                                            </t>
+                                                        </span>
+
+                                                        <span class="cleo-category-tile__name">
+                                                            <t t-esc="category_name" />
+                                                        </span>
+
+                                                        <span class="cleo-category-tile__arrow" aria-hidden="true">
+                                                            <i class="fa fa-angle-right"></i>
+                                                        </span>
+                                                    </a>
+                                                </t>
+                                            </t>
+                                        </div>
+                                    </t>
+
+                                    <t t-else="">
+                                        <div class="cleo-category-empty">
+                                            Todavía no hay categorías públicas de comercio electrónico para mostrar.
+                                        </div>
+                                    </t>
+                                </div>
+
+                                <button class="cleo-category-carousel__btn cleo-category-carousel__btn--next"
+                                        type="button"
+                                        aria-label="Ver más categorías"
+                                        data-cleo-carousel-next="categories">
+                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </section>
+
+                        <!-- ============================================================
+                             Carrusel dinámico: Productos Frescos / Lácteos y Huevos
+                             ============================================================ -->
+                        <section class="cleo-dairy-carousel-section cleo-dairy-carousel-section--full">
+                            <div class="cleo-dairy-carousel-container">
+
+                                <t t-set="dairy_category"
+                                   t-value="request.env['product.public.category'].sudo().search([
+                                        ('name', '=', 'LÁCTEOS Y HUEVOS'),
+                                        ('parent_id.name', '=', 'PRODUCTOS FRESCOS')
+                                   ], limit=1)" />
+
+                                <!-- Productos dinámicos ordenados por prioridad de nombre:
+                                     1. Productos que contienen "Artesanal"
+                                     2. Productos que contienen "Huevo"
+                                     3. Productos que contienen "Leche"
+                                     4. Resto de productos
+                                -->
+                                <t t-set="ProductTemplate" t-value="request.env['product.template'].sudo()" />
+
+                                <t t-set="base_dairy_domain"
+                                   t-value="[
+                                        ('website_published', '=', True),
+                                        ('sale_ok', '=', True),
+                                        ('public_categ_ids', 'child_of', dairy_category.id)
+                                   ] if dairy_category else [('id', '=', 0)]" />
+
+                                <!-- Grupo 1: Artesanal -->
+                                <t t-set="dairy_artesanal_products"
+                                   t-value="ProductTemplate.search(
+                                        base_dairy_domain + [('name', 'ilike', 'Artesanal')],
+                                        order='website_sequence asc, name asc'
+                                   )" />
+
+                                <!-- Grupo 2: Huevo, excluyendo los que ya salieron en Artesanal -->
+                                <t t-set="dairy_huevo_products"
+                                   t-value="ProductTemplate.search(
+                                        base_dairy_domain + [
+                                            ('name', 'ilike', 'Huevo'),
+                                            ('id', 'not in', dairy_artesanal_products.ids)
+                                        ],
+                                        order='website_sequence asc, name asc'
+                                   )" />
+
+                                <!-- Grupo 3: Leche, excluyendo Artesanal y Huevo -->
+                                <t t-set="dairy_leche_products"
+                                   t-value="ProductTemplate.search(
+                                        base_dairy_domain + [
+                                            ('name', 'ilike', 'Leche'),
+                                            ('id', 'not in', (dairy_artesanal_products + dairy_huevo_products).ids)
+                                        ],
+                                        order='website_sequence asc, name asc'
+                                   )" />
+
+                                <!-- Grupo 4: resto de productos -->
+                                <t t-set="dairy_other_products"
+                                   t-value="ProductTemplate.search(
+                                        base_dairy_domain + [
+                                            ('id', 'not in', (dairy_artesanal_products + dairy_huevo_products + dairy_leche_products).ids)
+                                        ],
+                                        order='website_sequence asc, name asc'
+                                   )" />
+
+                                <!-- Resultado final del carrusel -->
+                                <t t-set="dairy_products"
+                                   t-value="(dairy_artesanal_products + dairy_huevo_products + dairy_leche_products + dairy_other_products)[:20]" />
+
+                                <div class="cleo-dairy-carousel" data-cleo-dairy-carousel="1">
+
+                                    <div class="cleo-dairy-carousel__header">
+                                        <span class="cleo-dairy-carousel__eyebrow">
+                                            <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                                            Productos frescos
+                                        </span>
+
+                                        <h2>Lácteos y huevos</h2>
+
+                                        <p>
+                                            Leche, huevos, quesos, crema, yogurt y más para tu hogar.
+                                        </p>
+                                    </div>
+
+                                    <t t-if="dairy_products">
+                                        <button class="cleo-dairy-carousel__btn cleo-dairy-carousel__btn--prev"
+                                                type="button"
+                                                aria-label="Producto anterior">
+                                            <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                        </button>
+
+                                        <div class="cleo-dairy-carousel__viewport">
+                                            <div class="cleo-dairy-carousel__track">
+
+                                                <t t-set="StockMove" t-value="request.env['stock.move'].sudo()" />
+                                                <t t-set="recent_purchase_limit"
+                                                   t-value="datetime.datetime.utcnow() - datetime.timedelta(days=3)" />
+
+                                                <t t-foreach="dairy_products" t-as="product">
+                                                    <t t-set="product_url" t-value="product.website_url or ('/shop/product/%s' % request.env['ir.http']._slug(product))" />
+
+                                                    <article class="cleo-dairy-product-card">
+
+                                                        <a class="cleo-dairy-product-card__image"
+                                                           t-att-href="product_url">
+                                                            <t t-set="has_recent_purchase"
+                                                               t-value="StockMove.search_count([
+                                                                    ('state', '=', 'done'),
+                                                                    ('purchase_line_id', '!=', False),
+                                                                    ('picking_id.picking_type_id.code', '=', 'incoming'),
+                                                                    ('picking_id.date_done', '&gt;=', recent_purchase_limit),
+                                                                    ('product_id', 'in', product.product_variant_ids.ids)
+                                                               ]) &gt; 0" />
+
+                                                            <t t-if="product.qty_available &lt;= 0">
+                                                                <span class="cleo-dairy-product-card__badge cleo-dairy-product-card__badge--out">
+                                                                    <i class="fa fa-ban" aria-hidden="true"></i>
+                                                                    Sin Stock
+                                                                </span>
+                                                            </t>
+
+                                                            <t t-elif="has_recent_purchase">
+                                                                <span class="cleo-dairy-product-card__badge">
+                                                                    <i class="fa fa-snowflake-o" aria-hidden="true"></i>
+                                                                    Fresco
+                                                                </span>
+                                                            </t>
+
+                                                            <img t-att-src="'/web/image/product.template/%s/image_512' % product.id"
+                                                                 t-att-alt="product.name"
+                                                                 loading="lazy"/>
+                                                        </a>
+
+                                                        <div class="cleo-dairy-product-card__body">
+                                                            <a class="cleo-dairy-product-card__name"
+                                                               t-att-href="product_url">
+                                                                <t t-esc="product.name"/>
+                                                            </a>
+
+                                                            <div class="cleo-dairy-product-card__price">
+                                                                <t t-if="product.list_price">
+                                                                    $<t t-esc="'%.2f' % product.list_price"/>
+                                                                </t>
+                                                            </div>
+
+                                                            <form action="/shop/cart/update" method="post" class="cleo-dairy-product-card__form">
+                                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                                <input type="hidden" name="product_id" t-att-value="product.product_variant_id.id"/>
+                                                                <input type="hidden" name="add_qty" value="1"/>
+
+                                                                <button type="submit" class="cleo-dairy-product-card__add">
+                                                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                                    Agregar
+                                                                </button>
+                                                            </form>
+                                                        </div>
+
+                                                    </article>
+                                                </t>
+
+                                            </div>
+                                        </div>
+
+                                        <button class="cleo-dairy-carousel__btn cleo-dairy-carousel__btn--next"
+                                                type="button"
+                                                aria-label="Producto siguiente">
+                                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                        </button>
+                                    </t>
+
+                                    <t t-else="">
+                                        <div class="cleo-dairy-carousel__empty">
+                                            No hay productos publicados en la categoría Lácteos y Huevos.
+                                        </div>
+                                    </t>
+
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="cleo-footer-steps" aria-label="Cómo comprar en Super Tienda Cleo">
+                            <div class="container cleo-footer-steps__inner">
+                                <div class="cleo-footer-step">
+                                      <span class="cleo-footer-step__icon">
+                                          <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                                      </span>
+                                      <div class="cleo-footer-step__content">
+                                          <h3>1. Elige tus productos</h3>
+                                          <p>Explora nuestras categorías y agrega tus productos favoritos al carrito.</p>
+                                      </div>
+                                  </div>
+
+                                  <span class="cleo-footer-steps__arrow" aria-hidden="true">----&gt;</span>
+
+                                <div class="cleo-footer-step">
+                                    <span class="cleo-footer-step__icon">
+                                        <i class="fa fa-clipboard" aria-hidden="true"></i>
+                                    </span>
+                                    <div class="cleo-footer-step__content">
+                                        <h3>2. Confirma tu pedido y pago</h3>
+                                        <p>Revisa tu pedido y selecciona retiro en tienda.</p>
+                                    </div>
+                                </div>
+
+                                <span class="cleo-footer-steps__arrow" aria-hidden="true">----&gt;</span>
+
+                                <div class="cleo-footer-step cleo-footer-step--rotator">
+                                    <div class="cleo-footer-step__slide cleo-footer-step__slide--one">
+                                        <span class="cleo-footer-step__icon">
+                                            <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                                        </span>
+                                        <div class="cleo-footer-step__content">
+                                            <h3>3. Retira en tienda</h3>
+                                            <p>Listo en menos de 15 minutos. Rápido, fácil y sin filas.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="cleo-footer-step__slide cleo-footer-step__slide--two">
+                                        <span class="cleo-footer-step__icon">
+                                            <i class="fa fa-motorcycle" aria-hidden="true"></i>
+                                        </span>
+                                        <div class="cleo-footer-step__content">
+                                            <h3>3. Entrega a domicilio</h3>
+                                            <p>Selecciona entre entrega Estándar 24 h o Express 30 min.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+	    
+                        <!-- ============================================================
+                             Carrusel dinámico: Productos más vendidos
+                             ============================================================ -->
+                        <section class="cleo-dairy-carousel-section cleo-best-sellers-carousel-section">
+                            <div class="cleo-dairy-carousel-container">
+
+                                <t t-set="best_seller_products"
+                                   t-value="request.env['cleo.website.helper'].sudo().get_best_seller_products(20, 60)" />
+
+                                <t t-set="StockMove" t-value="request.env['stock.move'].sudo()" />
+                                <t t-set="recent_purchase_limit"
+                                   t-value="datetime.datetime.utcnow() - datetime.timedelta(days=3)" />
+
+                                <div class="cleo-dairy-carousel cleo-best-sellers-carousel"
+                                     data-cleo-dairy-carousel="1">
+
+                                    <div class="cleo-dairy-carousel__header">
+                                        <span class="cleo-dairy-carousel__eyebrow">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            Favoritos de nuestros clientes
+                                        </span>
+
+                                        <h2>Más vendidos</h2>
+
+                                        <p>
+                                            Los productos que más están comprando nuestros clientes.
+                                        </p>
+                                    </div>
+
+                                    <t t-if="best_seller_products">
+                                        <button class="cleo-dairy-carousel__btn cleo-dairy-carousel__btn--prev"
+                                                type="button"
+                                                aria-label="Producto anterior">
+                                            <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                        </button>
+
+                                        <div class="cleo-dairy-carousel__viewport">
+                                            <div class="cleo-dairy-carousel__track">
+
+                                                <t t-foreach="best_seller_products" t-as="product">
+                                                    <t t-set="product_url"
+                                                       t-value="product.website_url or ('/shop/product/%s' % request.env['ir.http']._slug(product))" />
+
+                                                    <t t-set="has_recent_purchase"
+                                                       t-value="StockMove.search_count([
+                                                            ('state', '=', 'done'),
+                                                            ('purchase_line_id', '!=', False),
+                                                            ('picking_id.picking_type_id.code', '=', 'incoming'),
+                                                            ('picking_id.date_done', '&gt;=', recent_purchase_limit),
+                                                            ('product_id', 'in', product.product_variant_ids.ids)
+                                                       ]) &gt; 0" />
+
+                                                    <article class="cleo-dairy-product-card">
+
+                                                        <a class="cleo-dairy-product-card__image"
+                                                           t-att-href="product_url">
+
+                                                            <t t-if="product.qty_available &lt;= 0">
+                                                                <span class="cleo-dairy-product-card__badge cleo-dairy-product-card__badge--out">
+                                                                    <i class="fa fa-ban" aria-hidden="true"></i>
+                                                                    Sin Stock
+                                                                </span>
+                                                            </t>
+
+                                                            <t t-elif="has_recent_purchase">
+                                                                <span class="cleo-dairy-product-card__badge">
+                                                                    <i class="fa fa-snowflake-o" aria-hidden="true"></i>
+                                                                    Fresco
+                                                                </span>
+                                                            </t>
+
+                                                            <img t-att-src="'/web/image/product.template/%s/image_512' % product.id"
+                                                                 t-att-alt="product.name"
+                                                                 loading="lazy"/>
+                                                        </a>
+
+                                                        <div class="cleo-dairy-product-card__body">
+                                                            <a class="cleo-dairy-product-card__name"
+                                                               t-att-href="product_url">
+                                                                <t t-esc="product.name"/>
+                                                            </a>
+
+                                                            <div class="cleo-dairy-product-card__price">
+                                                                <t t-if="product.list_price">
+                                                                    $<t t-esc="'%.2f' % product.list_price"/>
+                                                                </t>
+                                                            </div>
+
+                                                            <form action="/shop/cart/update"
+                                                                  method="post"
+                                                                  class="cleo-dairy-product-card__form">
+                                                                <input type="hidden"
+                                                                       name="csrf_token"
+                                                                       t-att-value="request.csrf_token()"/>
+                                                                <input type="hidden"
+                                                                       name="product_id"
+                                                                       t-att-value="product.product_variant_id.id"/>
+                                                                <input type="hidden"
+                                                                       name="add_qty"
+                                                                       value="1"/>
+
+                                                                <button type="submit"
+                                                                        class="cleo-dairy-product-card__add">
+                                                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                                    Agregar
+                                                                </button>
+                                                            </form>
+                                                        </div>
+
+                                                    </article>
+                                                </t>
+
+                                            </div>
+                                        </div>
+
+                                        <button class="cleo-dairy-carousel__btn cleo-dairy-carousel__btn--next"
+                                               type="button"
+                                               aria-label="Producto siguiente">
+                                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                        </button>
+                                    </t>
+
+                                    <t t-else="">
+                                        <div class="cleo-dairy-carousel__empty">
+                                            Aún no hay productos vendidos suficientes para mostrar este carrusel.
+                                        </div>
+                                    </t>
+
+                                </div>
+                            </div>
+                        </section>
+	            </t>
+                </xpath>
+            </template>
+
+            <template id="cleosmarket_website_footer" inherit_id="website.layout" name="Super Tienda Cleo - Footer">
+                <xpath expr="//footer[@id='bottom']" position="replace">
+                    <footer id="bottom" class="o_footer cleo-footer" data-anchor="true">
+
+                        <section class="cleo-footer-support" aria-label="Beneficios y contacto rápido">
+                            <div class="container cleo-footer-support__inner">
+                                <div class="cleo-footer-support__item">
+                                    <span class="cleo-footer-support__icon">
+                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                    </span>
+                                    <div>
+                                        <h3>Servicio para toda la familia</h3>
+                                        <p>Productos de calidad para el bienestar de tu hogar.</p>
+                                    </div>
+                                </div>
+
+                                <div class="cleo-footer-support__item">
+                                    <span class="cleo-footer-support__icon">
+                                        <i class="fa fa-shield" aria-hidden="true"></i>
+                                    </span>
+                                    <div>
+                                        <h3>Compra segura</h3>
+                                        <p>Tus datos y pagos están protegidos siempre.</p>
+                                    </div>
+                                </div>
+
+                                <div class="cleo-footer-support__item cleo-footer-support__item--whatsapp">
+                                    <span class="cleo-footer-support__icon cleo-footer-support__icon--white">
+                                        <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                    </span>
+                                    <div>
+                                        <h3>¿Necesitas ayuda?</h3>
+                                        <p>Escríbenos por WhatsApp o llámanos.</p>
+                                    </div>
+                                </div>
+
+                                <a class="cleo-footer-support__item cleo-footer-support__item--phone" href="tel:+50368354506">
+                                    <span class="cleo-footer-support__icon">
+                                        <i class="fa fa-phone" aria-hidden="true"></i>
+                                    </span>
+                                    <div>
+                                        <h3>+503 6835-4506</h3>
+                                        <p>Estamos para servirte todos los días de 8:00 a.m. a 8:00 p.m.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </section>
+
+                        <section class="cleo-footer-main">
+                            <div class="container cleo-footer-main__inner">
+                                <div class="cleo-footer-brand">
+    				    <a class="cleo-footer-brand__logo" href="/" aria-label="Super Tienda Cleo">
+			                <img src="/Sitio_web_cleosmarket/static/src/img/logo_super_tienda_cleo.png" alt="Super Tienda Cleo" loading="lazy" />
+			            </a>
+				    <p>Tu tienda de confienza ahora en linea.</p>
+				    <p>Llevamos frescura, calidad y conveniencia directo a tu hogar todos los días.</p>
+				    <div class="cleo-footer-social">
+				        <a href="https://www.facebook.com/profile.php?id=61577037933552" target="_blank" rel="noopener" aria-label="Facebook">
+				            <i class="fa fa-facebook" aria-hidden="true"></i>
+				        </a>
+				        <a href="https://wa.me/50368354506" target="_blank" rel="noopener" aria-label="WhatsApp">
+				            <i class="fa fa-whatsapp" aria-hidden="true"></i>
+				        </a>
+				    </div>
+				</div>
+
+                                <div class="cleo-footer-col">
+                                    <h4>Comprar</h4>
+                                    <a href="/shop">Tienda</a>
+                                    <a href="/web/signup?">Crear tu cuenta</a>
+                                </div>
+
+                                <div class="cleo-footer-col">
+                                    <h4>Información</h4>
+                                    <a href="/sobre-nosotros">Sobre nosotros</a>
+                                    <a href="/terminos-y-condiciones">Términos y Condiciones</a>
+                                    <a href="/politica-de-privacidad-ecommerce">Política de privacidad ecommerce</a>
+                                    <a href="/cancelaciones-cambios-devoluciones">Cancelaciones y devoluciones</a>
+                                </div>
+
+                                <div class="cleo-footer-col">
+                                    <h4>Mi cuenta</h4>
+                                    <a href="/web/login">Iniciar sesión</a>
+                                    <a href="/my">Mis pedidos</a>
+                                    <a href="/shop/wishlist">Mis favoritos</a>
+                                </div>
+
+                                <div class="cleo-footer-contact">
+				    <h4>Contáctanos</h4>
+				    <a href="https://wa.me/50368354506" target="_blank" rel="noopener">
+				        <i class="fa fa-whatsapp" aria-hidden="true"></i>
+				        <span>+503 6835-4506</span>
+				    </a>
+				    <a href="mailto:supertiendacleo25@gmail.com">
+				        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+				        <span>supertiendacleo25@gmail.com</span>
+				    </a>
+				    <p>
+				        <i class="fa fa-map-marker" aria-hidden="true"></i>
+				        <span>Carretera a Planes de Renderos Km 6 1/2,<br />
+				        San Salvador, El Salvador</span>
+				    </p>
+				</div>
+
+                            </div>
+                            <div class="cleo-footer-bottom">
+                               <div class="container cleo-footer-bottom__inner">
+
+                                  <div class="cleo-footer-bottom__copy">
+                                     © 2026 Super Tienda Cleo. Todos los derechos reservados. Web Designer Carlos Palacios
+                                  </div>
+
+                                  <div class="cleo-footer-bottom__payments">
+                                     <span class="cleo-payment-badge cleo-payment-badge--visa">VISA</span>
+                                     <span class="cleo-payment-badge cleo-payment-badge--mastercard">
+                                        <span></span>
+                                        <span></span>
+                                     </span>
+                                     <span class="cleo-payment-badge cleo-payment-badge--amex">AMERICAN<br/>EXPRESS</span>
+
+                                     <span class="cleo-footer-bottom__divider"></span>
+
+                                     <span class="cleo-footer-bottom__secure">
+                                        <i class="fa fa-lock" aria-hidden="true"></i>
+                                        Sitio seguro
+                                     </span>
+                                  </div>
+
+                               </div>
+                            </div>
+                        </section>
+                    </footer>
+                </xpath>
+            </template>
+
+            <!-- =====================================================
+                 Página Sobre Nosotros
+                 Ruta: /sobre-nosotros
+                 ===================================================== -->
+            <template id="cleosmarket_about_page_v8" name="Super Tienda Cleo - Sobre Nosotros">
+                <t t-call="website.layout">
+                    <div id="wrap" class="cleo-about-page">
+                        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&amp;display=swap"/>
+
+                        <!-- ================= HERO ================= -->
+                        <section class="cleo-about-hero" id="cleo_about_hero">
+                            <img class="cleo-about-deco cleo-about-deco--left-top" src="/Sitio_web_cleosmarket/static/src/img/about/deco_lacteos.svg" alt="" loading="lazy"/>
+                            <img class="cleo-about-deco cleo-about-deco--right-top" src="/Sitio_web_cleosmarket/static/src/img/about/deco_frutas.svg" alt="" loading="lazy"/>
+
+                            <div class="cleo-about-container">
+                                <div class="cleo-about-grid cleo-about-grid--hero">
+                                    <div class="cleo-about-grid__text">
+                                        <h1 class="cleo-about-h1">
+                                            <span>Más que una tienda,</span>
+                                            <em class="cleo-about-script">somos parte de tu día a día</em>
+                                        </h1>
+                                        <p class="cleo-about-lead">
+                                            En Super Tienda Cleo somos una tienda de familia que facilita tu compra
+                                            con productos frescos, precios justos y un servicio que te hace sentir
+                                            en casa. Compra fácil, retiro rápido y siempre con una sonrisa.
+                                        </p>
+                                        <div class="cleo-about-hero__actions">
+                                            <a class="cleo-about-btn cleo-about-btn--primary" href="/shop">
+                                                Comprar ahora
+                                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                            </a>
+                                            <a class="cleo-about-btn cleo-about-btn--secondary" href="#cleo_about_story">
+                                                Conoce nuestra historia
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="cleo-about-grid__media">
+                                        <div class="cleo-about-hero__visual">
+                                            <img src="/Sitio_web_cleosmarket/static/src/img/about/ilustracion_familia_carrito.svg" alt="Familia comprando con un carrito lleno de productos frescos" loading="eager"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- ============== NUESTRA HISTORIA ============== -->
+                        <section class="cleo-about-story" id="cleo_about_story">
+                            <img class="cleo-about-deco cleo-about-deco--left-mid" src="/Sitio_web_cleosmarket/static/src/img/about/deco_verduras.svg" alt="" loading="lazy"/>
+                            <img class="cleo-about-deco cleo-about-deco--right-mid" src="/Sitio_web_cleosmarket/static/src/img/about/deco_panaderia.svg" alt="" loading="lazy"/>
+
+                            <div class="cleo-about-container">
+                                <div class="cleo-about-heading">
+                                    <h2 class="cleo-about-h2 cleo-about-h2--underline">Nuestra historia</h2>
+                                </div>
+
+                                <div class="cleo-about-grid cleo-about-grid--story">
+                                    <div class="cleo-about-grid__text">
+                                        <h3 class="cleo-about-h3">De una tienda de barrio a tu tienda de confianza</h3>
+                                        <p>
+                                            Super Tienda Cleo nació de un sueño familiar: ofrecer calidad,
+                                            cercanía y honestidad en cada compra. Con esfuerzo y dedicación,
+                                            crecimos escuchando a nuestra comunidad y mejorando cada día
+                                            para servirte mejor.
+                                        </p>
+                                        <p class="cleo-about-thanks cleo-about-script">
+                                            Gracias por ser parte de esta historia.
+                                        </p>
+                                    </div>
+
+                                    <div class="cleo-about-grid__media">
+                                        <div class="cleo-about-timeline" aria-label="Momentos importantes de Super Tienda Cleo">
+                                                <article class="cleo-about-timeline__card">
+                                                    <span class="cleo-about-icon cleo-about-icon--blue">
+                                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                                    </span>
+                                                    <strong>2005</strong>
+                                                    <p>Comenzamos como una pequeña tienda de barrio con grandes sueños.</p>
+                                                </article>
+                                                <article class="cleo-about-timeline__card">
+                                                    <span class="cleo-about-icon cleo-about-icon--red">
+                                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    </span>
+                                                    <strong>2010</strong>
+                                                    <p>Crecimos gracias a ti, ampliando nuestros productos y mejorando nuestro servicio.</p>
+                                                </article>
+                                                <article class="cleo-about-timeline__card">
+                                                    <span class="cleo-about-icon cleo-about-icon--yellow">
+                                                        <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                                                    </span>
+                                                    <strong>2016</strong>
+                                                    <p>Implementamos retiro en tienda para que tu compra sea más rápida y práctica.</p>
+                                                </article>
+                                                <article class="cleo-about-timeline__card">
+                                                    <span class="cleo-about-icon cleo-about-icon--blue">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                    </span>
+                                                    <strong>Hoy</strong>
+                                                    <p>Seguimos creciendo junto a nuestra comunidad, con el mismo compromiso de siempre.</p>
+                                                </article>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- ============== NUESTROS VALORES ============== -->
+                        <section class="cleo-about-values" id="cleo_about_values">
+                            <div class="cleo-about-container">
+                                <div class="cleo-about-heading">
+                                    <h2 class="cleo-about-h2 cleo-about-h2--underline">Nuestros valores</h2>
+                                </div>
+
+                                <div class="cleo-about-values__grid">
+                                        <article class="cleo-about-value-card">
+                                            <span class="cleo-about-icon cleo-about-icon--yellow">
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                            </span>
+                                            <h3>Atención cordial</h3>
+                                            <p>Te recibimos con amabilidad y estamos para ayudarte en cada paso.</p>
+                                            <span class="cleo-about-value-card__arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                                        </article>
+                                        <article class="cleo-about-value-card">
+                                            <span class="cleo-about-icon cleo-about-icon--red">
+                                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                            </span>
+                                            <h3>Compra fácil</h3>
+                                            <p>Encuentra todo lo que necesitas de forma rápida, sencilla y segura.</p>
+                                            <span class="cleo-about-value-card__arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                                        </article>
+                                        <article class="cleo-about-value-card">
+                                            <span class="cleo-about-icon cleo-about-icon--yellow">
+                                                <i class="fa fa-car" aria-hidden="true"></i>
+                                            </span>
+                                            <h3>Retiro rápido</h3>
+                                            <p>Pide en línea y retira en tienda sin filas ni complicaciones.</p>
+                                            <span class="cleo-about-value-card__arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                                        </article>
+                                        <article class="cleo-about-value-card">
+                                            <span class="cleo-about-icon cleo-about-icon--blue">
+                                                <i class="fa fa-users" aria-hidden="true"></i>
+                                            </span>
+                                            <h3>Para toda la familia</h3>
+                                            <p>Productos de calidad y precios justos para cada etapa de tu vida.</p>
+                                            <span class="cleo-about-value-card__arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                                        </article>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- ============== PASOS DE COMPRA ============== -->
+                        <section class="cleo-about-steps" id="cleo_about_steps">
+                            <div class="cleo-about-container">
+                                <div class="cleo-about-heading">
+                                    <h2 class="cleo-about-h2 cleo-about-h2--underline">Así hacemos tu compra más fácil</h2>
+                                </div>
+
+                                <div class="cleo-about-steps__row">
+                                        <article class="cleo-about-step">
+                                            <span class="cleo-about-step__number">1</span>
+                                            <span class="cleo-about-step__icon"><i class="fa fa-mobile" aria-hidden="true"></i></span>
+                                            <div>
+                                                <h3>Elige tus productos</h3>
+                                                <p>Explora miles de productos y agrégalos a tu carrito.</p>
+                                            </div>
+                                        </article>
+                                        <article class="cleo-about-step">
+                                            <span class="cleo-about-step__number">2</span>
+                                            <span class="cleo-about-step__icon"><i class="fa fa-check-square-o" aria-hidden="true"></i></span>
+                                            <div>
+                                                <h3>Confirma tu pedido</h3>
+                                                <p>Revisa tu pedido, elige la hora y confirma.</p>
+                                            </div>
+                                        </article>
+                                        <article class="cleo-about-step">
+                                            <span class="cleo-about-step__number">3</span>
+                                            <span class="cleo-about-step__icon"><i class="fa fa-home" aria-hidden="true"></i></span>
+                                            <div>
+                                                <h3>Retira en tienda</h3>
+                                                <p>Te esperamos. Tu pedido estará listo para ti.</p>
+                                            </div>
+                                        </article>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- ============== FRESCURA ============== -->
+                        <section class="cleo-about-freshness" id="cleo_about_freshness">
+                            <img class="cleo-about-deco cleo-about-deco--left-bottom" src="/Sitio_web_cleosmarket/static/src/img/about/deco_frutas.svg" alt="" loading="lazy"/>
+                            <img class="cleo-about-deco cleo-about-deco--right-bottom" src="/Sitio_web_cleosmarket/static/src/img/about/deco_lacteos.svg" alt="" loading="lazy"/>
+
+                            <div class="cleo-about-container">
+                                <div class="cleo-about-grid cleo-about-grid--freshness">
+                                    <div class="cleo-about-grid__text">
+                                        <h2 class="cleo-about-h2">
+                                            Frescura que se nota,<br/>
+                                            confianza que <em class="cleo-about-script">se siente</em>
+                                        </h2>
+                                        <p>
+                                            Seleccionamos cuidadosamente cada producto para llevar a tu mesa
+                                            lo mejor en frutas, verduras, carnes, lácteos y más. Porque tu
+                                            familia merece lo mejor, todos los días.
+                                        </p>
+                                        <div class="cleo-about-badges">
+                                            <span><i class="fa fa-leaf" aria-hidden="true"></i> Productos frescos</span>
+                                            <span><i class="fa fa-check" aria-hidden="true"></i> Calidad garantizada</span>
+                                            <span><i class="fa fa-tag" aria-hidden="true"></i> Precios justos</span>
+                                            <span><i class="fa fa-handshake-o" aria-hidden="true"></i> Apoyo a proveedores locales</span>
+                                        </div>
+                                    </div>
+                                    <div class="cleo-about-grid__media">
+                                        <div class="cleo-about-freshness__image">
+                                            <img src="/Sitio_web_cleosmarket/static/src/img/about/ilustracion_frescura.svg" alt="Persona sembrando una planta, símbolo de frescura y comunidad" loading="lazy"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- ============== CRECEMOS JUNTOS ============== -->
+                        <section class="cleo-about-community" id="cleo_about_community">
+                            <div class="cleo-about-container">
+                                <div class="cleo-about-community__inner">
+                                    <div>
+                                        <h2 class="cleo-about-h2">
+                                            Crecemos juntos,<br/>
+                                            <em class="cleo-about-script">cuidando lo que importa</em>
+                                        </h2>
+                                        <p>
+                                            Creemos en una comunidad más fuerte, saludable y sostenible. Por eso apoyamos
+                                            a productores locales, cuidamos el medio ambiente y construimos relaciones
+                                            basadas en confianza y respeto.
+                                        </p>
+                                        <div class="cleo-about-badges">
+                                            <span><i class="fa fa-pagelines" aria-hidden="true"></i> Cuidamos nuestro entorno</span>
+                                            <span><i class="fa fa-users" aria-hidden="true"></i> Apoyamos a nuestra comunidad</span>
+                                            <span><i class="fa fa-heart" aria-hidden="true"></i> Construimos confianza cada día</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </t>
+            </template>
+
+            <!-- =====================================================
+                 Página Contáctenos
+                 Ruta: /contactus
+                 Versión: v9
+                 ===================================================== -->
+            <template id="cleosmarket_contact_page_v9" name="Super Tienda Cleo - Contáctenos">
+                <t t-call="website.layout">
+                    <div id="wrap" class="cleo-contact-page">
+                        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&amp;display=swap"/>
+
+                        <section class="cleo-contact-hero" id="cleo_contact_hero">
+                            <div class="cleo-contact-container">
+                                <div class="cleo-contact-hero__inner">
+                                    <div class="cleo-contact-hero__copy">
+                                        <h1 class="cleo-contact-title">Contáctenos</h1>
+                                        <p class="cleo-contact-script">Estamos aquí para ayudarte</p>
+                                        <p class="cleo-contact-lead">
+                                            Escríbenos y nuestro equipo estará listo para responderte lo más rápido posible.
+                                        </p>
+                                        <div class="cleo-contact-hero__badges">
+                                            <a class="cleo-contact-mini-card" href="https://wa.me/50368354506" target="_blank" rel="noopener">
+                                                <span class="cleo-contact-mini-card__icon cleo-contact-mini-card__icon--whatsapp">
+                                                    <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                                </span>
+                                                <span>Respuesta más rápida<br/>por WhatsApp</span>
+                                            </a>
+                                            <a class="cleo-contact-mini-card" href="/shop">
+                                                <span class="cleo-contact-mini-card__icon">
+                                                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                                                </span>
+                                                <span>Retiro en tienda en<br/>menos de 15 minutos</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="cleo-contact-hero__media">
+                                        <img src="/Sitio_web_cleosmarket/static/src/img/contact/contact_hero.webp"
+                                             alt="Equipo de atención de Super Tienda Cleo" loading="eager"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="cleo-contact-main">
+                            <div class="cleo-contact-container">
+                                <t t-if="contact_success">
+                                    <div class="cleo-contact-alert cleo-contact-alert--success">
+                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                        <span>Tu mensaje fue enviado correctamente. Te responderemos lo antes posible.</span>
+                                    </div>
+                                </t>
+
+                                <div class="cleo-contact-grid">
+                                    <article class="cleo-contact-card cleo-contact-form-card">
+                                        <div class="cleo-contact-section-title">
+                                            <span class="cleo-contact-section-title__icon">
+                                                <i class="fa fa-comments-o" aria-hidden="true"></i>
+                                            </span>
+                                            <div>
+                                                <h2>Envíanos un mensaje</h2>
+                                                <p>Completa el formulario y te responderemos lo antes posible.</p>
+                                            </div>
+                                        </div>
+
+                                        <form class="cleo-contact-form" action="/contactus/submit" method="post">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                            <div class="cleo-contact-form__row">
+                                                <label>
+                                                    <span>Nombre completo *</span>
+                                                    <span class="cleo-contact-input-wrap">
+                                                        <i class="fa fa-user-o" aria-hidden="true"></i>
+                                                        <input type="text" name="name" placeholder="Ingresa tu nombre" required="required"/>
+                                                    </span>
+                                                </label>
+                                                <label>
+                                                    <span>Número de teléfono *</span>
+                                                    <span class="cleo-contact-input-wrap">
+                                                        <i class="fa fa-phone" aria-hidden="true"></i>
+                                                        <input type="tel" name="phone" placeholder="Ej. 7123-4567" required="required"/>
+                                                    </span>
+                                                </label>
+                                            </div>
+
+                                            <div class="cleo-contact-form__row">
+                                                <label>
+                                                    <span>Correo electrónico *</span>
+                                                    <span class="cleo-contact-input-wrap">
+                                                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                                        <input type="email" name="email" placeholder="ejemplo@correo.com" required="required"/>
+                                                    </span>
+                                                </label>
+                                                <label>
+                                                    <span>Empresa (opcional)</span>
+                                                    <span class="cleo-contact-input-wrap">
+                                                        <i class="fa fa-building-o" aria-hidden="true"></i>
+                                                        <input type="text" name="company" placeholder="Nombre de tu empresa"/>
+                                                    </span>
+                                                </label>
+                                            </div>
+
+                                            <label>
+                                                <span>Asunto *</span>
+                                                <span class="cleo-contact-input-wrap cleo-contact-input-wrap--select">
+                                                    <i class="fa fa-tag" aria-hidden="true"></i>
+                                                    <select name="subject" required="required">
+                                                        <option value="">Selecciona un asunto</option>
+                                                        <option value="Consulta general">Consulta general</option>
+                                                        <option value="Ayuda con un pedido">Ayuda con un pedido</option>
+                                                        <option value="Retiro en tienda">Retiro en tienda</option>
+                                                        <option value="Disponibilidad de productos">Disponibilidad de productos</option>
+                                                        <option value="Sugerencias">Sugerencias</option>
+                                                    </select>
+                                                </span>
+                                            </label>
+
+                                            <label>
+                                                <span>Mensaje *</span>
+                                                <textarea name="message" rows="6" placeholder="Cuéntanos en qué podemos ayudarte..." required="required"></textarea>
+                                            </label>
+
+                                            <div class="cleo-contact-whatsapp-note">
+                                                <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                                <span>Para respuesta más rápida, escríbenos por WhatsApp: <strong>+503 6835-4506</strong></span>
+                                            </div>
+
+                                            <div class="cleo-contact-form__actions">
+                                                <button class="cleo-contact-submit" type="submit">
+                                                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                    Enviar mensaje
+                                                </button>
+                                            </div>
+
+                                            <p class="cleo-contact-privacy">
+                                                <i class="fa fa-lock" aria-hidden="true"></i>
+                                                Tus datos están seguros con nosotros. Nunca compartimos tu información.
+                                            </p>
+                                        </form>
+                                    </article>
+
+                                    <aside class="cleo-contact-side">
+                                        <article class="cleo-contact-card cleo-contact-info-card">
+                                            <div class="cleo-contact-section-title cleo-contact-section-title--compact">
+                                                <span class="cleo-contact-section-title__icon">
+                                                    <i class="fa fa-home" aria-hidden="true"></i>
+                                                </span>
+                                                <div>
+                                                    <h2>Información de la tienda</h2>
+                                                    <p>Super Tienda Cleo</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="cleo-contact-info-list">
+                                                <p><i class="fa fa-map-marker" aria-hidden="true"></i><span>Carretera a Planes de Renderos Km 6 1/2<br/>San Salvador, El Salvador</span></p>
+                                                <p><i class="fa fa-phone" aria-hidden="true"></i><a href="tel:+50368354506">+503 6835-4506</a></p>
+                                                <p><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:supertiendacleo25@gmail.com">supertiendacleo25@gmail.com</a></p>
+                                                <p><i class="fa fa-clock-o" aria-hidden="true"></i><span>Lunes a Domingo: 8:00 a.m. – 8:00 p.m.</span></p>
+                                            </div>
+
+                                            <div class="cleo-contact-whatsapp-card">
+                                                <span class="cleo-contact-whatsapp-card__icon">
+                                                    <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                                </span>
+                                                <div>
+                                                    <strong>Escríbenos por WhatsApp</strong>
+                                                    <p>Obtén ayuda inmediata en tu compra.</p>
+                                                </div>
+                                                <a href="https://wa.me/50368354506" target="_blank" rel="noopener">Abrir WhatsApp</a>
+                                            </div>
+                                        </article>
+
+                                        <article class="cleo-contact-map-card">
+                                            <iframe title="Mapa de Super Tienda Cleo"
+                                                    loading="lazy"
+                                                    referrerpolicy="no-referrer-when-downgrade"
+                                                    src="https://www.google.com/maps?q=Carretera%20a%20Planes%20de%20Renderos%20Km%206%201%2F2%20San%20Salvador%20El%20Salvador&amp;output=embed"></iframe>
+                                        </article>
+
+                                        <article class="cleo-contact-card cleo-contact-channels">
+                                            <h3>Canales de atención</h3>
+                                            <div class="cleo-contact-channel-grid">
+                                                <a href="https://wa.me/50368354506" target="_blank" rel="noopener">
+                                                    <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                                    <strong>WhatsApp</strong>
+                                                    <span>Respuesta rápida</span>
+                                                </a>
+                                                <a href="tel:+50368354506">
+                                                    <i class="fa fa-phone" aria-hidden="true"></i>
+                                                    <strong>Llámanos</strong>
+                                                    <span>+503 6835-4506</span>
+                                                </a>
+                                                <a href="mailto:supertiendacleo25@gmail.com">
+                                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                                    <strong>Correo</strong>
+                                                    <span>Envíanos tu consulta</span>
+                                                </a>
+                                                <a href="/shop">
+                                                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                                                    <strong>Retiro en tienda</strong>
+                                                    <span>En menos de 15 min</span>
+                                                </a>
+                                            </div>
+                                        </article>
+                                    </aside>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="cleo-contact-benefits">
+                            <div class="cleo-contact-container cleo-contact-benefits__inner">
+                                <article>
+                                    <span><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+                                    <div><h3>Atención rápida</h3><p>Respondemos tus consultas lo antes posible.</p></div>
+                                </article>
+                                <article>
+                                    <span><i class="fa fa-shield" aria-hidden="true"></i></span>
+                                    <div><h3>Compra segura</h3><p>Tus datos y pagos están protegidos siempre.</p></div>
+                                </article>
+                                <article>
+                                    <span><i class="fa fa-shopping-basket" aria-hidden="true"></i></span>
+                                    <div><h3>Retiro en tienda</h3><p>Lista tu compra en menos de 15 minutos.</p></div>
+                                </article>
+                                <article>
+                                    <span><i class="fa fa-whatsapp" aria-hidden="true"></i></span>
+                                    <div><h3>Soporte por WhatsApp</h3><p>Escríbenos y te ayudamos al instante.</p></div>
+                                </article>
+                            </div>
+                        </section>
+
+                        <section class="cleo-contact-before">
+                            <div class="cleo-contact-container">
+                                <div class="cleo-contact-heading-center">
+                                    <h2>Antes de escribirnos</h2>
+                                    <p>Resuelve tus dudas más comunes de forma rápida.</p>
+                                </div>
+                                <div class="cleo-contact-before__grid">
+                                    <a href="/my/orders" class="cleo-contact-before-card">
+                                        <span class="cleo-contact-before-card__icon"><i class="fa fa-envelope-open-o" aria-hidden="true"></i></span>
+                                        <div><h3>Seguimiento de pedido</h3><p>Consulta el estado de tu pedido en “Mis pedidos”.</p><strong>Ir a Mis pedidos</strong></div>
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="/contactus" class="cleo-contact-before-card">
+                                        <span class="cleo-contact-before-card__icon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+                                        <div><h3>Horarios de atención</h3><p>Estamos abiertos todos los días de 8:00 a.m. a 8:00 p.m.</p><strong>Ver horarios</strong></div>
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="/shop" class="cleo-contact-before-card">
+                                        <span class="cleo-contact-before-card__icon"><i class="fa fa-home" aria-hidden="true"></i></span>
+                                        <div><h3>Retiro en tienda</h3><p>Tu pedido listo en menos de 15 minutos en nuestra tienda.</p><strong>Más información</strong></div>
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </t>
+            </template>
+    </data>
+</odoo>

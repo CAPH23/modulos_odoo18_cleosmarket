@@ -1,0 +1,86 @@
+/* ============================================================
+   Super Tienda Cleo - Selección visual inmediata de direcciones
+   /shop/checkout
+   ============================================================ */
+
+.oe_website_sale .cleo-checkout-address-card {
+    position: relative;
+    cursor: pointer;
+    transition:
+        border-color 0.22s ease,
+        box-shadow 0.22s ease,
+        transform 0.22s ease,
+        background 0.22s ease;
+}
+
+.oe_website_sale .cleo-checkout-address-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+}
+
+.oe_website_sale .cleo-checkout-address-card.cleo-address-card-not-selected {
+    border-color: rgba(6, 39, 93, 0.12) !important;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
+    background: #ffffff;
+}
+
+.oe_website_sale .cleo-checkout-address-card.cleo-address-card-selected {
+    border-color: #e94b38 !important;
+    border-width: 1.5px !important;
+    background: linear-gradient(135deg, rgba(233, 75, 56, 0.06), #ffffff 62%);
+    box-shadow:
+        0 0 0 4px rgba(233, 75, 56, 0.08),
+        0 16px 34px rgba(233, 75, 56, 0.12);
+}
+
+.oe_website_sale .cleo-address-selected-badge {
+    display: none;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 6px 11px;
+    background: rgba(0, 122, 90, 0.12);
+    color: #007a5a;
+    font-size: 0.78rem;
+    font-weight: 900;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.oe_website_sale .cleo-address-card-selected .cleo-address-selected-badge {
+    display: inline-flex;
+}
+
+.oe_website_sale .cleo-address-card-selected::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(233, 75, 56, 0.35);
+}
+
+/* Evita que Editar / Eliminar parezcan parte del clic principal */
+.oe_website_sale .cleo-checkout-address-card a,
+.oe_website_sale .cleo-checkout-address-card button {
+    position: relative;
+    z-index: 2;
+}
+
+@media (max-width: 767.98px) {
+    .oe_website_sale .cleo-address-selected-badge {
+        top: 10px;
+        right: 10px;
+        padding: 5px 9px;
+        font-size: 0.72rem;
+    }
+
+    .oe_website_sale .cleo-checkout-address-card.cleo-address-card-selected {
+        box-shadow:
+            0 0 0 3px rgba(233, 75, 56, 0.08),
+            0 12px 26px rgba(233, 75, 56, 0.10);
+    }
+}

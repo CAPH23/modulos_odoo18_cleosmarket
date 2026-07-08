@@ -1,0 +1,11 @@
+.oe_product_cart, .product_card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+    background-color: white;
+}
+.oe_product_cart:hover, .product_card:hover {
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
+}

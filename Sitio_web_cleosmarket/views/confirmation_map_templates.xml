@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+	<!--
+            Archivo intencionalmente vacío.
+            El mapa de /shop/confirmation se inserta por JS para no depender
+            de XPath sobre website_sale.confirmation.
+        -->
+    </data>
+</odoo>
