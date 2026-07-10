@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <!-- The standard "Invoice: Sending" template attaches Invoice PDF
+             (account.account_invoices) unconditionally, on top of whichever
+             report the Send & Print wizard picks as pdf_report_id. Once a
+             customer's preferred invoice template is set to the Cleo
+             comprobante (see account.action_report_cleo_invoice_letter),
+             the two reports stop cancelling out and the customer receives
+             the same PDF twice under different filenames. Cleo's design
+             already replaces the standard invoice layout
+             (account.report_invoice_document), so this extra attachment is
+             redundant regardless of which template ends up selected. -->
+        <record id="account.email_template_edi_invoice" model="mail.template">
+            <field name="report_template_ids" eval="[(3, ref('account.account_invoices'))]"/>
+        </record>
+    </data>
+</odoo>
