@@ -2,7 +2,7 @@
 {
     'name': 'Super Tienda Cleo - Diseño de Comprobantes y Tickets',
     'summary': 'Diseño de comprobante de compra, ticket 80mm mejorado y enlaces en portal para Super Tienda Cleo.',
-    'version': '18.0.1.11.0',
+    'version': '18.0.1.13.0',
     'category': 'Accounting/Accounting',
     'author': 'Super Tienda Cleo',
     'website': 'https://cleosmarket.com',
@@ -15,6 +15,7 @@
         'pos_sale',
     ],
     'data': [
+        'data/mail_template_data.xml',
         'report/paperformat.xml',
         'report/cleo_invoice_reports.xml',
         'report/cleo_pos_ticket_reports.xml',
