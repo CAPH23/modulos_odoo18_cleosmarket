@@ -128,6 +128,29 @@
             });
         }
 
+        function geolocationErrorMessage(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    return "Ubicación bloqueada para este sitio. Haga clic en el candado junto a la dirección del navegador, permita la Ubicación y vuelva a intentar, o seleccione el punto manualmente en el mapa.";
+                case error.POSITION_UNAVAILABLE:
+                    return "No se pudo determinar su ubicación. Verifique que el servicio de ubicación de su dispositivo/sistema operativo esté activado, o seleccione el punto manualmente en el mapa.";
+                case error.TIMEOUT:
+                    return "La solicitud de ubicación tardó demasiado. Puede intentarlo de nuevo o seleccionar el punto manualmente en el mapa.";
+                default:
+                    return "No se pudo obtener su ubicación. Puede seleccionar el punto manualmente en el mapa.";
+            }
+        }
+
+        function onLocationSuccess(position) {
+            const latlng = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+            };
+
+            map.setView(latlng, 18);
+            placeMarker(latlng, true);
+        }
+
         const myLocationButton = document.getElementById("cleo_geo_use_my_location");
         if (myLocationButton) {
             myLocationButton.addEventListener("click", function () {
@@ -137,17 +160,29 @@
                 }
 
                 navigator.geolocation.getCurrentPosition(
-                    function (position) {
-                        const latlng = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                        };
+                    onLocationSuccess,
+                    function (error) {
+                        console.error("Geolocation error (high accuracy)", error.code, error.message);
 
-                        map.setView(latlng, 18);
-                        placeMarker(latlng, true);
-                    },
-                    function () {
-                        alert("No se pudo obtener su ubicación. Puede seleccionar el punto manualmente en el mapa.");
+                        // PERMISSION_DENIED no mejora reintentando con menor precisión.
+                        if (error.code === error.PERMISSION_DENIED) {
+                            alert(geolocationErrorMessage(error));
+                            return;
+                        }
+
+                        // Reintento con menor precisión (red/WiFi) para TIMEOUT o POSITION_UNAVAILABLE.
+                        navigator.geolocation.getCurrentPosition(
+                            onLocationSuccess,
+                            function (retryError) {
+                                console.error("Geolocation error (low accuracy retry)", retryError.code, retryError.message);
+                                alert(geolocationErrorMessage(retryError));
+                            },
+                            {
+                                enableHighAccuracy: false,
+                                timeout: 20000,
+                                maximumAge: 0,
+                            }
+                        );
                     },
                     {
                         enableHighAccuracy: true,

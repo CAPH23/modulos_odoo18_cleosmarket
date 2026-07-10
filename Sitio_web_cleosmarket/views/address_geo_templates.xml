@@ -73,7 +73,7 @@
                                             <t t-if="is_anonymous_cart">
                                                 <div id="div_email_public" class="cleo-field cleo-field-full">
                                                     <label class="col-form-label cleo-required-label" for="o_email">
-                                                        Correo electrónico <span class="cleo-required-star">*</span>
+                                                        Correo electrónico <span class="cleo-required-star">(Requerido)</span>
                                                     </label>
                                                     <div
                                                         t-if="website.account_on_checkout != 'disabled'"
@@ -102,7 +102,7 @@
 
                                             <div id="div_name" class="cleo-field cleo-field-full">
                                                 <label class="col-form-label cleo-required-label" for="o_name">
-                                                    Nombre completo <span class="cleo-required-star">*</span>
+                                                    Nombre completo <span class="cleo-required-star">(Requerido)</span>
                                                 </label>
                                                 <input
                                                     id="o_name"
@@ -121,7 +121,7 @@
                                                 class="cleo-field cleo-field-half"
                                             >
                                                 <label class="col-form-label cleo-required-label" for="o_email">
-                                                    Correo electrónico <span class="cleo-required-star">*</span>
+                                                    Correo electrónico <span class="cleo-required-star">(Requerido)</span>
                                                 </label>
                                                 <input
                                                     id="o_email"
@@ -136,7 +136,7 @@
 
                                             <div id="div_phone" class="cleo-field cleo-field-half">
                                                 <label class="col-form-label cleo-required-label" for="o_phone">
-                                                    Teléfono <span class="cleo-required-star">*</span>
+                                                    Teléfono <span class="cleo-required-star">(Requerido)</span>
                                                 </label>
                                                 <input
                                                     id="o_phone"
@@ -220,7 +220,7 @@
 					    
 					    <div id="div_country" class="cleo-field cleo-field-half">
 						<label class="col-form-label cleo-required-label" for="o_country_id">
-						    País <span class="cleo-required-star">*</span>
+						    País <span class="cleo-required-star">(Requerido)</span>
 						</label>
 						
 						<!--
@@ -248,7 +248,7 @@
 
                                             <div id="div_city" class="cleo-field cleo-field-half">
 					        <label class="col-form-label cleo-required-label" for="o_city">
-					            Municipio <span class="cleo-required-text">(Requerido)</span>
+					            Distrito <span class="cleo-required-text">(Requerido)</span>
 					        </label>
 					        <input
 					            id="o_city"
@@ -263,7 +263,7 @@
 
 					    <div id="div_state" class="cleo-field cleo-field-full">
 					        <label class="col-form-label cleo-required-label" for="o_state_id">
-					            Distrito <span class="cleo-required-text">(Requerido)</span>
+					            Municipio <span class="cleo-required-text">(Requerido)</span>
 					        </label>
 					        <select
 					            id="o_state_id"
@@ -300,7 +300,7 @@
                                                     <div>
                                                         <h5>Ubicación exacta de entrega</h5>
                                                         <p>
-                                                            Escriba manualmente la latitud y longitud, o seleccione el punto exacto en el mapa.
+                                                            Escriba manualmente la latitud y longitud, o dar clic en el mapa y posicionar el icono en el punto exacto de entrega en el mapa.
                                                         </p>
                                                     </div>
                                                 </div>
@@ -308,7 +308,7 @@
                                                 <div class="cleo-address-geo-inputs">
                                                     <div>
                                                         <label class="col-form-label cleo-required-label" for="o_partner_latitude">
-                                                            Latitud <span class="cleo-required-star">*</span>
+                                                            Latitud <span class="cleo-required-star">(Requerido)</span>
                                                         </label>
                                                         <input
                                                             id="o_partner_latitude"
@@ -324,7 +324,7 @@
 
                                                     <div>
                                                         <label class="col-form-label cleo-required-label" for="o_partner_longitude">
-                                                            Longitud <span class="cleo-required-star">*</span>
+                                                            Longitud <span class="cleo-required-star">(Requerido)</span>
                                                         </label>
                                                         <input
                                                             id="o_partner_longitude"
