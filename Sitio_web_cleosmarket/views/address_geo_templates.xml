@@ -217,7 +217,8 @@
                                             -->
 
                                             <t t-set="sv_country" t-value="request.env['res.country'].sudo().search([('code', '=', 'SV')], limit=1)"/>
-					    
+					    <t t-set="sv_cities_data" t-value="[{'id': c.id, 'name': c.name, 'state_id': c.state_id.id} for c in request.env['res.city'].sudo().search([('state_id.country_id', '=', sv_country.id)])]"/>
+
 					    <div id="div_country" class="cleo-field cleo-field-half">
 						<label class="col-form-label cleo-required-label" for="o_country_id">
 						    País <span class="cleo-required-star">(Requerido)</span>
@@ -246,22 +247,7 @@
 						<!-- Este es el valor real que Odoo recibirá al guardar la dirección -->
 					    </div>
 
-                                            <div id="div_city" class="cleo-field cleo-field-half">
-					        <label class="col-form-label cleo-required-label" for="o_city">
-					            Distrito <span class="cleo-required-text">(Requerido)</span>
-					        </label>
-					        <input
-					            id="o_city"
-					            type="text"
-					            name="city"
-					            required="required"
-					            autocomplete="address-level2"
-					            class="form-control"
-					            t-att-value="partner_sudo.city"
-					        />
-					    </div>
-
-					    <div id="div_state" class="cleo-field cleo-field-full">
+                                            <div id="div_state" class="cleo-field cleo-field-full">
 					        <label class="col-form-label cleo-required-label" for="o_state_id">
 					            Municipio <span class="cleo-required-text">(Requerido)</span>
 					        </label>
@@ -271,10 +257,32 @@
 					            class="form-select"
 					            required="required"
 					        >
-					            <option value="">Seleccione un distrito...</option>
+					            <option value="">Seleccione un municipio...</option>
 					            <t t-foreach="sv_country.state_ids" t-as="s">
 					                <option t-att-value="s.id" t-att-selected="s.id == state_id">
 				                            <t t-esc="s.name"/>
+					                </option>
+					            </t>
+					        </select>
+					    </div>
+
+                                            <div id="div_city" class="cleo-field cleo-field-half">
+					        <label class="col-form-label cleo-required-label" for="o_city">
+					            Distrito <span class="cleo-required-text">(Requerido)</span>
+					        </label>
+					        <select
+					            id="o_city"
+					            name="city"
+					            required="required"
+					            autocomplete="address-level2"
+					            class="form-select"
+					            t-att-data-catalog="json.dumps(sv_cities_data)"
+					            t-att-data-initial-city="partner_sudo.city or ''"
+					        >
+					            <option value="">Seleccione un distrito...</option>
+					            <t t-if="partner_sudo.city">
+					                <option t-att-value="partner_sudo.city" selected="selected">
+					                    <t t-esc="partner_sudo.city"/>
 					                </option>
 					            </t>
 					        </select>

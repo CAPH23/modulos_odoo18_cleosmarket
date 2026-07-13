@@ -215,9 +215,83 @@
         }, 900);
     }
 
+    function initCleoDistrictSelect() {
+        const citySelect = document.getElementById("o_city");
+        const stateSelect = document.getElementById("o_state_id");
+
+        if (!citySelect || !stateSelect) {
+            return;
+        }
+
+        if (citySelect.dataset.cleoDistrictReady === "1") {
+            return;
+        }
+        citySelect.dataset.cleoDistrictReady = "1";
+
+        let catalog = [];
+        try {
+            catalog = JSON.parse(citySelect.dataset.catalog || "[]");
+        } catch (error) {
+            console.warn("No se pudo leer el catálogo de distritos.", error);
+            return;
+        }
+
+        function populateCities(stateId, preferredValue) {
+            const stateIdNum = stateId ? Number(stateId) : null;
+            const matches = stateIdNum
+                ? catalog.filter((city) => city.state_id === stateIdNum)
+                : [];
+
+            citySelect.innerHTML = "";
+
+            const placeholder = document.createElement("option");
+            placeholder.value = "";
+            placeholder.textContent = stateIdNum
+                ? "Seleccione un distrito..."
+                : "Seleccione primero un municipio";
+            citySelect.appendChild(placeholder);
+
+            let matchedPreferred = false;
+
+            matches
+                .slice()
+                .sort((a, b) => a.name.localeCompare(b.name, "es"))
+                .forEach((city) => {
+                    const option = document.createElement("option");
+                    option.value = city.name;
+                    option.textContent = city.name;
+                    if (preferredValue && city.name === preferredValue) {
+                        option.selected = true;
+                        matchedPreferred = true;
+                    }
+                    citySelect.appendChild(option);
+                });
+
+            // Conserva un distrito guardado que ya no está en el catálogo del
+            // municipio actual, para no dejar la dirección existente "sin seleccionar".
+            if (preferredValue && !matchedPreferred) {
+                const customOption = document.createElement("option");
+                customOption.value = preferredValue;
+                customOption.textContent = preferredValue;
+                customOption.selected = true;
+                citySelect.appendChild(customOption);
+            }
+        }
+
+        populateCities(stateSelect.value, citySelect.dataset.initialCity);
+
+        stateSelect.addEventListener("change", function () {
+            populateCities(stateSelect.value, null);
+        });
+    }
+
     if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initCleoAddressMap);
+        document.addEventListener("DOMContentLoaded", function () {
+            initCleoAddressMap();
+            initCleoDistrictSelect();
+        });
     } else {
         initCleoAddressMap();
+        initCleoDistrictSelect();
     }
 })();
