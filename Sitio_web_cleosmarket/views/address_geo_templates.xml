@@ -393,6 +393,10 @@
                                                     data-default-lng="-89.2181900"
                                                 />
                                             </div>
+                                            <p class="cleo-address-map-note">
+                                                Área de cobertura para envíos a domicilio. Si estás fuera de la zona
+                                                de cobertura, <a href="/contactus">contáctanos</a>.
+                                            </p>
                                         </div>
 
                                     </div>

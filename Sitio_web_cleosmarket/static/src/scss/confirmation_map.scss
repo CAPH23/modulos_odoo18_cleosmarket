@@ -53,13 +53,14 @@
 }
 
 .cleo-confirmation-logo-marker {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 10px;
     transform: translateY(-8px);
 }
 
 .cleo-confirmation-logo-pin {
+    flex-shrink: 0;
     width: 58px;
     height: 58px;
     border-radius: 50% 50% 50% 8px;
@@ -81,14 +82,29 @@
 }
 
 .cleo-confirmation-logo-label {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
     background: #06275d;
     color: #ffffff;
-    border-radius: 999px;
-    padding: 8px 14px;
+    border-radius: 16px;
+    padding: 8px 16px;
     font-weight: 800;
     font-size: 0.92rem;
     white-space: nowrap;
     box-shadow: 0 8px 22px rgba(15, 23, 42, 0.2);
+}
+
+.cleo-confirmation-logo-label strong {
+    font-weight: 800;
+}
+
+.cleo-confirmation-logo-label small {
+    font-weight: 600;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.8);
+    white-space: normal;
 }
 
 @media (max-width: 767.98px) {
@@ -102,8 +118,14 @@
     }
 
     .cleo-confirmation-logo-label {
-        font-size: 0.82rem;
-        padding: 7px 10px;
+        font-size: 0.78rem;
+        padding: 6px 10px;
+        max-width: 135px;
+        white-space: normal;
+    }
+
+    .cleo-confirmation-logo-label small {
+        font-size: 0.68rem;
     }
 
     .cleo-confirmation-logo-pin {

@@ -228,11 +228,14 @@
 .cleo-address-right-card {
     padding: 16px;
     min-height: 690px;
+    display: flex;
+    flex-direction: column;
 }
 
 .cleo-address-map-panel {
     width: 100%;
-    height: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
 }
 
 .cleo-address-map {
@@ -243,6 +246,20 @@
     overflow: hidden;
     border: 1px solid rgba(6, 39, 93, 0.14);
     background: #edf2f7;
+}
+
+.cleo-address-map-note {
+    flex: 0 0 auto;
+    margin: 12px 4px 4px;
+    color: #4f5f73;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.cleo-address-map-note a {
+    color: #0b5cad;
+    font-weight: 700;
+    text-decoration: underline;
 }
 
 .cleo-address-map .leaflet-control-zoom a {

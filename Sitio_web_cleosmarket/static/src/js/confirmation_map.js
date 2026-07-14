@@ -139,6 +139,8 @@
         mapWrapper.dataset.lat = locationData.latitude;
         mapWrapper.dataset.lng = locationData.longitude;
         mapWrapper.dataset.label = locationData.label || "Super Tienda Cleo AQUÍ";
+        mapWrapper.dataset.subtitle = "Centro de nuestra área de cobertura de entrega";
+        mapWrapper.dataset.logoUrl = locationData.logo_url || "";
 
         mapWrapper.innerHTML = `
             <div id="cleo_contactus_map" class="cleo-contactus-map"></div>
@@ -175,8 +177,8 @@
 
         const L = window.L;
         const label = section.dataset.label || "Super Tienda Cleo AQUÍ";
-
-        setupLeafletDefaultMarker(L);
+        const subtitle = section.dataset.subtitle || "";
+        const logoUrl = section.dataset.logoUrl || "";
 
         const map = L.map(mapElement, {
             scrollWheelZoom: false,
@@ -187,14 +189,30 @@
             attribution: "&copy; OpenStreetMap",
         }).addTo(map);
 
-        const marker = L.marker([lat, lng]).addTo(map);
+        if (subtitle && logoUrl) {
+            const logoIcon = L.divIcon({
+                className: "cleo-confirmation-logo-marker-wrapper",
+                html:
+                    '<div class="cleo-confirmation-logo-marker">' +
+                    '<div class="cleo-confirmation-logo-pin"><img src="' + logoUrl + '" alt="' + label + '" /></div>' +
+                    '<div class="cleo-confirmation-logo-label"><strong>' + label + '</strong><small>' + subtitle + '</small></div>' +
+                    '</div>',
+                iconSize: [0, 0],
+                iconAnchor: [29, 50],
+            });
+            L.marker([lat, lng], { icon: logoIcon }).addTo(map);
+        } else {
+            setupLeafletDefaultMarker(L);
 
-        marker.bindTooltip(label, {
-            permanent: true,
-            direction: "right",
-            offset: [18, -12],
-            className: "cleo-confirmation-store-tooltip",
-        });
+            const marker = L.marker([lat, lng]).addTo(map);
+
+            marker.bindTooltip(label, {
+                permanent: true,
+                direction: "right",
+                offset: [18, -12],
+                className: "cleo-confirmation-store-tooltip",
+            });
+        }
 
         setTimeout(function () {
             map.invalidateSize();
