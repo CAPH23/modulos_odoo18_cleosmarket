@@ -9,7 +9,7 @@ Sitio Web Cleosmarket
 Segunda etapa del rediseño visual de cleosmarket.com.
 Esta versión reemplaza el encabezado, agrega el hero principal de la Home y muestra categorías internas de cuarto nivel del modelo product.category.
     """,
-    "version": "18.0.1.8.6",
+    "version": "18.0.1.8.7",
     "category": "Website/Website",
     "author": "Carlos Palacios",
     "website": "https://www.cleosmarket.com",
@@ -49,6 +49,7 @@ Esta versión reemplaza el encabezado, agrega el hero principal de la Home y mue
 	    "Sitio_web_cleosmarket/static/src/js/dairy_carousel.js",
             "Sitio_web_cleosmarket/static/src/js/legal_links.js",
 	    "Sitio_web_cleosmarket/static/src/js/terms_acceptance.js",
+	    "Sitio_web_cleosmarket/static/src/js/coverage_zone_overlay.js",
 	    "Sitio_web_cleosmarket/static/src/js/address_geo_map.js",
 	    "Sitio_web_cleosmarket/static/src/js/confirmation_map.js",
 	    "Sitio_web_cleosmarket/static/src/js/checkout_address_improvements.js",
