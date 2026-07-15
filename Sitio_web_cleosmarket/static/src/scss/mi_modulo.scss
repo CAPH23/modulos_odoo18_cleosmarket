@@ -4144,69 +4144,120 @@ $o-cleo-white: #ffffff;
 }
 
 /* ============================================================
-   Home: banner flotante de envíos a domicilio desde $9.99
+   Home: sticker flotante de envíos a domicilio desde $9.99
    ============================================================ */
-.cleo-home-shipping-banner {
+.cleo-home-shipping-sticker {
     position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    left: 20px;
+    bottom: 20px;
     z-index: 1040;
-    background: #06275d;
-    color: #ffffff;
-    box-shadow: 0 -6px 24px rgba(6, 39, 93, 0.22);
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, #ffdb5c, #ffc20e 62%);
+    box-shadow: 0 10px 26px rgba(6, 39, 93, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
-.cleo-home-shipping-banner.cleo-is-dismissed {
-    transform: translateY(100%);
+.cleo-home-shipping-sticker:hover {
+    transform: scale(1.06);
+}
+
+.cleo-home-shipping-sticker.cleo-is-dismissed {
+    transform: scale(0.4);
     opacity: 0;
     pointer-events: none;
 }
 
-.cleo-home-shipping-banner__inner {
-    max-width: 1180px;
-    margin: 0 auto;
-    position: relative;
+.cleo-home-shipping-sticker__pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 194, 14, 0.75);
+    animation: cleo-shipping-sticker-pulse 2.4s ease-out infinite;
+    pointer-events: none;
+}
+
+@keyframes cleo-shipping-sticker-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: scale(1.55);
+        opacity: 0;
+    }
+}
+
+.cleo-home-shipping-sticker__content {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    padding: 12px 44px 12px 18px;
-    font-weight: 700;
-    font-size: 0.95rem;
+    color: #06275d;
     text-align: center;
+    line-height: 1.05;
 }
 
-.cleo-home-shipping-banner__inner i.fa-truck {
-    color: #ffc20e;
+.cleo-home-shipping-sticker__content i {
+    font-size: 1.05rem;
+    margin-bottom: 2px;
 }
 
-.cleo-home-shipping-banner__close {
+.cleo-home-shipping-sticker__content strong {
+    font-size: 1.15rem;
+    font-weight: 900;
+}
+
+.cleo-home-shipping-sticker__content small {
+    font-size: 0.55rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    max-width: 64px;
+}
+
+.cleo-home-shipping-sticker__close {
     position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    color: #ffffff;
-    width: 32px;
-    height: 32px;
+    top: -4px;
+    right: -4px;
+    width: 24px;
+    height: 24px;
     border-radius: 999px;
+    background: #06275d;
+    color: #ffffff;
+    border: 2px solid #fff7e6;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    font-size: 0.7rem;
     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(6, 39, 93, 0.28);
 }
 
-.cleo-home-shipping-banner__close:hover {
-    background: rgba(255, 255, 255, 0.15);
+.cleo-home-shipping-sticker__close:hover {
+    background: #0b3e8a;
 }
 
-@media (max-width: 600px) {
-    .cleo-home-shipping-banner__inner {
-        font-size: 0.85rem;
-        padding: 10px 40px 10px 14px;
+@media (max-width: 480px) {
+    .cleo-home-shipping-sticker {
+        left: 14px;
+        bottom: 14px;
+        width: 82px;
+        height: 82px;
+    }
+
+    .cleo-home-shipping-sticker__content strong {
+        font-size: 1rem;
+    }
+
+    .cleo-home-shipping-sticker__content small {
+        font-size: 0.5rem;
+        max-width: 54px;
     }
 }
 
