@@ -18,6 +18,7 @@
             <field name="name">Ticket Cleo 80mm</field>
             <field name="model">account.move</field>
             <field name="report_type">qweb-pdf</field>
+            <field name="is_invoice_report">True</field>
             <field name="report_name">cleo_invoice_design.report_cleo_invoice_ticket</field>
             <field name="report_file">cleo_invoice_design.report_cleo_invoice_ticket</field>
             <field name="paperformat_id" ref="cleo_invoice_design.paperformat_cleo_ticket_80mm"/>

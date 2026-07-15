@@ -16,6 +16,20 @@ class AccountMove(models.Model):
         """Print the Super Tienda Cleo 80mm ticket based on the invoice."""
         return self.env.ref('cleo_invoice_design.action_report_cleo_invoice_ticket').report_action(self)
 
+    def preview_invoice(self):
+        """Native 'Vista previa' button: open the Cleo comprobante directly.
+
+        The standard implementation redirects to the generic portal invoice
+        page, which is a separate HTML template account.report_invoice_document
+        does not touch, so it still shows Odoo's stock layout. Customer
+        invoices should preview the same report as the "Comprobante Cleo"
+        button instead.
+        """
+        self.ensure_one()
+        if self.move_type in ('out_invoice', 'out_receipt') and self.state == 'posted':
+            return self.env.ref('cleo_invoice_design.action_report_cleo_invoice_letter').report_action(self)
+        return super().preview_invoice()
+
     def _cleo_clear_standard_invoice_pdf_cache(self):
         """Clear cached standard invoice PDF before sending/printing.
 
