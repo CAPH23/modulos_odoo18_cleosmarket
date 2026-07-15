@@ -94,6 +94,21 @@
                     <t t-if="request and request.httprequest and request.httprequest.path in ['/', '/-1', '/-2']">
 
                         <!-- =====================================================
+                             BANNER FLOTANTE: envíos a domicilio desde $9.99
+                             Se puede cerrar, pero reaparece en cada visita al home
+                             (no se guarda preferencia en cookie ni localStorage).
+                             ===================================================== -->
+                        <div class="cleo-home-shipping-banner" id="cleo_home_shipping_banner">
+                            <div class="cleo-home-shipping-banner__inner">
+                                <i class="fa fa-truck" aria-hidden="true"></i>
+                                <span>Envíos a domicilio desde <strong>$9.99</strong> en tu carrito.</span>
+                                <button type="button" class="cleo-home-shipping-banner__close" aria-label="Cerrar aviso">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- =====================================================
                              HERO PRINCIPAL
                              ===================================================== -->
                         <section class="cleo-home-hero" id="cleo_home_hero">
@@ -477,7 +492,7 @@
                                     </span>
                                     <div class="cleo-footer-step__content">
                                         <h3>2. Confirma tu pedido y pago</h3>
-                                        <p>Revisa tu pedido y selecciona retiro en tienda.</p>
+                                        <p>Revisa tu pedido y selecciona tu método de entrega.</p>
                                     </div>
                                 </div>
 
@@ -500,7 +515,7 @@
                                         </span>
                                         <div class="cleo-footer-step__content">
                                             <h3>3. Entrega a domicilio</h3>
-                                            <p>Selecciona entre entrega Estándar 24 h o Express 30 min.</p>
+                                            <p>Estándar: entregado en 24 h. Express: despachado en 30 min tras confirmar tu compra.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -939,23 +954,24 @@
                                             <span class="cleo-about-step__icon"><i class="fa fa-mobile" aria-hidden="true"></i></span>
                                             <div>
                                                 <h3>Elige tus productos</h3>
-                                                <p>Explora miles de productos y agrégalos a tu carrito.</p>
+                                                <p>Explora nuestras categorías y agrega tus productos favoritos al carrito.</p>
                                             </div>
                                         </article>
                                         <article class="cleo-about-step">
                                             <span class="cleo-about-step__number">2</span>
                                             <span class="cleo-about-step__icon"><i class="fa fa-check-square-o" aria-hidden="true"></i></span>
                                             <div>
-                                                <h3>Confirma tu pedido</h3>
-                                                <p>Revisa tu pedido, elige la hora y confirma.</p>
+                                                <h3>Confirma tu pedido y pago</h3>
+                                                <p>Revisa tu pedido y selecciona tu método de entrega.</p>
                                             </div>
                                         </article>
                                         <article class="cleo-about-step">
                                             <span class="cleo-about-step__number">3</span>
-                                            <span class="cleo-about-step__icon"><i class="fa fa-home" aria-hidden="true"></i></span>
+                                            <span class="cleo-about-step__icon"><i class="fa fa-truck" aria-hidden="true"></i></span>
                                             <div>
-                                                <h3>Retira en tienda</h3>
-                                                <p>Te esperamos. Tu pedido estará listo para ti.</p>
+                                                <h3>Recibe tu pedido</h3>
+                                                <p>Retira en tienda en menos de 15 minutos, o elige entrega a domicilio: Estándar entregado en 24 h,
+                                                    o Express despachado en 30 min tras confirmar tu compra.</p>
                                             </div>
                                         </article>
                                 </div>
@@ -1177,7 +1193,8 @@
                                                 <p><i class="fa fa-map-marker" aria-hidden="true"></i><span>Carretera a Planes de Renderos Km 6 1/2<br/>San Salvador, El Salvador</span></p>
                                                 <p><i class="fa fa-phone" aria-hidden="true"></i><a href="tel:+50368354506">+503 6835-4506</a></p>
                                                 <p><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:supertiendacleo25@gmail.com">supertiendacleo25@gmail.com</a></p>
-                                                <p><i class="fa fa-clock-o" aria-hidden="true"></i><span>Lunes a Domingo: 8:00 a.m. – 8:00 p.m.</span></p>
+                                                <p><i class="fa fa-clock-o" aria-hidden="true"></i><span>Lunes a Domingo: 8:00 a.m. – 8:00 p.m.<br/>
+                                                <small>Pedidos y preguntas sobre productos, todos los días de 8:00 a.m. a 8:00 p.m. Reclamos y seguimiento de pedidos, de 8:00 a.m. a 5:00 p.m.</small></span></p>
                                             </div>
 
                                             <div class="cleo-contact-whatsapp-card">

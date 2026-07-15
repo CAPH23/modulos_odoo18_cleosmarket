@@ -91,9 +91,26 @@
         setTimeout(updateButtons, 300);
     }
 
+    function initShippingBanner() {
+        const banner = document.getElementById("cleo_home_shipping_banner");
+        if (!banner) {
+            return;
+        }
+
+        const closeBtn = banner.querySelector(".cleo-home-shipping-banner__close");
+        if (!closeBtn) {
+            return;
+        }
+
+        closeBtn.addEventListener("click", function () {
+            banner.classList.add("cleo-is-dismissed");
+        });
+    }
+
     function initCleoWebsite() {
         setActiveMenu();
         initCategoryCarousel();
+        initShippingBanner();
     }
 
     if (document.readyState === "loading") {
