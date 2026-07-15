@@ -1,7 +1,0 @@
-<odoo>
-  <template id="assets_frontend" inherit_id="website.assets_frontend" name="Custom Cluster Icon">
-    <xpath expr="." position="inside">
-      <script type="text/javascript" src="/website_google_map_custom/static/src/js/custom_cluster_style.js"/>
-    </xpath>
-  </template>
-</odoo>
