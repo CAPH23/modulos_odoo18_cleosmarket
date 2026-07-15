@@ -97,7 +97,7 @@
             return;
         }
 
-        const closeBtn = banner.querySelector(".cleo-home-shipping-banner__close");
+        const closeBtn = banner.querySelector(".cleo-home-shipping-sticker__close");
         if (!closeBtn) {
             return;
         }

@@ -94,17 +94,19 @@
                     <t t-if="request and request.httprequest and request.httprequest.path in ['/', '/-1', '/-2']">
 
                         <!-- =====================================================
-                             BANNER FLOTANTE: envíos a domicilio desde $9.99
+                             STICKER FLOTANTE: envíos a domicilio desde $9.99
                              Se puede cerrar, pero reaparece en cada visita al home
                              (no se guarda preferencia en cookie ni localStorage).
                              ===================================================== -->
-                        <div class="cleo-home-shipping-banner" id="cleo_home_shipping_banner">
-                            <div class="cleo-home-shipping-banner__inner">
+                        <div class="cleo-home-shipping-sticker" id="cleo_home_shipping_banner" role="note" aria-label="Envíos a domicilio desde $9.99">
+                            <span class="cleo-home-shipping-sticker__pulse" aria-hidden="true"></span>
+                            <button type="button" class="cleo-home-shipping-sticker__close" aria-label="Cerrar aviso">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                            <div class="cleo-home-shipping-sticker__content">
                                 <i class="fa fa-truck" aria-hidden="true"></i>
-                                <span>Envíos a domicilio desde <strong>$9.99</strong> en tu carrito.</span>
-                                <button type="button" class="cleo-home-shipping-banner__close" aria-label="Cerrar aviso">
-                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                </button>
+                                <strong>$9.99</strong>
+                                <small>envíos a domicilio</small>
                             </div>
                         </div>
 
