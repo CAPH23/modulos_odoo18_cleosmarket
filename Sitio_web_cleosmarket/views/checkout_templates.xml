@@ -28,6 +28,27 @@
             </xpath>
         </template>
 
+        <template id="cleosmarket_cart_delivery_minimum_message" inherit_id="website_sale.cart" name="Super Tienda Cleo - Aviso de monto mínimo para entrega a domicilio">
+            <xpath expr="//t[@t-call='website_sale.cart_lines']" position="before">
+                <t t-if="website_sale_order and website_sale_order.website_order_line">
+                    <t t-set="cleo_delivery_minimum" t-value="9.99"/>
+                    <div class="cleo-cart-delivery-minimum-note">
+                        <t t-if="website_sale_order.amount_total &lt; cleo_delivery_minimum">
+                            <i class="fa fa-truck" aria-hidden="true"></i>
+                            <span>
+                                Te faltan <strong>$<t t-esc="'%.2f' % (cleo_delivery_minimum - website_sale_order.amount_total)"/></strong>
+                                en tu carrito para desbloquear la entrega a domicilio (monto mínimo $9.99). Aún puedes retirar en tienda sin monto mínimo.
+                            </span>
+                        </t>
+                        <t t-else="">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            <span>Ya superaste el mínimo de $9.99: puedes elegir entrega a domicilio en el siguiente paso.</span>
+                        </t>
+                    </div>
+                </t>
+            </xpath>
+        </template>
+
         <template id="cleosmarket_checkout_main_visual" inherit_id="website_sale.checkout" name="Super Tienda Cleo - Checkout main visual">
             <xpath expr="//div[@id='shop_checkout']" position="attributes">
                 <attribute name="class" add="cleo-checkout-content" separator=" "/>

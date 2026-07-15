@@ -4142,3 +4142,96 @@ $o-cleo-white: #ffffff;
         padding: 26px 0 44px;
     }
 }
+
+/* ============================================================
+   Home: banner flotante de envíos a domicilio desde $9.99
+   ============================================================ */
+.cleo-home-shipping-banner {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1040;
+    background: #06275d;
+    color: #ffffff;
+    box-shadow: 0 -6px 24px rgba(6, 39, 93, 0.22);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.cleo-home-shipping-banner.cleo-is-dismissed {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cleo-home-shipping-banner__inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 44px 12px 18px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.cleo-home-shipping-banner__inner i.fa-truck {
+    color: #ffc20e;
+}
+
+.cleo-home-shipping-banner__close {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.cleo-home-shipping-banner__close:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 600px) {
+    .cleo-home-shipping-banner__inner {
+        font-size: 0.85rem;
+        padding: 10px 40px 10px 14px;
+    }
+}
+
+/* ============================================================
+   Carrito: aviso de monto mínimo para entrega a domicilio
+   ============================================================ */
+.cleo-cart-delivery-minimum-note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: #fff5d6;
+    border: 1px solid rgba(255, 194, 14, 0.38);
+    color: #18355f;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.cleo-cart-delivery-minimum-note i {
+    color: #f4ac00;
+    font-size: 1.1rem;
+}
+
+.cleo-cart-delivery-minimum-note strong {
+    color: #06275d;
+}
