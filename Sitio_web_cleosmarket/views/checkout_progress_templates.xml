@@ -20,11 +20,21 @@
                     <t t-set="cleo_step_index"
                        t-value="0 if cleo_active_step == 'cart' else (1 if cleo_active_step == 'delivery' else 2)"/>
 
+                    <!--
+                        Navegación hacia atrás desde la barra de progreso: un paso solo es
+                        clicable si ya quedó atrás en el flujo. No se permite adelantar
+                        etapas desde aquí; para avanzar se deben usar los botones de acción.
+                    -->
+                    <t t-set="cleo_cart_href" t-value="'/shop/cart' if cleo_step_index &gt; 0 else False"/>
+                    <t t-set="cleo_delivery_href" t-value="'/shop/checkout' if cleo_step_index &gt; 1 else False"/>
+
                     <section class="cleo-checkout-progress-wrapper" aria-label="Progreso de compra">
                         <div class="cleo-checkout-progress">
 
                             <!-- Paso 1: Revisar pedido -->
-                            <div t-attf-class="cleo-checkout-step {{ 'is-active' if cleo_active_step == 'cart' else ('is-complete' if cleo_step_index &gt; 0 else 'is-pending') }}">
+                            <a t-att-href="cleo_cart_href"
+                               t-attf-class="cleo-checkout-step {{ 'is-active' if cleo_active_step == 'cart' else ('is-complete' if cleo_step_index &gt; 0 else 'is-pending') }} {{ 'is-clickable' if cleo_cart_href else '' }}"
+                               t-att-aria-current="'step' if cleo_active_step == 'cart' else None">
                                 <div class="cleo-checkout-icon-box">
                                     <svg class="cleo-checkout-svg" viewBox="0 0 64 64" aria-hidden="true">
                                         <circle cx="24" cy="52" r="4"/>
@@ -37,14 +47,16 @@
                                     <strong>Revisar pedido</strong>
                                     <span>Verifica tus productos</span>
                                 </div>
-                            </div>
+                            </a>
 
                             <div t-attf-class="cleo-checkout-connector {{ 'is-complete' if cleo_step_index &gt;= 1 else 'is-pending' }}">
                                 <span/>
                             </div>
 
                             <!-- Paso 2: Entrega -->
-                            <div t-attf-class="cleo-checkout-step {{ 'is-active' if cleo_active_step == 'delivery' else ('is-complete' if cleo_step_index &gt; 1 else 'is-pending') }}">
+                            <a t-att-href="cleo_delivery_href"
+                               t-attf-class="cleo-checkout-step {{ 'is-active' if cleo_active_step == 'delivery' else ('is-complete' if cleo_step_index &gt; 1 else 'is-pending') }} {{ 'is-clickable' if cleo_delivery_href else '' }}"
+                               t-att-aria-current="'step' if cleo_active_step == 'delivery' else None">
                                 <div class="cleo-checkout-icon-box">
                                     <!-- Mapa con puntero -->
                                     <svg class="cleo-checkout-svg" viewBox="0 0 64 64" aria-hidden="true">
@@ -59,14 +71,15 @@
                                     <strong>Entrega</strong>
                                     <span>Ingresa tus datos de envío</span>
                                 </div>
-                            </div>
+                            </a>
 
                             <div t-attf-class="cleo-checkout-connector {{ 'is-complete' if cleo_step_index &gt;= 2 else 'is-pending' }}">
                                 <span/>
                             </div>
 
-                            <!-- Paso 3: Pagos -->
-                            <div t-attf-class="cleo-checkout-step {{ 'is-active' if cleo_active_step == 'payment' else ('is-complete' if cleo_step_index &gt; 2 else 'is-pending') }}">
+                            <!-- Paso 3: Pagos (última etapa: nunca es un destino hacia atrás) -->
+                            <div t-attf-class="cleo-checkout-step {{ 'is-active' if cleo_active_step == 'payment' else ('is-complete' if cleo_step_index &gt; 2 else 'is-pending') }}"
+                                 t-att-aria-current="'step' if cleo_active_step == 'payment' else None">
                                 <div class="cleo-checkout-icon-box">
                                     <svg class="cleo-checkout-svg" viewBox="0 0 64 64" aria-hidden="true">
                                         <rect x="10" y="16" width="44" height="32" rx="5"/>

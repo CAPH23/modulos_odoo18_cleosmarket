@@ -30,6 +30,28 @@
     align-items: center;
     gap: 14px;
     min-width: 0;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Pasos ya completados: se puede volver a ellos haciendo clic */
+.cleo-checkout-step.is-clickable {
+    cursor: pointer;
+}
+
+.cleo-checkout-step.is-clickable:hover .cleo-checkout-icon-box {
+    transform: scale(1.06);
+    box-shadow: 0 12px 30px rgba(0, 122, 90, 0.22);
+}
+
+.cleo-checkout-step.is-clickable:hover .cleo-checkout-copy strong {
+    text-decoration: underline;
+}
+
+.cleo-checkout-step.is-clickable:focus-visible {
+    outline: 3px solid rgba(0, 122, 90, 0.45);
+    outline-offset: 4px;
+    border-radius: 16px;
 }
 
 .cleo-checkout-icon-box {
