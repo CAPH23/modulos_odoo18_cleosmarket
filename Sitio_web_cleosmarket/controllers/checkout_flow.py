@@ -19,11 +19,20 @@ from odoo import fields
 from odoo.http import request, route
 from odoo.tools import str2bool
 
+from odoo.addons.website_sale.controllers.delivery import Delivery
 from odoo.addons.website_sale_collect.controllers.main import WebsiteSaleCollect
 
 
-class CleosmarketCheckoutFlow(WebsiteSaleCollect):
-    """Ajustes del flujo de compra para retiro en tienda."""
+class _CleoStoreAddressMixin:
+    """Helpers para evitar que la dirección de Super Tienda Cleo contamine
+    partner_shipping_id/partner_invoice_id de pedidos con entrega a domicilio.
+
+    Compartido entre CleosmarketCheckoutFlow (GET /shop/checkout) y
+    CleosmarketCheckoutDelivery (rutas JSON de método de entrega), ya que
+    ambas necesitan calcular disponibilidad de transportistas contra la
+    dirección real del cliente, sin importar si una selección anterior de
+    "Entrega en tienda" dejó la dirección de la tienda en el pedido.
+    """
 
     # ID real confirmado en la base:
     # delivery.carrier "Entrega en tienda" usa delivery_type = "in_store".
@@ -125,6 +134,10 @@ class CleosmarketCheckoutFlow(WebsiteSaleCollect):
             return
 
         self._cleo_restore_customer_address(order_sudo)
+
+
+class CleosmarketCheckoutFlow(_CleoStoreAddressMixin, WebsiteSaleCollect):
+    """Ajustes del flujo de compra para retiro en tienda."""
 
     def _cleo_redirect_to_delivery_address(self, order_sudo, partner_sudo=None):
         """Redirige al formulario de dirección y vuelve a /shop/payment al guardar."""
@@ -446,3 +459,35 @@ class CleosmarketCheckoutFlow(WebsiteSaleCollect):
             self._cleo_apply_store_address_for_pickup(order_sudo)
             return None
         return super()._check_shipping_method(order_sudo)
+
+
+class CleosmarketCheckoutDelivery(_CleoStoreAddressMixin, Delivery):
+    """Evita que Express/Estándar aparezcan bloqueados en /shop/checkout.
+
+    Si el cliente eligió antes "Entrega en tienda" y avanzó, la dirección de
+    Super Tienda Cleo queda en partner_shipping_id (ver
+    _cleo_apply_store_address_for_pickup). Las rutas JSON nativas de
+    website_sale que calculan disponibilidad y tarifa
+    (/shop/set_delivery_method, /shop/get_delivery_rate) usan
+    order._get_delivery_methods() contra esa dirección tal cual está en ese
+    momento, sin pasar por el restore que sí aplica el GET /shop/checkout de
+    CleosmarketCheckoutFlow. Mientras la dirección de tienda siga puesta, esas
+    rutas excluyen a Express/Estándar y el JS deja sus radios "disabled",
+    aunque la página ya los liste como opciones.
+    """
+
+    @route("/shop/set_delivery_method", type="json", auth="public", website=True)
+    def shop_set_delivery_method(self, dm_id=None, **kwargs):
+        order_sudo = request.website.sale_get_order()
+        if order_sudo:
+            self._cleo_restore_customer_address(order_sudo)
+        return super().shop_set_delivery_method(dm_id=dm_id, **kwargs)
+
+    @route(
+        "/shop/get_delivery_rate", type="json", auth="public", methods=["POST"], website=True
+    )
+    def shop_get_delivery_rate(self, dm_id):
+        order_sudo = request.website.sale_get_order()
+        if order_sudo:
+            self._cleo_restore_customer_address(order_sudo)
+        return super().shop_get_delivery_rate(dm_id)
