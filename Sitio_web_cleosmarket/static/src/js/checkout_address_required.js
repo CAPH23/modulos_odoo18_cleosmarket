@@ -5,6 +5,18 @@
 
     let observer = null;
     let debounceTimer = null;
+    let lastAppliedAt = 0;
+
+    // La página tiene varios MutationObserver independientes (de este módulo
+    // y de website_sale_checkout_hints) que reaccionan entre sí: uno cambia
+    // una clase, eso dispara al otro, que cambia otra clase, etc. Con un
+    // debounce puro esa ráfaga continua puede reiniciar el temporizador
+    // indefinidamente y dejar a applyButtonState() sin ejecutarse nunca
+    // mientras dure el "ruido". DEBOUNCE_MS agrupa mutaciones cercanas;
+    // MAX_WAIT_MS garantiza que, sin importar cuánto ruido haya, el estado
+    // real se vuelva a aplicar como máximo cada MAX_WAIT_MS.
+    const DEBOUNCE_MS = 120;
+    const MAX_WAIT_MS = 300;
 
     const REQUIRED_FIELDS = [
         ["country", "país"],
@@ -27,10 +39,18 @@
     }
 
     function getSelectedAddressCard() {
+        // Orden importante: ".cleo-address-card-selected" es la única marca que
+        // se actualiza en vivo (la aplica checkout_address_selection.js al
+        // hacer clic en una tarjeta). Las demás (data-cleo-selected,
+        // bg-primary, border-primary, --selected) se calculan una sola vez en
+        // el render del servidor y quedan congeladas en la tarjeta que estaba
+        // seleccionada al cargar la página, aunque el cliente elija otra
+        // después sin recargar. Por eso van como respaldo, no como primera
+        // opción.
         return (
+            document.querySelector(".cleo-address-card-selected") ||
             document.querySelector(".cleo-checkout-address-card[data-cleo-selected='1']") ||
             document.querySelector(".cleo-checkout-address-card--selected") ||
-            document.querySelector(".cleo-address-card-selected") ||
             document.querySelector(".cleo-checkout-address-card.bg-primary") ||
             document.querySelector(".cleo-checkout-address-card.border-primary") ||
             document.querySelector("[name='address_card'].bg-primary") ||
@@ -67,6 +87,14 @@
         };
     }
 
+    function getEditUrlForCard(card) {
+        const editLink = card.querySelector &&
+            card.querySelector("a[href*='/shop/address'][href*='partner_id=']");
+
+        return (editLink && editLink.getAttribute("href")) ||
+            "/shop/address?address_type=delivery&use_delivery_as_billing=true&callback=/shop/payment";
+    }
+
     function readStatusFromSelectedCard() {
         const card = getSelectedAddressCard();
 
@@ -99,7 +127,12 @@
             isInStore: false,
             isComplete: dataset.cleoAddressComplete === "1",
             missing: missing,
-            editUrl: "/shop/address?address_type=delivery&use_delivery_as_billing=true&callback=/shop/payment",
+            editUrl: getEditUrlForCard(card),
+            hasCountry: dataset.cleoHasCountry,
+            hasState: dataset.cleoHasState,
+            hasStreet: dataset.cleoHasStreet,
+            hasLatitude: dataset.cleoHasLatitude,
+            hasLongitude: dataset.cleoHasLongitude,
         };
     }
 
@@ -128,30 +161,93 @@
         return false;
     }
 
+    function syncGuardDataset(status) {
+        const guard = getGuard();
+
+        if (!guard) {
+            return;
+        }
+
+        // El guard del servidor solo se calcula una vez por carga completa de
+        // /shop/checkout. Cualquier cambio de método de entrega o de dirección
+        // ocurre después por AJAX (nativo de Odoo o rutas propias de este
+        // módulo) sin recargar la página, así que ese guard queda obsoleto de
+        // inmediato. Otro módulo instalado (website_sale_checkout_hints) lee
+        // ese mismo div directamente, así que lo mantenemos sincronizado aquí
+        // en vez de duplicar esta lógica en cada consumidor.
+        guard.dataset.isInStore = status.isInStore ? "1" : "0";
+        guard.dataset.addressComplete = status.isComplete ? "1" : "0";
+
+        if (status.hasCountry !== undefined) {
+            guard.dataset.hasCountry = status.hasCountry;
+        }
+        if (status.hasState !== undefined) {
+            guard.dataset.hasState = status.hasState;
+        }
+        if (status.hasStreet !== undefined) {
+            guard.dataset.hasStreet = status.hasStreet;
+        }
+        if (status.hasLatitude !== undefined) {
+            guard.dataset.hasLatitude = status.hasLatitude;
+        }
+        if (status.hasLongitude !== undefined) {
+            guard.dataset.hasLongitude = status.hasLongitude;
+        }
+        if (status.editUrl) {
+            guard.dataset.editUrl = status.editUrl;
+        }
+    }
+
+    function computeLiveStatus() {
+        const inStore = isInStoreSelectedClientSide();
+
+        // La tarjeta de dirección seleccionada (si existe) ya trae, para TODA
+        // tarjeta renderizada, sus propios data-cleo-has-* — no hace falta
+        // ningún viaje al servidor para saber si la dirección activa está
+        // completa: ya está en el DOM en el momento en que el cliente elige
+        // método de entrega o tarjeta de dirección.
+        const cardStatus = readStatusFromSelectedCard();
+
+        if (cardStatus) {
+            cardStatus.isInStore = inStore;
+
+            if (inStore) {
+                cardStatus.isComplete = true;
+                cardStatus.missing = [];
+            }
+
+            return cardStatus;
+        }
+
+        // No hay tarjeta de dirección visible todavía (p. ej. primer render
+        // antes de que el resto del checkout termine de hidratarse): usamos
+        // el guard del servidor como mejor aproximación disponible.
+        const guardStatus = readStatusFromGuard();
+
+        if (guardStatus) {
+            if (inStore) {
+                guardStatus.isInStore = true;
+                guardStatus.isComplete = true;
+                guardStatus.missing = [];
+            }
+            return guardStatus;
+        }
+
+        return {
+            isInStore: inStore,
+            isComplete: true,
+            missing: [],
+            editUrl: "/shop/address?address_type=delivery&callback=/shop/payment",
+        };
+    }
+
     function getAddressStatus() {
-        const status = readStatusFromGuard() || readStatusFromSelectedCard();
+        const status = computeLiveStatus();
 
-        if (!status) {
-            return {
-                isInStore: false,
-                isComplete: true,
-                missing: [],
-                editUrl: "/shop/address?address_type=delivery&callback=/shop/payment",
-            };
-        }
-
-        // NUEVO: reconoce "en tienda" también desde la selección del cliente,
-        // aunque el guard del servidor aún no se haya actualizado.
-        if (isInStoreSelectedClientSide()) {
-            status.isInStore = true;
-        }
-
-        // Para retiro/entrega en tienda se mantiene el flujo actual del módulo:
-        // se usa la dirección de la tienda y no se obliga la ubicación del cliente.
-        if (status.isInStore) {
-            status.isComplete = true;
-            status.missing = [];
-        }
+        // Mantiene el guard del servidor al día para que otros scripts que lo
+        // leen (dentro o fuera de este módulo) siempre encuentren datos
+        // vigentes, sin depender de una recarga completa de la página.
+        syncGuardDataset(status);
 
         return status;
     }
@@ -263,8 +359,19 @@
             return;
         }
 
+        lastAppliedAt = Date.now();
+
         const status = getAddressStatus();
         const buttons = getProceedButtons();
+
+        // Mismo criterio que usa el widget nativo de Odoo para considerar
+        // "listo" el método de envío (this._isDeliveryMethodReady): si hay
+        // radios de método de entrega, al menos uno debe estar marcado; si no
+        // hay ninguno (pedido de solo servicios, por ejemplo), no bloqueamos
+        // por este motivo.
+        const deliveryRadios = document.querySelectorAll("input[name='o_delivery_radio']");
+        const hasDeliveryMethodSelected = deliveryRadios.length === 0 ||
+            Array.from(deliveryRadios).some(function (radio) { return radio.checked; });
 
         ensureAlert(status);
         updateAddressCards();
@@ -279,8 +386,14 @@
                 if (button.tagName === "BUTTON") {
                     button.disabled = true;
                 }
-            } else if (button.dataset.cleoAddressGuardDisabled === "1") {
-                button.classList.remove("cleo-address-required-disabled");
+            } else if (hasDeliveryMethodSelected) {
+                // Dirección (o entrega en tienda) completa y método de envío
+                // elegido: nos encargamos de habilitar el botón aunque el
+                // "disabled" lo haya puesto el widget nativo del checkout.
+                // Su propio re-chequeo tras seleccionar el método no siempre
+                // se cumple con el flujo propio de "Entrega en tienda", que
+                // no pasa por el selector de ubicación nativo de Odoo.
+                button.classList.remove("cleo-address-required-disabled", "disabled");
                 button.removeAttribute("aria-disabled");
                 button.removeAttribute("title");
                 delete button.dataset.cleoAddressGuardDisabled;
@@ -288,9 +401,6 @@
                 if (button.tagName === "BUTTON") {
                     button.disabled = false;
                 }
-
-                // Solo quitamos la clase disabled si fue puesta por este control.
-                button.classList.remove("disabled");
             }
         });
     }
@@ -326,8 +436,20 @@
         }
 
         observer = new MutationObserver(function () {
+            // Si ya pasó MAX_WAIT_MS desde la última aplicación real del
+            // estado, lo forzamos de inmediato en vez de seguir postergando:
+            // en ráfagas continuas de mutaciones (varios scripts reaccionando
+            // entre sí) un debounce puro puede reiniciarse indefinidamente y
+            // dejar el botón con un estado que ya no corresponde a la
+            // realidad, sin margen de tiempo para autocorregirse.
+            if (Date.now() - lastAppliedAt >= MAX_WAIT_MS) {
+                window.clearTimeout(debounceTimer);
+                applyButtonState();
+                return;
+            }
+
             window.clearTimeout(debounceTimer);
-            debounceTimer = window.setTimeout(applyButtonState, 120);
+            debounceTimer = window.setTimeout(applyButtonState, DEBOUNCE_MS);
         });
 
         observer.observe(document.body, {
@@ -347,6 +469,11 @@
         applyButtonState();
         watchChanges();
 
+        // computeLiveStatus() ya recalcula el estado real desde el DOM (radio
+        // de entrega marcado + tarjeta de dirección seleccionada) en cada
+        // llamada, así que estos reintentos son solo una red de seguridad
+        // para mutaciones que el observer no capture (attributeFilter
+        // limitado); ya no son el mecanismo del que depende la corrección.
         setTimeout(applyButtonState, 300);
         setTimeout(applyButtonState, 900);
         setTimeout(applyButtonState, 1800);

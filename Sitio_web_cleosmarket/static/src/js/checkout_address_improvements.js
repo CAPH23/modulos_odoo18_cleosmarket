@@ -617,6 +617,11 @@
                     return;
                 }
 
+                // El listener "change" del radio (registrado más abajo en
+                // improveDeliverySection) ya llama a applyDefaultPickup cuando
+                // corresponde; no la disparamos también aquí para evitar dos
+                // peticiones AJAX simultáneas al mismo endpoint por un solo
+                // clic.
                 if (!method.radio.checked) {
                     method.radio.click();
                 } else {
@@ -624,10 +629,6 @@
                 }
 
                 syncDeliverySelection(wrapper, methods);
-
-                if (method.type === "pickup") {
-                    await applyDefaultPickup(method, wrapper);
-                }
 
                 setTimeout(function () {
                     syncDeliverySelection(wrapper, methods);
