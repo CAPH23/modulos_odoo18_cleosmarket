@@ -39,6 +39,34 @@ The repo is a mix of two kinds of content, and they should be treated differentl
 - `.vscode/settings.json` ya apunta el tooling de Python/pylint al venv y a `/opt/odoo18/odoo` para
   resolución de imports (`python.analysis.extraPaths`), y habilita el plugin `pylint_odoo` con solo
   los checks `odoolint`.
+- El parámetro de sistema `report.url` (`ir.config_parameter`) está fijado a `http://127.0.0.1:8069`
+  en la BD `cleosmarket.com` de esta VM. Ver "wkhtmltopdf y `report.url`" más abajo — es necesario
+  para que la generación de PDFs no se cuelgue, y **no vive en el código ni en `/etc/odoo18.conf`**,
+  así que se pierde si la BD se reemplaza por un clon fresco de producción.
+
+## wkhtmltopdf y `report.url` (limitación de red en GCP)
+
+Los reportes PDF (`sale.action_report_saleorder` y cualquier otro que use el layout estándar) incrustan
+el logo/fondo de la compañía como una URL HTTP que **wkhtmltopdf descarga en el momento de renderizar**.
+Esa URL se arma a partir de `web.base.url`, que en esta VM apunta a su propia IP pública/externa
+(`http://136.107.12.30:8069`, ver "Entorno" arriba).
+
+Google Cloud VPC no soporta "hairpin NAT": una instancia no puede alcanzar su propia IP externa desde
+adentro. El resultado es que wkhtmltopdf se queda esperando esa descarga hasta hacer timeout (~2
+minutos, log: `wkhtmltopdf: Exit with code 1 due to network error: TimeoutError`), y cualquier flujo
+sincrónico que genere un PDF dentro de un request HTTP —por ejemplo `payment_cobro_entrega` adjuntando
+el ticket de compra al confirmar el pedido— se percibe como la página "congelada" hasta que el proxy
+corta la conexión.
+
+Fix aplicado (2026-07-16): parámetro de sistema `report.url = http://127.0.0.1:8069`. Odoo usa ese
+parámetro en vez de `web.base.url` **solo** para que wkhtmltopdf busque las imágenes de los reportes
+(`ir_actions_report.py::_get_report_url`), sin afectar los links públicos que van en correos o el
+portal. Si la BD se restaura desde un backup/clon de producción y el problema reaparece (PDFs o pagos
+con "Cobro contra entrega" colgándose), reaplicar con:
+
+```python
+env['ir.config_parameter'].sudo().set_param('report.url', 'http://127.0.0.1:8069')
+```
 
 ## Comandos frecuentes
 
