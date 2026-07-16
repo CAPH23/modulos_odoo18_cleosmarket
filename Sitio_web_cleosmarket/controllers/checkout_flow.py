@@ -82,16 +82,19 @@ class CleosmarketCheckoutFlow(WebsiteSaleCollect):
         if vals:
             order_sudo.sudo().write(vals)
 
-    def _cleo_restore_customer_address_before_delivery_validation(self, order_sudo):
-        """Evita que la dirección de la tienda quede como dirección para entrega a domicilio.
+    def _cleo_restore_customer_address(self, order_sudo):
+        """Reemplaza la dirección de Super Tienda Cleo por la dirección real
+        del cliente en partner_shipping_id/partner_invoice_id, si había
+        quedado puesta ahí por una selección anterior de "Entrega en tienda".
 
-        Caso cubierto:
-        1. Cliente selecciona "Entrega en tienda".
-        2. Se asigna la dirección de Super Tienda Cleo.
-        3. Cliente regresa y cambia a entrega a domicilio.
-        En ese caso, no se debe permitir pagar usando la dirección de la tienda.
+        A diferencia de _cleo_restore_customer_address_before_delivery_validation,
+        esta versión no depende del método de entrega actualmente
+        seleccionado: se usa para calcular qué métodos de envío están
+        disponibles para MOSTRAR, lo cual debe evaluarse siempre contra la
+        dirección real del cliente, sin importar si "Entrega en tienda"
+        sigue siendo la opción elegida en este momento.
         """
-        if not order_sudo or self._cleo_is_in_store_order(order_sudo):
+        if not order_sudo:
             return
 
         store_partner = self._cleo_store_partner_sudo()
@@ -108,6 +111,20 @@ class CleosmarketCheckoutFlow(WebsiteSaleCollect):
 
         if vals:
             order_sudo.sudo().write(vals)
+
+    def _cleo_restore_customer_address_before_delivery_validation(self, order_sudo):
+        """Evita que la dirección de la tienda quede como dirección para entrega a domicilio.
+
+        Caso cubierto:
+        1. Cliente selecciona "Entrega en tienda".
+        2. Se asigna la dirección de Super Tienda Cleo.
+        3. Cliente regresa y cambia a entrega a domicilio.
+        En ese caso, no se debe permitir pagar usando la dirección de la tienda.
+        """
+        if not order_sudo or self._cleo_is_in_store_order(order_sudo):
+            return
+
+        self._cleo_restore_customer_address(order_sudo)
 
     def _cleo_redirect_to_delivery_address(self, order_sudo, partner_sudo=None):
         """Redirige al formulario de dirección y vuelve a /shop/payment al guardar."""
@@ -186,6 +203,17 @@ class CleosmarketCheckoutFlow(WebsiteSaleCollect):
         can_skip_delivery = True
         if order_sudo._has_deliverable_products():
             can_skip_delivery = False
+
+            # Si una selección anterior de "Entrega en tienda" dejó la
+            # dirección de Super Tienda Cleo en partner_shipping_id, calcular
+            # los métodos disponibles contra ESA dirección (en vez de la
+            # real del cliente) excluye injustamente los métodos a domicilio
+            # aunque la dirección del cliente sí cumpla los requisitos: el
+            # error de compatibilidad con Express/Estándar era por
+            # "Otro (Para extranjeros)" (el estado de la tienda), no por la
+            # dirección real del cliente.
+            self._cleo_restore_customer_address(order_sudo)
+
             available_dms = order_sudo._get_delivery_methods()
             checkout_page_values["delivery_methods"] = available_dms
 
