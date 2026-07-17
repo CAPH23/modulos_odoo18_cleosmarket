@@ -135,6 +135,26 @@ class _CleoStoreAddressMixin:
 
         self._cleo_restore_customer_address(order_sudo)
 
+    def _cleo_hidden_home_delivery_methods(self, order_sudo, available_dms):
+        """Métodos de entrega a domicilio publicados que no están disponibles
+        con la dirección actual del pedido (p. ej. Express/Estándar cuando el
+        cliente todavía no tiene dirección completa o está fuera de la zona
+        de cobertura).
+
+        Se muestran deshabilitados en vez de ocultarlos, junto con un aviso,
+        para que el cliente no piense que no existe entrega a domicilio.
+        """
+        if not order_sudo:
+            return request.env["delivery.carrier"]
+
+        Carrier = request.env["delivery.carrier"].sudo()
+        published_dms = Carrier.search([
+            ("website_published", "=", True),
+            *Carrier._check_company_domain(order_sudo.company_id),
+        ]).filtered(lambda c: c.delivery_type != "in_store")
+
+        return (published_dms - available_dms).exists()
+
 
 class CleosmarketCheckoutFlow(_CleoStoreAddressMixin, WebsiteSaleCollect):
     """Ajustes del flujo de compra para retiro en tienda."""
@@ -229,6 +249,9 @@ class CleosmarketCheckoutFlow(_CleoStoreAddressMixin, WebsiteSaleCollect):
 
             available_dms = order_sudo._get_delivery_methods()
             checkout_page_values["delivery_methods"] = available_dms
+            checkout_page_values["cleo_hidden_delivery_methods"] = (
+                self._cleo_hidden_home_delivery_methods(order_sudo, available_dms)
+            )
 
             if delivery_method := order_sudo._get_preferred_delivery_method(available_dms):
                 rate = delivery_method.rate_shipment(order_sudo)
@@ -462,19 +485,53 @@ class CleosmarketCheckoutFlow(_CleoStoreAddressMixin, WebsiteSaleCollect):
 
 
 class CleosmarketCheckoutDelivery(_CleoStoreAddressMixin, Delivery):
-    """Evita que Express/Estándar aparezcan bloqueados en /shop/checkout.
+    """Evita que Express/Estándar aparezcan bloqueados en /shop/checkout, y
+    los lista deshabilitados (con aviso) cuando no aplican con la dirección
+    actual, en vez de ocultarlos sin explicación.
 
     Si el cliente eligió antes "Entrega en tienda" y avanzó, la dirección de
     Super Tienda Cleo queda en partner_shipping_id (ver
     _cleo_apply_store_address_for_pickup). Las rutas JSON nativas de
     website_sale que calculan disponibilidad y tarifa
-    (/shop/set_delivery_method, /shop/get_delivery_rate) usan
-    order._get_delivery_methods() contra esa dirección tal cual está en ese
-    momento, sin pasar por el restore que sí aplica el GET /shop/checkout de
-    CleosmarketCheckoutFlow. Mientras la dirección de tienda siga puesta, esas
-    rutas excluyen a Express/Estándar y el JS deja sus radios "disabled",
-    aunque la página ya los liste como opciones.
+    (/shop/delivery_methods, /shop/set_delivery_method, /shop/get_delivery_rate)
+    usan order._get_delivery_methods() contra esa dirección tal cual está en
+    ese momento, sin pasar por el restore que sí aplica el GET /shop/checkout
+    de CleosmarketCheckoutFlow. Mientras la dirección de tienda siga puesta,
+    esas rutas excluyen a Express/Estándar y el JS deja sus radios
+    "disabled", aunque la página ya los liste como opciones.
     """
+
+    @route("/shop/delivery_methods", type="json", auth="public", website=True)
+    def shop_delivery_methods(self):
+        """Reimplementa la ruta nativa para poder listar, además de los
+        métodos disponibles, los métodos a domicilio que existen pero no
+        aplican con la dirección actual (Express/Estándar deshabilitados).
+
+        Se restaura primero la dirección real del cliente por el mismo
+        motivo que en shop_set_delivery_method/shop_get_delivery_rate: esta
+        ruta se dispara vía AJAX al cambiar de tarjeta de dirección en
+        /shop/checkout y debe evaluarse contra la dirección real, no la de
+        Super Tienda Cleo si una selección anterior de "Entrega en tienda"
+        la hubiera dejado puesta.
+        """
+        order_sudo = request.website.sale_get_order()
+        if order_sudo:
+            self._cleo_restore_customer_address(order_sudo)
+
+        available_dms = order_sudo._get_delivery_methods() if order_sudo \
+            else request.env["delivery.carrier"]
+        values = {
+            "delivery_methods": available_dms,
+            "selected_dm_id": order_sudo.carrier_id.id if order_sudo else False,
+            "order": order_sudo,
+            "cleo_hidden_delivery_methods": self._cleo_hidden_home_delivery_methods(
+                order_sudo, available_dms
+            ),
+        }
+        values |= self._get_additional_delivery_context()
+        return request.env["ir.ui.view"]._render_template(
+            "website_sale.delivery_form", values
+        )
 
     @route("/shop/set_delivery_method", type="json", auth="public", website=True)
     def shop_set_delivery_method(self, dm_id=None, **kwargs):
