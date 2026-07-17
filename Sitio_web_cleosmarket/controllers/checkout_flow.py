@@ -376,7 +376,18 @@ class CleosmarketCheckoutFlow(_CleoStoreAddressMixin, WebsiteSaleCollect):
         }, None
 
     def _cleo_get_address_partner_after_submit(self, order_sudo, partner_id=None, address_type="delivery"):
-        """Obtiene el partner correcto luego de guardar /shop/address."""
+        """Obtiene el partner correcto luego de guardar /shop/address.
+
+        Nunca devuelve el partner de Super Tienda Cleo. Si una selección
+        anterior de "Entrega en tienda" dejó su dirección en
+        partner_shipping_id/partner_invoice_id (ver _cleo_apply_store_address_
+        for_pickup) y esa sustitución no llegó a restaurarse antes de que el
+        cliente guardara su propia dirección/geolocalización, no existe una
+        dirección real de cliente sobre la cual escribir: sin este guard, el
+        write de latitud/longitud de más abajo cae directo sobre el registro
+        de la tienda, corrompiendo su dirección real (incidente confirmado en
+        el chatter de res.partner id 1, 2026-07-16).
+        """
         Partner = request.env["res.partner"].sudo()
         partner_sudo = Partner.browse()
 
@@ -391,6 +402,10 @@ class CleosmarketCheckoutFlow(_CleoStoreAddressMixin, WebsiteSaleCollect):
                 partner_sudo = Partner.browse(int(partner_id)).exists()
             except Exception:
                 partner_sudo = Partner.browse()
+
+        store_partner = self._cleo_store_partner_sudo()
+        if store_partner and partner_sudo and partner_sudo.id == store_partner.id:
+            return Partner.browse()
 
         return partner_sudo
 
@@ -413,6 +428,24 @@ class CleosmarketCheckoutFlow(_CleoStoreAddressMixin, WebsiteSaleCollect):
     ):
 
         """Guarda la dirección y además persiste latitud/longitud en res.partner."""
+        order_sudo = request.website.sale_get_order()
+
+        # Restaura partner_shipping_id/partner_invoice_id antes de tocar el
+        # formulario de dirección: si una selección anterior de "Entrega en
+        # tienda" los dejó apuntando a Super Tienda Cleo y esa contaminación
+        # no se había limpiado todavía, tanto el write nativo de Odoo (calle/
+        # ciudad/estado) como el write de latitud/longitud de más abajo caerían
+        # sobre el partner de la tienda en vez del cliente real.
+        self._cleo_restore_customer_address(order_sudo)
+
+        store_partner = self._cleo_store_partner_sudo()
+        if store_partner and partner_id:
+            try:
+                if int(partner_id) == store_partner.id:
+                    partner_id = None
+            except (TypeError, ValueError):
+                pass
+
         sv_country = self._cleo_get_el_salvador_country()
         if sv_country:
             form_data["country_id"] = str(sv_country.id)
@@ -448,7 +481,6 @@ class CleosmarketCheckoutFlow(_CleoStoreAddressMixin, WebsiteSaleCollect):
         ):
             return response
 
-        order_sudo = request.website.sale_get_order()
         partner_sudo = self._cleo_get_address_partner_after_submit(
             order_sudo,
             partner_id=partner_id,
