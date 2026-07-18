@@ -1,0 +1,110 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan" style="color:#06275d;">Wompi El Salvador para Odoo 18</h2>
+            <h3 class="oe_slogan">Acepta pagos en línea con Wompi directamente en tu tienda Odoo</h3>
+        </div>
+        <div class="oe_span12 text-center">
+            <img src="banner.png" class="img img-fluid img-responsive" style="max-width:100%;border-radius:10px;" alt="Wompi El Salvador"/>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h3 class="oe_slogan">¿Qué hace este módulo?</h3>
+            <p class="oe_mt32" style="text-align:justify;">
+                Integra la pasarela de pago <strong>Wompi El Salvador</strong> con el comercio
+                electrónico de Odoo 18 usando la arquitectura nativa de proveedores de pago.
+                Al pagar, el cliente es enviado a la pantalla segura de Wompi mediante un
+                <em>enlace de pago</em>, y el pedido se confirma automáticamente en Odoo cuando
+                Wompi aprueba la transacción (vía webhook firmado y validación de retorno).
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h3 class="oe_slogan">Características principales</h3>
+        </div>
+        <div class="oe_span6">
+            <h4 class="oe_slogan" style="text-align:left;">Pago seguro por enlace</h4>
+            <p style="text-align:justify;">
+                Generación automática del enlace de pago Wompi desde el checkout y redirección
+                segura del cliente a la interfaz oficial de Wompi.
+            </p>
+        </div>
+        <div class="oe_span6">
+            <h4 class="oe_slogan" style="text-align:left;">Validación HMAC</h4>
+            <p style="text-align:justify;">
+                Verificación de la firma HMAC-SHA256 tanto en el retorno del cliente como en el
+                webhook, con respaldo opcional por API si un proxy elimina la cabecera de hash.
+            </p>
+        </div>
+        <div class="oe_span6">
+            <h4 class="oe_slogan" style="text-align:left;">Múltiples formas de pago</h4>
+            <p style="text-align:justify;">
+                Tarjeta de crédito/débito, puntos y cuotas Banco Agrícola, Bitcoin y QuickPay,
+                según las capacidades habilitadas en tu cuenta Wompi.
+            </p>
+        </div>
+        <div class="oe_span6">
+            <h4 class="oe_slogan" style="text-align:left;">Confirmación automática</h4>
+            <p style="text-align:justify;">
+                El pedido se confirma solo cuando Wompi aprueba el pago, y se registran las
+                referencias de la transacción dentro de Odoo.
+            </p>
+        </div>
+        <div class="oe_span6">
+            <h4 class="oe_slogan" style="text-align:left;">Consulta de capacidades</h4>
+            <p style="text-align:justify;">
+                Sincroniza desde el endpoint <code>/Aplicativo</code> las cuotas disponibles y el
+                soporte de puntos de tu comercio.
+            </p>
+        </div>
+        <div class="oe_span6">
+            <h4 class="oe_slogan" style="text-align:left;">Configuración flexible</h4>
+            <p style="text-align:justify;">
+                Título del pago, imagen, descripción, correos de notificación, límites de uso del
+                enlace y logs de depuración configurables.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h3 class="oe_slogan">Requisitos</h3>
+            <ul>
+                <li>Odoo 18 Community o Enterprise.</li>
+                <li>Módulos <code>payment</code> y <code>website_sale</code> instalados.</li>
+                <li>Moneda USD.</li>
+                <li>Una cuenta de comercio activa en Wompi El Salvador con credenciales OAuth.</li>
+            </ul>
+            <p class="text-muted">
+                Nota: por contener código Python, este módulo está pensado para instalaciones
+                on-premise u Odoo.sh; no es compatible con Odoo Online (SaaS).
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h3 class="oe_slogan">Soporte</h3>
+            <p>
+                El soporte de configuración y la corrección de errores del módulo están
+                disponibles para los clientes con licencia válida.
+                Escríbenos a <a href="mailto:ph03001gnu@yahoo.com">ph03001gnu@yahoo.com</a>.
+            </p>
+            <p class="text-muted">
+                © 2026 Carlos Palacios · Distribuido bajo Odoo Proprietary License v1.0 (OPL-1).
+            </p>
+        </div>
+    </div>
+</section>
