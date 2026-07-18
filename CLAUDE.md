@@ -68,6 +68,25 @@ con "Cobro contra entrega" colgándose), reaplicar con:
 env['ir.config_parameter'].sudo().set_param('report.url', 'http://127.0.0.1:8069')
 ```
 
+## Mantenimiento del core
+
+Actualización de seguridad aplicada a `/opt/odoo18/odoo` (rama `origin/18.0`) para cerrar la
+vulnerabilidad #4, en ambas máquinas:
+
+| Máquina             | Fecha de actualización | Commit resultante | Punto de retorno (pre-update) |
+|---------------------|------------------------|--------------------|--------------------------------|
+| VM de producción     | 2026-07-18             | `6251a03c429`      | `0a00e430254ec6efaf021bdc917505e87cc9f422` |
+| VM de pruebas        | 2026-07-16             | `02145783a5c`      | `7db31717cfad431ac44d8c1b90992c2716cf6424` |
+
+Verificado desde esta VM (pruebas): `git log -1` en `/opt/odoo18/odoo` confirma HEAD en
+`02145783a5c97f939e1bfcb428ee950f7dd7be03` (2026-07-16) y que el punto de retorno
+`7db31717cfad431ac44d8c1b90992c2716cf6424` es ancestro de HEAD. El commit y punto de retorno de
+producción no se verificaron desde aquí (sin acceso a esa VM); quedan registrados según lo
+confirmado por el responsable de la actualización.
+
+Para revertir en caso de regresión: `git checkout <punto de retorno>` en `/opt/odoo18/odoo` de la
+máquina correspondiente, seguido de un reinicio del servicio (`odoo18.service` en pruebas).
+
 ## Comandos frecuentes
 
 Ejecutar como usuario `odoo18` (o vía `sudo -u odoo18`), que es el usuario real bajo el que corren
