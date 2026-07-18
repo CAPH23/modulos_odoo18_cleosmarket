@@ -32,18 +32,18 @@
             <xpath expr="//t[@t-call='website_sale.cart_lines']" position="before">
                 <t t-if="website_sale_order and website_sale_order.website_order_line">
                     <t t-set="cleo_delivery_minimum" t-value="9.99"/>
-                    <div class="cleo-cart-delivery-minimum-note">
-                        <t t-if="website_sale_order.amount_total &lt; cleo_delivery_minimum">
+                    <div class="cleo-cart-delivery-minimum-note" t-att-data-cleo-delivery-minimum="cleo_delivery_minimum">
+                        <div t-attf-class="cleo-cart-delivery-minimum-below#{'' if website_sale_order.amount_total &lt; cleo_delivery_minimum else ' d-none'}">
                             <i class="fa fa-truck" aria-hidden="true"></i>
                             <span>
-                                Te faltan <strong>$<t t-esc="'%.2f' % (cleo_delivery_minimum - website_sale_order.amount_total)"/></strong>
+                                Te faltan <strong>$<span class="cleo-cart-delivery-minimum-missing" t-esc="'%.2f' % (cleo_delivery_minimum - website_sale_order.amount_total)"/></strong>
                                 en tu carrito para desbloquear la entrega a domicilio (monto mínimo $9.99). Aún puedes retirar en tienda sin monto mínimo.
                             </span>
-                        </t>
-                        <t t-else="">
+                        </div>
+                        <div t-attf-class="cleo-cart-delivery-minimum-reached#{' d-none' if website_sale_order.amount_total &lt; cleo_delivery_minimum else ''}">
                             <i class="fa fa-check-circle" aria-hidden="true"></i>
                             <span>Ya superaste el mínimo de $9.99: puedes elegir entrega a domicilio en el siguiente paso.</span>
-                        </t>
+                        </div>
                     </div>
                 </t>
             </xpath>
@@ -135,6 +135,34 @@
 
             <xpath expr="//li[@name='o_delivery_method']" position="attributes">
                 <attribute name="class" add="cleo-checkout-delivery-method" separator=" "/>
+            </xpath>
+
+            <xpath expr="//form[@id='o_delivery_form']" position="inside">
+                <t t-if="cleo_hidden_delivery_methods">
+                    <div class="cleo-hidden-delivery-note">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        <span>Si necesitas más opciones de entrega a domicilio, completa o actualiza tu dirección de entrega.</span>
+                    </div>
+                    <ul class="list-group cleo-checkout-delivery-methods cleo-hidden-delivery-methods">
+                        <t t-foreach="cleo_hidden_delivery_methods" t-as="hidden_dm">
+                            <li name="o_delivery_method_hidden" class="list-group-item text-muted o_outline cleo-checkout-delivery-method cleo-hidden-delivery-method">
+                                <div class="row flex-column flex-md-row flex-grow-1 gap-lg-3 cleo-checkout-delivery-method__main">
+                                    <div class="col">
+                                        <div class="d-flex form-check mb-0 gap-2">
+                                            <input type="radio" disabled="disabled" class="form-check-input position-absolute cleo-hidden-delivery-radio"/>
+                                            <label class="o_delivery_carrier_label cleo-checkout-delivery-label" t-field="hidden_dm.name"/>
+                                        </div>
+                                    </div>
+                                    <div class="col col-auto">
+                                        <span class="cleo-checkout-delivery-price cleo-hidden-delivery-price">
+                                            <i class="fa fa-lock" aria-hidden="true"></i> No disponible con tu dirección actual
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                        </t>
+                    </ul>
+                </t>
             </xpath>
         </template>
 

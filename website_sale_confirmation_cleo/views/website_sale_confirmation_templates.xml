@@ -14,8 +14,9 @@
                 <t t-set="products_amount" t-value="confirmation_order.cleo_confirmation_products_amount()"/>
                 <t t-set="product_line_count" t-value="confirmation_order.cleo_confirmation_product_line_count()"/>
                 <t t-set="delivery_text" t-value="confirmation_order.cleo_confirmation_delivery_text()"/>
-                <t t-set="is_ready" t-value="confirmation_order.cleo_confirmation_is_ready()"/>
                 <t t-set="is_delivered" t-value="confirmation_order.cleo_confirmation_is_delivered()"/>
+                <t t-set="is_cod_payment" t-value="confirmation_order.cleo_confirmation_is_cod_payment()"/>
+                <t t-set="delivery_step_status" t-value="confirmation_order.cleo_confirmation_delivery_step_status()"/>
 
                 <section class="cleo-confirmation-hero">
                     <div class="container">
@@ -40,9 +41,7 @@
                                 <p class="cleo-order-ref">
                                     Pedido <strong t-out="confirmation_order.name"/> confirmado <span class="cleo-celebrate">🎉</span>
                                 </p>
-                                <p class="cleo-main-message">
-                                    Su pago ha sido procesado con éxito y su pedido está <strong>en preparación</strong>.
-                                </p>
+                                <p class="cleo-main-message" t-out="confirmation_order.cleo_confirmation_main_message()"/>
                             </div>
                             <button type="button" class="btn cleo-print-btn d-print-none" onclick="window.print();">
                                 <i class="fa fa-print me-1"/> Imprimir
@@ -56,10 +55,10 @@
                         <div class="row g-4">
                             <div class="col-lg-8">
                                 <div class="cleo-progress-card">
-                                    <div class="cleo-step cleo-step-done">
-                                        <div class="cleo-step-icon"><i class="fa fa-check"/></div>
+                                    <div t-attf-class="cleo-step #{'' if is_cod_payment else 'cleo-step-done'}">
+                                        <div class="cleo-step-icon"><i t-attf-class="fa #{'fa-clock-o' if is_cod_payment else 'fa-check'}"/></div>
                                         <div class="cleo-step-title">Pago confirmado</div>
-                                        <div class="cleo-step-status">Completado</div>
+                                        <div class="cleo-step-status" t-out="confirmation_order.cleo_confirmation_payment_step_label()"/>
                                     </div>
                                     <div class="cleo-step-line cleo-line-done"/>
                                     <div class="cleo-step cleo-step-active">
@@ -68,10 +67,10 @@
                                         <div class="cleo-step-status">En progreso</div>
                                     </div>
                                     <div class="cleo-step-line"/>
-                                    <div t-attf-class="cleo-step #{'cleo-step-active' if is_ready and not is_delivered else ''}">
-                                        <div class="cleo-step-icon"><i class="fa fa-shopping-bag"/></div>
-                                        <div class="cleo-step-title">Listo para retiro o entrega</div>
-                                        <div class="cleo-step-status"><t t-out="'En progreso' if is_ready and not is_delivered else 'Pendiente'"/></div>
+                                    <div t-attf-class="cleo-step #{'cleo-step-done' if delivery_step_status == 'Completado' else ('cleo-step-active' if delivery_step_status == 'En progreso' else '')}">
+                                        <div class="cleo-step-icon"><i t-attf-class="fa #{confirmation_order.cleo_confirmation_delivery_step_icon()}"/></div>
+                                        <div class="cleo-step-title" t-out="confirmation_order.cleo_confirmation_delivery_step_title()"/>
+                                        <div class="cleo-step-status" t-out="delivery_step_status"/>
                                     </div>
                                     <div class="cleo-step-line"/>
                                     <div t-attf-class="cleo-step #{'cleo-step-done' if is_delivered else ''}">
@@ -101,7 +100,7 @@
                                     </div>
                                     <div class="cleo-info-row">
                                         <span><i class="fa fa-clock-o"/> Estado de preparación</span>
-                                        <strong>Te notificaremos cuando esté listo.</strong>
+                                        <strong t-out="confirmation_order.cleo_confirmation_preparation_text()"/>
                                     </div>
                                     <div class="cleo-info-note">
                                         <i class="fa fa-bell"/>

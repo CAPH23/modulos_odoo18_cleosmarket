@@ -3740,6 +3740,44 @@ $o-cleo-white: #ffffff;
     font-size: 0.92rem;
 }
 
+/* Métodos de entrega a domicilio no disponibles con la dirección actual */
+.cleo-hidden-delivery-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 14px 0 10px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: #fff7e6;
+    color: #7a5b00;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.cleo-hidden-delivery-note i {
+    margin-top: 2px;
+    font-size: 1rem;
+}
+
+.cleo-hidden-delivery-methods {
+    opacity: 0.65;
+}
+
+.cleo-hidden-delivery-method .form-check::after {
+    content: "\f023";
+}
+
+.cleo-hidden-delivery-price {
+    background: #f1f5f9 !important;
+    color: #596579 !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem;
+}
+
+.cleo-hidden-delivery-radio {
+    cursor: not-allowed;
+}
+
 /* Resumen del pedido */
 .cleo-checkout-summary-wrap {
     margin-top: 12px;
@@ -4265,9 +4303,6 @@ $o-cleo-white: #ffffff;
    Carrito: aviso de monto mínimo para entrega a domicilio
    ============================================================ */
 .cleo-cart-delivery-minimum-note {
-    display: flex;
-    align-items: center;
-    gap: 10px;
     margin-bottom: 20px;
     padding: 14px 18px;
     border-radius: 14px;
@@ -4276,6 +4311,13 @@ $o-cleo-white: #ffffff;
     color: #18355f;
     font-size: 0.95rem;
     line-height: 1.5;
+}
+
+.cleo-cart-delivery-minimum-below,
+.cleo-cart-delivery-minimum-reached {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .cleo-cart-delivery-minimum-note i {

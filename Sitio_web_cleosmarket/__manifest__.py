@@ -56,6 +56,7 @@ Esta versión reemplaza el encabezado, agrega el hero principal de la Home y mue
 	    "Sitio_web_cleosmarket/static/src/js/checkout_address_improvements.js",
 	    "Sitio_web_cleosmarket/static/src/js/checkout_address_selection.js",
 	    "Sitio_web_cleosmarket/static/src/js/checkout_address_required.js",
+	    "Sitio_web_cleosmarket/static/src/js/cart_delivery_minimum.js",
 	    "Sitio_web_cleosmarket/static/src/js/payment_button_label.js",
         ],
     },
