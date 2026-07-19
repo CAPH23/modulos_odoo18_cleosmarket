@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Quita "Powered by Odoo" de la barra lateral de documentos del portal
+             (usada por /my/orders/<id> y /my/invoices/<id>, entre otras). -->
+        <template id="remove_odoo_portal_sidebar_branding" inherit_id="portal.portal_record_sidebar" name="Remove Odoo Portal Sidebar Branding">
+            <xpath expr="//div[hasclass('d-none', 'd-lg-block', 'mt-5', 'small', 'text-center', 'text-muted')]" position="replace"/>
+        </template>
+
+    </data>
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Quita "Powered by Odoo" del pie de /web/login (y páginas de reset
+             de contraseña, que reutilizan el mismo layout). -->
+        <template id="remove_odoo_login_branding" inherit_id="web.login_layout" name="Remove Odoo Login Branding">
+            <xpath expr="//a[contains(@href, 'odoo.com')]" position="replace"/>
+        </template>
+
+    </data>
+</odoo>
