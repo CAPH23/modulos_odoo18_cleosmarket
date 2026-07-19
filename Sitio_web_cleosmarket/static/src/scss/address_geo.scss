@@ -367,6 +367,14 @@
         width: 100%;
     }
 }
+/* /my/account reutiliza portal.portal_my_details_fields, que trae divs
+   ".clearfix" (float clearing de Bootstrap) entre campos. Dentro del grid de
+   .cleo-address-left-card esos divs vacíos se vuelven celdas del grid y
+   rompen el emparejamiento de columnas, así que se sacan del flujo. */
+.cleo-address-left-card .clearfix {
+    display: none;
+}
+
 /* País fijo: El Salvador */
 .cleo-country-locked {
     background-color: #f8fafc !important;

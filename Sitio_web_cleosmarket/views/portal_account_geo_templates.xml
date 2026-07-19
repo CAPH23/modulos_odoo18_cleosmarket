@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!--
+            Hace que /my/account use el mismo diseño y comportamiento (municipio/distrito
+            filtrado, mapa, latitud/longitud, país fijo a El Salvador) que
+            /shop/address?address_type=billing.
+
+            Se extiende portal.portal_my_details_fields con xpath (en vez de reemplazarla
+            por completo) porque otros módulos ya la heredan (p. ej. account,
+            website_default_country) y necesitan seguir encontrando los mismos
+            name="..."/for="..." para no romper al actualizar.
+        -->
+        <template id="portal_my_details_fields_cleo_geo" inherit_id="portal.portal_my_details_fields" priority="30">
+
+            <!-- Catálogo de municipios/distritos de El Salvador, igual que /shop/address -->
+            <xpath expr="//input[@name='csrf_token']" position="after">
+                <t t-set="sv_country" t-value="request.env['res.country'].sudo().search([('code', '=', 'SV')], limit=1)"/>
+                <t t-set="sv_cities_data" t-value="[{'id': c.id, 'name': c.name, 'state_id': c.state_id.id} for c in request.env['res.city'].sudo().search([('state_id.country_id', '=', sv_country.id)])]"/>
+            </xpath>
+
+            <!-- Ocultar el aviso de "no puede cambiar empresa/NIF/país": el país ya
+                 queda bloqueado a El Salvador y empresa/NIF están ocultos. -->
+            <xpath expr="//div[@t-if='not partner_can_edit_vat']" position="replace"/>
+
+            <!--
+                Mismas clases visuales que /shop/address. Se reemplaza el t-attf-class
+                completo (en vez de solo agregarle clases) porque las clases de Bootstrap
+                del core ("col-xl-6", "mb-3") fijan un width propio que compite con el
+                grid de .cleo-address-left-card y descuadraba el ancho de los campos.
+            -->
+            <xpath expr="//div[label[@for='name']]" position="attributes">
+                <attribute name="t-attf-class">cleo-field cleo-field-full #{error.get('name') and 'o_has_error' or ''}</attribute>
+            </xpath>
+            <xpath expr="//div[label[@for='name']]/label" position="replace">
+                <label class="col-form-label cleo-required-label" for="name">
+                    Nombre completo <span class="cleo-required-star">(Requerido)</span>
+                </label>
+            </xpath>
+
+            <xpath expr="//div[label[@for='email']]" position="attributes">
+                <attribute name="t-attf-class">cleo-field cleo-field-half #{error.get('email') and 'o_has_error' or ''}</attribute>
+            </xpath>
+            <xpath expr="//div[label[@for='email']]/label" position="replace">
+                <label class="col-form-label cleo-required-label" for="email">
+                    Correo electrónico <span class="cleo-required-star">(Requerido)</span>
+                </label>
+            </xpath>
+
+            <xpath expr="//div[label[@for='phone']]" position="attributes">
+                <attribute name="t-attf-class">cleo-field cleo-field-half #{error.get('phone') and 'o_has_error' or ''}</attribute>
+            </xpath>
+            <xpath expr="//div[label[@for='phone']]/label" position="replace">
+                <label class="col-form-label cleo-required-label" for="phone">
+                    Teléfono <br/> <span class="cleo-required-star">(Requerido)</span>
+                </label>
+            </xpath>
+
+            <!-- company_name y vat ya están ocultos (label/input) por website_default_country,
+                 pero su div contenedor seguía ocupando una celda del grid entre correo y
+                 teléfono, empujando a teléfono a la siguiente fila. Se oculta también el div. -->
+            <xpath expr="//div[label[@for='company_name']]" position="attributes">
+                <attribute name="t-attf-class">cleo-field d-none</attribute>
+            </xpath>
+            <xpath expr="//div[label[@for='vat']]" position="attributes">
+                <attribute name="t-attf-class">cleo-field d-none</attribute>
+            </xpath>
+
+            <xpath expr="//div[label[@for='street']]" position="attributes">
+                <attribute name="t-attf-class">cleo-field cleo-field-full #{error.get('street') and 'o_has_error' or ''}</attribute>
+            </xpath>
+            <xpath expr="//div[label[@for='street']]/label" position="replace">
+                <label class="col-form-label cleo-required-label" for="street">
+                    Su dirección línea 1 <span class="cleo-required-star">(Requerido)</span>
+                </label>
+            </xpath>
+
+            <xpath expr="//div[label[@for='street2']]" position="attributes">
+                <attribute name="t-attf-class">cleo-field cleo-field-full</attribute>
+            </xpath>
+            <xpath expr="//div[label[@for='zipcode']]" position="attributes">
+                <attribute name="t-attf-class">cleo-field d-none</attribute>
+            </xpath>
+            <xpath expr="//div[label[@for='country_id']]" position="attributes">
+                <attribute name="t-attf-class">cleo-field cleo-field-half</attribute>
+            </xpath>
+
+            <!-- País fijo a El Salvador, igual que /shop/address -->
+            <xpath expr="//select[@name='country_id']" position="replace">
+                <select id="o_country_id" name="country_id" class="form-select cleo-country-locked" required="required" tabindex="-1" aria-readonly="true">
+                    <option t-att-value="sv_country.id" selected="selected">
+                        <t t-esc="sv_country.name"/>
+                    </option>
+                </select>
+            </xpath>
+
+            <!-- Distrito: select filtrado por Municipio, igual que /shop/address -->
+            <xpath expr="//div[label[@for='city']]" position="attributes">
+                <attribute name="t-attf-class">cleo-field cleo-field-half</attribute>
+            </xpath>
+            <xpath expr="//div[label[@for='city']]/label" position="replace">
+                <label class="col-form-label cleo-required-label" for="city">
+                    Distrito <br/> <span class="cleo-required-star">(Requerido)</span>
+                </label>
+            </xpath>
+
+            <!-- Municipio: se quita de su posición original (después de Dirección línea 2)
+                 y se inserta justo antes de Distrito, para que ambos queden en la misma fila. -->
+            <xpath expr="//div[label[@for='state_id']]" position="replace"/>
+            <xpath expr="//div[label[@for='city']]" position="before">
+                <div class="cleo-field cleo-field-half">
+                    <label class="col-form-label cleo-required-label" for="state_id">
+                        Municipio <br/> <span class="cleo-required-star">(Requerido)</span>
+                    </label>
+                    <select id="o_state_id" name="state_id" class="form-select" required="required">
+                        <option value="">Seleccione un municipio...</option>
+                        <t t-foreach="sv_country.state_ids" t-as="s">
+                            <option t-att-value="s.id" t-att-selected="s.id == int(state_id) if state_id else s.id == partner.state_id.id">
+                                <t t-esc="s.name"/>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+            </xpath>
+            <xpath expr="//input[@name='city']" position="replace">
+                <select
+                    id="o_city"
+                    name="city"
+                    required="required"
+                    autocomplete="address-level2"
+                    class="form-select"
+                    t-att-data-catalog="json.dumps(sv_cities_data)"
+                    t-att-data-initial-city="city or partner.city or ''"
+                >
+                    <option value="">Seleccione un distrito...</option>
+                    <t t-if="city or partner.city">
+                        <option t-att-value="city or partner.city" selected="selected">
+                            <t t-esc="city or partner.city"/>
+                        </option>
+                    </t>
+                </select>
+            </xpath>
+
+            <!-- Ubicación exacta (latitud/longitud), igual que /shop/address.
+                 A diferencia de la página de tienda, aquí quedan opcionales: editar los
+                 datos de contacto no debe bloquearse por no tener coordenadas. -->
+            <xpath expr="//div[label[@for='country_id']]" position="after">
+                <div class="cleo-address-geo-panel">
+                    <div class="cleo-address-geo-header">
+                        <div class="cleo-address-geo-icon">
+                            <i class="fa fa-location-arrow" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h5>Ubicación exacta de entrega</h5>
+                            <p>
+                                Escriba manualmente la latitud y longitud, o dé clic en el mapa y
+                                posicione el ícono en el punto exacto de su dirección.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="cleo-address-geo-inputs">
+                        <div>
+                            <label class="col-form-label label-optional" for="partner_latitude">Latitud</label>
+                            <input
+                                id="o_partner_latitude"
+                                type="text"
+                                inputmode="decimal"
+                                name="partner_latitude"
+                                class="form-control"
+                                placeholder="Ej. 13.6929400"
+                                t-att-value="partner_latitude or partner.partner_latitude or ''"
+                            />
+                        </div>
+                        <div>
+                            <label class="col-form-label label-optional" for="partner_longitude">Longitud</label>
+                            <input
+                                id="o_partner_longitude"
+                                type="text"
+                                inputmode="decimal"
+                                name="partner_longitude"
+                                class="form-control"
+                                placeholder="Ej. -89.2181900"
+                                t-att-value="partner_longitude or partner.partner_longitude or ''"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="cleo-address-geo-actions">
+                        <button type="button" id="cleo_geo_copy_marker" class="btn cleo-geo-btn cleo-geo-btn-primary">
+                            <i class="fa fa-clipboard" aria-hidden="true"></i>
+                            Copiar coordenadas del marcador
+                        </button>
+                        <button type="button" id="cleo_geo_use_my_location" class="btn cleo-geo-btn cleo-geo-btn-outline">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            Usar mi ubicación actual
+                        </button>
+                    </div>
+
+                    <button type="button" id="cleo_geo_clear" class="btn cleo-geo-clear">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        Limpiar coordenadas
+                    </button>
+
+                    <small class="cleo-address-geo-note">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        Puede mover el marcador o hacer clic en el mapa para seleccionar otro punto.
+                    </small>
+                </div>
+            </xpath>
+
+        </template>
+
+        <!--
+            Reemplazo directo de la plantilla completa portal.portal_my_details.
+            A diferencia de portal_my_details_fields, ningún otro módulo instalado
+            hereda esta plantilla contenedora, así que reemplazarla por completo
+            (mismo patrón que website_sale.address en address_geo_templates.xml) es seguro.
+        -->
+        <record id="portal.portal_my_details" model="ir.ui.view">
+            <field name="name">Contact Details - Cleosmarket</field>
+            <field name="arch" type="xml">
+                <t t-name="portal.portal_my_details">
+                    <t t-call="portal.portal_layout">
+                        <t t-set="additional_title">Mi información de contacto</t>
+                        <div class="cleo-address-page container-fluid py-3">
+
+                            <div class="cleo-address-heading">
+                                <h3>Mi información de contacto</h3>
+                                <p>Actualiza tus datos de contacto y tu dirección de entrega.</p>
+                            </div>
+
+                            <form action="/my/account" method="post" class="cleo-address-form">
+                                <div class="cleo-address-layout">
+
+                                    <div class="cleo-address-left-card">
+                                        <t t-call="portal.portal_my_details_fields"/>
+                                        <input type="hidden" name="redirect" t-att-value="redirect"/>
+                                    </div>
+
+                                    <div class="cleo-address-right-card">
+                                        <div class="cleo-address-map-panel">
+                                            <div
+                                                id="cleo_address_map"
+                                                class="cleo-address-map"
+                                                data-default-lat="13.6929400"
+                                                data-default-lng="-89.2181900"
+                                            />
+                                        </div>
+                                        <p class="cleo-address-map-note">
+                                            Selecciona el punto exacto de tu dirección en el mapa.
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                <div class="cleo-address-actions">
+                                    <a role="button" href="/my/" class="btn cleo-address-discard">
+                                        <i class="fw-light fa fa-angle-left me-2"/>
+                                        Descartar
+                                    </a>
+                                    <button type="submit" id="save_address" class="btn cleo-address-save">
+                                        Guardar
+                                        <i class="fw-light fa fa-angle-right ms-2"/>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+    </data>
+</odoo>
