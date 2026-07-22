@@ -1,0 +1,74 @@
+/* Boxful - detalles del courier en la tarjeta de método de envío del checkout. */
+.o_goboxful_checkout_details {
+    margin-top: 10px;
+    padding: 12px 16px;
+    border: 1px solid rgba(0, 40, 95, .25);
+    border-left: 4px solid #00285f;
+    border-radius: 10px;
+    background: #eef2fa;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, .10);
+}
+
+.o_goboxful_checkout_header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.o_goboxful_courier_logo {
+    height: 26px;
+    width: auto;
+    max-width: 100px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 4px;
+    padding: 2px 5px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, .12);
+}
+
+.o_goboxful_courier_name {
+    font-weight: 700;
+    color: #00285f;
+}
+
+.o_goboxful_checkout_list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 3px 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.o_goboxful_checkout_list li {
+    font-size: 12.5px;
+    color: #4a5568;
+}
+
+.o_goboxful_checkout_list li b {
+    color: #00285f;
+    font-weight: 600;
+}
+
+@media (max-width: 575px) {
+    .o_goboxful_checkout_list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Tarjeta rediseñada del checkout (Sitio_web_cleosmarket): versión más compacta,
+   sin fondo ni sombra propios, ya que vive dentro de una tarjeta con su propio borde. */
+.cleo-delivery-option .o_goboxful_checkout_details {
+    margin-top: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    max-width: 720px;
+}
+
+.cleo-delivery-option .o_goboxful_checkout_header {
+    margin-bottom: 4px;
+}

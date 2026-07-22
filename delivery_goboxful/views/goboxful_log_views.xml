@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_goboxful_api_log_list" model="ir.ui.view">
+        <field name="name">goboxful.api.log.list</field>
+        <field name="model">goboxful.api.log</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0">
+                <field name="create_date"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="method"/>
+                <field name="endpoint"/>
+                <field name="http_status"/>
+                <field name="duration_ms"/>
+                <field name="success"/>
+                <field name="error_message" optional="show"/>
+                <field name="res_model" optional="hide"/>
+                <field name="res_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_goboxful_api_log_form" model="ir.ui.view">
+        <field name="name">goboxful.api.log.form</field>
+        <field name="model">goboxful.api.log</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="create_date"/>
+                            <field name="company_id"/>
+                            <field name="account_id"/>
+                            <field name="method"/>
+                            <field name="endpoint"/>
+                        </group>
+                        <group>
+                            <field name="http_status"/>
+                            <field name="duration_ms"/>
+                            <field name="success"/>
+                            <field name="res_model"/>
+                            <field name="res_id"/>
+                        </group>
+                    </group>
+                    <group string="Error" invisible="not error_message">
+                        <field name="error_message" nolabel="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Solicitud">
+                            <field name="request_body" nolabel="1"/>
+                        </page>
+                        <page string="Respuesta">
+                            <field name="response_body" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_goboxful_api_log_search" model="ir.ui.view">
+        <field name="name">goboxful.api.log.search</field>
+        <field name="model">goboxful.api.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="endpoint"/>
+                <field name="http_status"/>
+                <field name="company_id"/>
+                <filter name="failed" string="Con error" domain="[('success', '=', False)]"/>
+                <filter name="successful" string="Correctos" domain="[('success', '=', True)]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter name="group_endpoint" string="Endpoint" context="{'group_by': 'endpoint'}"/>
+                    <filter name="group_company" string="Compañía" context="{'group_by': 'company_id'}"/>
+                    <filter name="group_day" string="Día" context="{'group_by': 'create_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_goboxful_api_logs" model="ir.actions.act_window">
+        <field name="name">Logs de API Boxful</field>
+        <field name="res_model">goboxful.api.log</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_goboxful_api_log_search"/>
+    </record>
+
+    <record id="view_goboxful_webhook_event_list" model="ir.ui.view">
+        <field name="name">goboxful.webhook.event.list</field>
+        <field name="model">goboxful.webhook.event</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0">
+                <field name="create_date"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="shipment_number"/>
+                <field name="status_code"/>
+                <field name="event_date"/>
+                <field name="picking_id"/>
+                <field name="processed"/>
+                <field name="processing_message"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_goboxful_webhook_event_form" model="ir.ui.view">
+        <field name="name">goboxful.webhook.event.form</field>
+        <field name="model">goboxful.webhook.event</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="account_id"/>
+                            <field name="picking_id"/>
+                            <field name="shipment_id"/>
+                            <field name="shipment_number"/>
+                        </group>
+                        <group>
+                            <field name="status_code"/>
+                            <field name="event_date"/>
+                            <field name="processed"/>
+                            <field name="processing_message"/>
+                            <field name="event_hash"/>
+                        </group>
+                    </group>
+                    <group string="Payload">
+                        <field name="payload" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_goboxful_webhook_events" model="ir.actions.act_window">
+        <field name="name">Eventos webhook Boxful</field>
+        <field name="res_model">goboxful.webhook.event</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_goboxful_api_logs" name="Logs de API"
+              parent="menu_goboxful_root" action="action_goboxful_api_logs"
+              sequence="40" groups="stock.group_stock_manager"/>
+    <menuitem id="menu_goboxful_webhook_events" name="Eventos webhook"
+              parent="menu_goboxful_root" action="action_goboxful_webhook_events"
+              sequence="50" groups="stock.group_stock_manager"/>
+</odoo>

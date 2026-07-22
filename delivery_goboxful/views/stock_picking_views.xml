@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_picking_form_goboxful" model="ir.ui.view">
+        <field name="name">stock.picking.form.goboxful</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <field name="is_goboxful" invisible="1"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Boxful" name="goboxful" invisible="not is_goboxful">
+                    <field name="goboxful_currency_id" invisible="1"/>
+                    <group>
+                        <group string="Envío">
+                            <field name="goboxful_account_id" readonly="1"/>
+                            <field name="goboxful_selected_option_id"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   readonly="goboxful_shipment_id"/>
+                            <field name="goboxful_courier_name" readonly="1"/>
+                            <field name="goboxful_quote_price" readonly="1"/>
+                            <field name="goboxful_cod_commission" readonly="1"/>
+                            <field name="goboxful_estimated_delivery" readonly="1"/>
+                        </group>
+                        <group string="Guía y seguimiento">
+                            <field name="goboxful_request_state" readonly="1"/>
+                            <field name="goboxful_shipment_id" readonly="1"/>
+                            <field name="goboxful_shipment_number" readonly="1"/>
+                            <field name="goboxful_status_description" readonly="1"/>
+                            <field name="goboxful_tracking_url" readonly="1" widget="url"/>
+                            <field name="goboxful_label_attachment_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <div class="mb-3">
+                        <button name="action_goboxful_quote_couriers" type="object"
+                                string="Cotizar couriers del mismo día" class="btn-secondary"
+                                icon="fa-calculator" invisible="goboxful_shipment_id"/>
+                        <button name="action_goboxful_create_shipment" type="object"
+                                string="Crear envío Boxful" class="btn-primary ms-2"
+                                icon="fa-truck" invisible="goboxful_shipment_id or goboxful_request_state in ('creating', 'verification_pending')"/>
+                        <button name="action_goboxful_reset_verification" type="object"
+                                string="Autorizar reintento" class="btn-warning ms-2"
+                                icon="fa-unlock" invisible="goboxful_request_state != 'verification_pending'"/>
+                        <button name="action_goboxful_refresh_status" type="object"
+                                string="Actualizar estado" class="btn-secondary ms-2"
+                                icon="fa-refresh" invisible="not goboxful_shipment_id"/>
+                        <button name="action_goboxful_open_tracking" type="object"
+                                string="Abrir seguimiento" class="btn-secondary ms-2"
+                                icon="fa-map-marker" invisible="not goboxful_tracking_url"/>
+                        <button name="action_goboxful_open_label" type="object"
+                                string="Abrir etiqueta" class="btn-secondary ms-2"
+                                icon="fa-file-pdf-o" invisible="not goboxful_label_attachment_id and not goboxful_label_url"/>
+                    </div>
+                    <field name="goboxful_option_ids" readonly="goboxful_shipment_id">
+                        <list>
+                            <field name="selected" readonly="1"/>
+                            <field name="courier_name"/>
+                            <field name="delivery_type"/>
+                            <field name="base_price"/>
+                            <field name="cod_commission"/>
+                            <field name="total_price"/>
+                            <field name="estimated_delivery"/>
+                            <button name="action_select" type="object" string="Seleccionar"
+                                    class="btn-link" invisible="selected"/>
+                        </list>
+                    </field>
+                    <group string="Diagnóstico" invisible="not goboxful_last_error">
+                        <field name="goboxful_last_error" readonly="1"/>
+                        <field name="goboxful_last_sync_at" readonly="1"/>
+                        <field name="goboxful_webhook_date" readonly="1"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

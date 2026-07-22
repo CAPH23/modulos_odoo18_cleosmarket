@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_goboxful_account_list" model="ir.ui.view">
+        <field name="name">goboxful.account.list</field>
+        <field name="model">goboxful.account</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="company_id"/>
+                <field name="mode"/>
+                <field name="pickup_name"/>
+                <field name="responsible_user_id"/>
+                <field name="last_connection_at"/>
+                <field name="webhook_registered"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_goboxful_account_form" model="ir.ui.view">
+        <field name="name">goboxful.account.form</field>
+        <field name="model">goboxful.account</field>
+        <field name="arch" type="xml">
+            <form string="Cuenta Boxful">
+                <header>
+                    <button name="action_test_connection" type="object" string="Probar conexión"
+                            class="btn-primary" icon="fa-plug"/>
+                    <button name="action_sync_locations" type="object" string="Sincronizar ubicaciones"
+                            class="btn-secondary" icon="fa-map"/>
+                    <button name="action_sync_pickup_address" type="object" string="Sincronizar dirección"
+                            class="btn-secondary" icon="fa-home"/>
+                    <button name="action_register_webhook" type="object" string="Registrar webhook"
+                            class="btn-secondary" icon="fa-exchange"/>
+                    <button name="action_create_delivery_carrier" type="object" string="Crear/Abrir método Boxful"
+                            class="btn-secondary" icon="fa-truck"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="company_id"/>
+                        <h1><field name="company_id" options="{'no_create': True}"/></h1>
+                    </div>
+                    <notebook>
+                        <page string="Conexión" name="connection">
+                            <group>
+                                <group>
+                                    <field name="active"/>
+                                    <field name="mode" widget="radio"/>
+                                    <field name="api_url"/>
+                                    <field name="request_timeout"/>
+                                    <field name="test_allow_real_shipments" invisible="mode != 'test'"/>
+                                </group>
+                                <group>
+                                    <field name="api_email"/>
+                                    <field name="api_password" password="True"/>
+                                    <field name="boxful_client_id" readonly="1"/>
+                                    <field name="last_connection_at" readonly="1"/>
+                                    <field name="last_connection_message" readonly="1"/>
+                                    <button name="action_clear_tokens" type="object" string="Eliminar tokens"
+                                            class="btn-link" icon="fa-trash"/>
+                                </group>
+                            </group>
+                            <div class="alert alert-warning" role="alert" groups="base.group_system" invisible="mode != 'test' or test_allow_real_shipments">
+                                POST /shipment permanece bloqueado en modo pruebas para evitar guías reales accidentales.
+                            </div>
+                        </page>
+                        <page string="Recolección" name="pickup">
+                            <group>
+                                <group>
+                                    <field name="pickup_name"/>
+                                    <field name="pickup_country_code" readonly="1"/>
+                                    <field name="pickup_state_id" options="{'no_create': True}"/>
+                                    <field name="pickup_city_id" options="{'no_create': True}"/>
+                                    <field name="pickup_street"/>
+                                    <field name="pickup_reference_point"/>
+                                </group>
+                                <group>
+                                    <field name="pickup_phone_area_code"/>
+                                    <field name="pickup_phone"/>
+                                    <field name="pickup_latitude"/>
+                                    <field name="pickup_longitude"/>
+                                    <field name="boxful_pickup_address_id" readonly="1"/>
+                                </group>
+                            </group>
+                            <group string="Horario">
+                                <field name="pickup_start_hour" widget="float_time"/>
+                                <field name="pickup_end_hour" widget="float_time"/>
+                                <field name="pickup_lead_minutes"/>
+                                <field name="pickup_timezone"/>
+                            </group>
+                        </page>
+                        <page string="Operación" name="operation">
+                            <group>
+                                <group string="Responsable">
+                                    <field name="responsible_user_id" options="{'no_create': True}"/>
+                                </group>
+                                <group string="Caja predeterminada">
+                                    <field name="default_width_cm"/>
+                                    <field name="default_length_cm"/>
+                                    <field name="default_height_cm"/>
+                                    <field name="api_weight_unit"/>
+                                    <field name="default_weight"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Webhook" name="webhook">
+                            <group>
+                                <group>
+                                    <field name="webhook_url" readonly="1" widget="url"/>
+                                    <field name="webhook_secret" password="True"/>
+                                </group>
+                                <group>
+                                    <field name="webhook_registered" readonly="1"/>
+                                    <button name="action_generate_webhook_secret" type="object"
+                                            string="Generar nueva clave" class="btn-secondary" icon="fa-key"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Seguridad" name="security" groups="base.group_system">
+                            <group>
+                                <field name="allowed_label_hosts" placeholder="Un host por línea"/>
+                                <field name="log_payloads"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_goboxful_accounts" model="ir.actions.act_window">
+        <field name="name">Cuentas Boxful</field>
+        <field name="res_model">goboxful.account</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_goboxful_root" name="Boxful" parent="stock.menu_stock_root"
+              sequence="95" groups="stock.group_stock_manager"/>
+    <menuitem id="menu_goboxful_accounts" name="Configuración" parent="menu_goboxful_root"
+              action="action_goboxful_accounts" sequence="10"/>
+</odoo>

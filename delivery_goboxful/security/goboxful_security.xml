@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rule_goboxful_account_company" model="ir.rule">
+        <field name="name">Boxful account multi-company</field>
+        <field name="model_id" ref="model_goboxful_account"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_goboxful_log_company" model="ir.rule">
+        <field name="name">Boxful API log multi-company</field>
+        <field name="model_id" ref="model_goboxful_api_log"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_goboxful_option_company" model="ir.rule">
+        <field name="name">Boxful courier options multi-company</field>
+        <field name="model_id" ref="model_goboxful_courier_option"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_goboxful_webhook_company" model="ir.rule">
+        <field name="name">Boxful webhook events multi-company</field>
+        <field name="model_id" ref="model_goboxful_webhook_event"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

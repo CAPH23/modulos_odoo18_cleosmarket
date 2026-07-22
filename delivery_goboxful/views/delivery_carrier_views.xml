@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_delivery_carrier_form_goboxful" model="ir.ui.view">
+        <field name="name">delivery.carrier.form.goboxful</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Boxful" name="goboxful" invisible="delivery_type != 'goboxful'">
+                    <group>
+                        <group string="Configuración">
+                            <field name="goboxful_account_id" options="{'no_create': True}" required="delivery_type == 'goboxful'"/>
+                            <field name="goboxful_same_day_only"/>
+                            <field name="goboxful_selection_criteria"/>
+                            <field name="goboxful_quote_cache_minutes"/>
+                            <field name="integration_level" readonly="1"/>
+                        </group>
+                        <group string="Diagnóstico">
+                            <field name="goboxful_last_error" readonly="1"/>
+                            <field name="debug_logging"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-info" role="alert">
+                        El cliente ve un solo método Boxful. La tarifa utiliza únicamente couriers del mismo día
+                        y selecciona automáticamente el que mejor cumpla el criterio elegido arriba. El courier
+                        puede cambiarse en la transferencia antes de crear manualmente la guía.
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
