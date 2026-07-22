@@ -33,14 +33,26 @@ class DeliveryCarrier(models.Model):
         check_company=True,
     )
     goboxful_same_day_only = fields.Boolean(
-        string="Solo couriers del mismo día", default=True,
+        string="Solo couriers del mismo día",
+        default=False,
+        help="Si está activo, la tarjeta de envío solo lista couriers clasificados como "
+             "'Mismo día' en la tabla de abajo. Si está inactivo, se listan también los "
+             "couriers de 'Entrega programada'.",
     )
     goboxful_quote_cache_minutes = fields.Integer(
         string="Vigencia de cotización (minutos)", default=8,
     )
     goboxful_selection_criteria = fields.Selection(
         [("cheapest", "Más barato"), ("fastest", "Más rápido")],
-        string="Criterio de selección de courier", default="cheapest", required=True,
+        string="Criterio de preselección de courier", default="cheapest", required=True,
+        help="Determina qué courier aparece preseleccionado en la tarjeta de envío. "
+             "El cliente puede elegir cualquier otro courier de la lista.",
+    )
+    goboxful_courier_ids = fields.One2many(
+        "goboxful.courier", "carrier_id", string="Couriers Boxful",
+        help="Cada courier que Boxful devuelve se registra aquí automáticamente la primera "
+             "vez que se cotiza (como 'Mismo día'). Reclasifíquelo aquí como 'Entrega "
+             "programada' si corresponde a couriers de día siguiente o posterior.",
     )
     goboxful_last_error = fields.Char(readonly=True, copy=False)
 
@@ -249,21 +261,21 @@ class DeliveryCarrier(models.Model):
 
     def _goboxful_format_utc_dt(self, dt, account):
         """Formatea un datetime naive UTC (p. ej. el resultado de _goboxful_parse_iso)
-        en la zona horaria de recolección de la cuenta."""
+        en la zona horaria de recolección de la cuenta, como día/mes/año sin hora."""
         if not dt:
             return ""
         tz = pytz.timezone((account and account.pickup_timezone) or "America/El_Salvador")
         local_dt = pytz.utc.localize(dt).astimezone(tz)
         lang = get_lang(self.env).code or "es_ES"
-        return format_datetime(local_dt, format="d 'de' MMMM 'de' y, HH:mm", locale=lang)
+        return format_datetime(local_dt, format="dd/MM/y", locale=lang)
 
     def _goboxful_format_naive_dt(self, dt):
         """Formatea un datetime que Boxful ya devuelve en hora local (estimatedDelivery),
-        sin aplicar ninguna conversión de zona horaria."""
+        sin aplicar ninguna conversión de zona horaria, como día/mes/año sin hora."""
         if not dt:
             return ""
         lang = get_lang(self.env).code or "es_ES"
-        return format_datetime(dt, format="d 'de' MMMM 'de' y, HH:mm", locale=lang, tzinfo=None)
+        return format_datetime(dt, format="dd/MM/y", locale=lang, tzinfo=None)
 
     def _goboxful_cod_data(self, order):
         self.ensure_one()
@@ -313,22 +325,57 @@ class DeliveryCarrier(models.Model):
                         return nested
         return []
 
-    def _goboxful_same_day_ids(self, account, destination_city):
+    def _goboxful_classify_courier(self, courier_external_id, courier_name, api_delivery_type=None):
+        """Devuelve 'same_day' o 'scheduled' para un courier, según la clasificación manual
+        configurada en goboxful_courier_ids. El campo /courier/available de Boxful no siempre
+        incluye deliveryType, así que esta clasificación (editable en la pestaña Boxful del
+        transportista) es la fuente confiable; un courier nuevo se autorregistra como 'Mismo
+        día' (o 'Entrega programada' si la API sugiere un tipo de día siguiente) para que el
+        responsable lo pueda reclasificar después."""
         self.ensure_one()
-        if not self.goboxful_same_day_only:
-            return None
-        response = account._goboxful_get_client().quote({
-            "recollectionCityId": account.pickup_city_id.external_id,
-            "customerCityId": destination_city.external_id,
+        Courier = self.env["goboxful.courier"].sudo()
+        courier = Courier.search([
+            ("carrier_id", "=", self.id),
+            ("external_id", "=", courier_external_id),
+        ], limit=1)
+        if courier:
+            if courier_name and courier.name != courier_name:
+                courier.name = courier_name
+            return courier.delivery_type
+        default_type = "same_day"
+        api_delivery_type = str(api_delivery_type or "").lower()
+        if api_delivery_type and "same" not in api_delivery_type:
+            default_type = "scheduled"
+        Courier.create({
+            "carrier_id": self.id,
+            "external_id": courier_external_id,
+            "name": courier_name or courier_external_id,
+            "delivery_type": default_type,
         })
-        same_day = set()
-        for item in self._goboxful_extract_list(response):
-            delivery_type = str(item.get("deliveryType") or item.get("delivery_type") or "").lower()
-            if delivery_type in ("same-day", "same_day", "sameday", "same day"):
-                courier_id = item.get("id") or item.get("courierId") or item.get("courier_id")
-                if courier_id:
-                    same_day.add(str(courier_id))
-        return same_day
+        return default_type
+
+    def _goboxful_effective_delivery_type(self, classified_type, pickup_dt, estimated_delivery, account):
+        """La clasificación manual ('goboxful.courier') dice si un courier suele ser de mismo
+        día, pero para una cotización puntual Boxful puede devolver fechas de recolección y
+        entrega en días distintos (p. ej. recolección 23 de julio, entrega 24 de julio o
+        después). En ese caso la fecha manda: solo se considera 'same_day' cuando, además de
+        estar clasificado así, la fecha de recolección y la fecha estimada de entrega caen en
+        el mismo día calendario (ignorando la hora)."""
+        self.ensure_one()
+        if classified_type != "same_day":
+            return classified_type
+        if not self._goboxful_same_calendar_day(pickup_dt, estimated_delivery, account):
+            return "scheduled"
+        return "same_day"
+
+    def _goboxful_same_calendar_day(self, pickup_dt, estimated_delivery, account):
+        self.ensure_one()
+        estimated_dt = self._goboxful_parse_estimated_delivery(estimated_delivery)
+        if not pickup_dt or not estimated_dt:
+            return False
+        tz = pytz.timezone((account and account.pickup_timezone) or "America/El_Salvador")
+        pickup_local_date = pytz.utc.localize(pickup_dt).astimezone(tz).date()
+        return pickup_local_date == estimated_dt.date()
 
     @api.model
     def _goboxful_option_vals(self, item, cod_amount=0.0):
@@ -370,6 +417,16 @@ class DeliveryCarrier(models.Model):
             "codAmount": payload.get("codAmount"),
             "pickup_city": (self.sudo().goboxful_account_id.pickup_city_id.external_id
                 if self.sudo().goboxful_account_id and self.sudo().goboxful_account_id.pickup_city_id else False),
+            # Sin esto, cambiar "Solo couriers del mismo día" o reclasificar un courier
+            # (pestaña Boxful del transportista) no invalida una cotización ya cacheada:
+            # goboxful_quote_at se renueva en cada rate_shipment (incluso en cache hit),
+            # así que sin estas claves en el hash el filtro nunca se vuelve a aplicar
+            # mientras la dirección/carrito no cambien.
+            "same_day_only": self.goboxful_same_day_only,
+            "courier_classification": sorted(
+                (courier.external_id, courier.delivery_type)
+                for courier in self.sudo().goboxful_courier_ids
+            ),
         }
         return hashlib.sha256(json.dumps(values, sort_keys=True, default=str).encode()).hexdigest()
 
@@ -408,36 +465,75 @@ class DeliveryCarrier(models.Model):
                         return cached, package, available_payload
                 except (TypeError, ValueError):
                     pass
-        same_day_ids = self._goboxful_same_day_ids(account, city)
         response = account._goboxful_get_client().available_couriers(
             available_payload, res_model="sale.order", res_id=order.id,
         )
         cod_amount = available_payload.get("codAmount") or 0.0
+        pickup_dt = self._goboxful_parse_iso(available_payload.get("recolectionDateTime"))
         options = []
         for item in self._goboxful_extract_list(response):
             vals = self._goboxful_option_vals(item, cod_amount)
             if not vals["courier_external_id"]:
                 continue
-            if same_day_ids is not None:
-                if vals["courier_external_id"] not in same_day_ids:
-                    continue
-                # /courier/available no incluye deliveryType; si pasó el filtro
-                # same-day (calculado contra /quoter) ya sabemos que lo es.
-                vals["delivery_type"] = vals["delivery_type"] or "same-day"
+            classified_type = self._goboxful_classify_courier(
+                vals["courier_external_id"], vals["courier_name"], vals["delivery_type"],
+            )
+            vals["delivery_type"] = self._goboxful_effective_delivery_type(
+                classified_type, pickup_dt, vals["estimated_delivery"], account,
+            )
+            if self.goboxful_same_day_only and vals["delivery_type"] != "same_day":
+                continue
             options.append(vals)
         options.sort(key=lambda opt: self._goboxful_option_sort_key(opt))
         if not options:
-            raise UserError(_("Boxful no encontró couriers disponibles para entrega el mismo día."))
+            raise UserError(_("Boxful no encontró couriers disponibles para esta dirección."))
         return options, package, available_payload
 
     # ------------------------------------------------------------------
     # API de delivery.carrier
     # ------------------------------------------------------------------
+    def _goboxful_pick_selected_option(self, options, order):
+        self.ensure_one()
+        selected_id = order.goboxful_selected_courier_id
+        if selected_id:
+            match = next(
+                (opt for opt in options if opt["courier_external_id"] == selected_id), None,
+            )
+            if match:
+                return match
+        return options[0]
+
+    def _goboxful_build_display_options(self, options, account, pickup_at, selected_id, order):
+        self.ensure_one()
+        pickup_label = self._goboxful_format_utc_dt(pickup_at, account)
+        Monetary = self.env["ir.qweb.field.monetary"]
+        display = []
+        for opt in options:
+            estimated_dt = self._goboxful_parse_estimated_delivery(opt["estimated_delivery"])
+            price = round(opt["base_price"] + opt["cod_commission"], 2)
+            display.append({
+                "courier_external_id": opt["courier_external_id"],
+                "courier_name": opt["courier_name"],
+                "courier_logo": opt["courier_logo"],
+                "delivery_type": opt["delivery_type"],
+                "delivery_type_label": (
+                    _("Mismo día") if opt["delivery_type"] == "same_day" else _("Entrega programada")
+                ),
+                "max_weight": opt["max_weight"],
+                "max_weight_unit": account.api_weight_unit if account else "lb",
+                "pickup_at": pickup_label,
+                "estimated_delivery": self._goboxful_format_naive_dt(estimated_dt) or opt["estimated_delivery"],
+                "price": price,
+                "price_label": Monetary.value_to_html(price, {"display_currency": order.currency_id}),
+                "selected": opt["courier_external_id"] == selected_id,
+            })
+        return display
+
     def goboxful_rate_shipment(self, order):
         self.ensure_one()
         try:
             options, package, payload = self._goboxful_get_options_for_order(order)
-            selected = options[0]
+            selected = self._goboxful_pick_selected_option(options, order)
             hash_value = self._goboxful_build_quote_hash(order, package, payload)
             account = self._goboxful_get_account(order.company_id)
             pickup_at = self._goboxful_parse_iso(payload.get("recolectionDateTime"))
@@ -455,6 +551,7 @@ class DeliveryCarrier(models.Model):
                 "goboxful_quoted_max_weight": selected["max_weight"],
                 "goboxful_quoted_delivery_type": selected["delivery_type"],
                 "goboxful_quoted_pickup_at": pickup_at,
+                "goboxful_selected_courier_id": selected["courier_external_id"],
             })
             self.sudo().goboxful_last_error = False
             return {
@@ -469,6 +566,9 @@ class DeliveryCarrier(models.Model):
                 "max_weight_unit": account.api_weight_unit if account else "lb",
                 "estimated_delivery": self._goboxful_format_naive_dt(estimated_dt) or selected["estimated_delivery"],
                 "pickup_at": self._goboxful_format_utc_dt(pickup_at, account),
+                "options": self._goboxful_build_display_options(
+                    options, account, pickup_at, selected["courier_external_id"], order,
+                ),
             }
         except Exception as exc:
             _logger.info("Boxful: cotización no disponible para %s: %s", order.name, exc)

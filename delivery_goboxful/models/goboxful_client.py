@@ -384,22 +384,34 @@ class GoBoxfulMockClient(GoBoxfulClient):
     def available_couriers(self, payload, res_model=None, res_id=None):
         packages = payload.get("packages") or payload.get("parcels") or []
         weight = sum(float(item.get("weight") or 0.0) for item in packages) or 1.0
+        today = fields.Date.context_today(self.account)
         return {"couriers": [
             {
                 "courierId": "mock-flash",
                 "courierName": "Boxful Flash",
                 "price": round(3.25 + weight * 0.18, 2),
                 "codCommissionPercentage": 0.02,
-                "estimatedDelivery": fields.Date.to_string(fields.Date.context_today(self.account)),
+                "estimatedDelivery": fields.Date.to_string(today),
                 "deliveryType": "same-day",
+                "maxWeight": 5.0,
             },
             {
                 "courierId": "mock-express",
                 "courierName": "Courier Express Demo",
                 "price": round(4.20 + weight * 0.12, 2),
                 "codCommission": 0.0,
-                "estimatedDelivery": fields.Date.to_string(fields.Date.context_today(self.account)),
+                "estimatedDelivery": fields.Date.to_string(today),
                 "deliveryType": "same-day",
+                "maxWeight": 8.0,
+            },
+            {
+                "courierId": "mock-standard",
+                "courierName": "Boxful Estándar",
+                "price": round(2.10 + weight * 0.08, 2),
+                "codCommission": 0.0,
+                "estimatedDelivery": fields.Date.to_string(today + timedelta(days=1)),
+                "deliveryType": "next-day",
+                "maxWeight": 20.0,
             },
         ]}
 

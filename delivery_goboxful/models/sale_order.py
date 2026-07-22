@@ -40,6 +40,11 @@ class SaleOrder(models.Model):
     goboxful_quote_hash = fields.Char(copy=False)
     goboxful_quote_at = fields.Datetime(copy=False)
     goboxful_quote_options_json = fields.Text(copy=False, groups="base.group_system")
+    goboxful_selected_courier_id = fields.Char(
+        copy=False,
+        help="External id del courier Boxful elegido por el cliente en el checkout. "
+             "Vacío significa que se usa el mejor courier según el criterio configurado.",
+    )
     goboxful_delivery_status_code = fields.Integer(string="Código de estado Boxful", copy=False)
     goboxful_delivery_status_description = fields.Char(string="Estado de entrega Boxful", copy=False)
     goboxful_delivery_tracking_url = fields.Char(string="Seguimiento Boxful", copy=False)

@@ -6,5 +6,7 @@ access_goboxful_state_manager,goboxful.state manager,model_goboxful_state,stock.
 access_goboxful_city_user,goboxful.city user,model_goboxful_city,base.group_user,1,0,0,0
 access_goboxful_city_manager,goboxful.city manager,model_goboxful_city,stock.group_stock_manager,1,1,1,1
 access_goboxful_option_user,goboxful.courier.option user,model_goboxful_courier_option,stock.group_stock_user,1,1,1,1
+access_goboxful_courier_user,goboxful.courier user,model_goboxful_courier,stock.group_stock_user,1,0,0,0
+access_goboxful_courier_manager,goboxful.courier manager,model_goboxful_courier,stock.group_stock_manager,1,1,1,1
 access_goboxful_api_log_manager,goboxful.api.log manager,model_goboxful_api_log,stock.group_stock_manager,1,0,0,1
 access_goboxful_webhook_manager,goboxful.webhook.event manager,model_goboxful_webhook_event,stock.group_stock_manager,1,0,0,1

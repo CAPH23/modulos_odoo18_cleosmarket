@@ -21,10 +21,21 @@
                         </group>
                     </group>
                     <div class="alert alert-info" role="alert">
-                        El cliente ve un solo método Boxful. La tarifa utiliza únicamente couriers del mismo día
-                        y selecciona automáticamente el que mejor cumpla el criterio elegido arriba. El courier
-                        puede cambiarse en la transferencia antes de crear manualmente la guía.
+                        El cliente ve la lista completa de couriers que Boxful devuelve para su dirección, con el
+                        courier del criterio elegido arriba preseleccionado; puede elegir cualquier otro antes de
+                        pagar. El courier puede cambiarse también en la transferencia antes de crear manualmente
+                        la guía.
                     </div>
+                    <group string="Couriers Boxful">
+                        <field name="goboxful_courier_ids" nolabel="1">
+                            <list editable="bottom">
+                                <field name="name"/>
+                                <field name="external_id"/>
+                                <field name="delivery_type"/>
+                                <field name="active"/>
+                            </list>
+                        </field>
+                    </group>
                 </page>
             </xpath>
         </field>

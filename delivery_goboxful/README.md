@@ -9,10 +9,12 @@ Conector Boxful para Odoo 18 Community, preparado para la instalación de Cleos 
 - Sincronización de departamentos y ciudades Boxful.
 - Mapeo de la ciudad Boxful contra el campo `state_id` usado como Municipio en Cleos Market,
   sin instalar `base_address_city` ni cambiar el campo de Distrito existente.
-- Cotización de un único método visible en el checkout.
-- Intersección de `/quoter` y `/courier/available` para conservar solo couriers `same-day`.
-- Selección automática de la opción de menor costo.
-- Cambio manual del courier desde la transferencia.
+- Lista completa de couriers Boxful en el checkout, con checkbox de selección, logo, fechas de
+  recolección/entrega y peso máximo; el cliente puede elegir cualquiera, con el mejor según el
+  criterio configurado preseleccionado.
+- Clasificación de couriers por transportista (`goboxful.courier`), autorregistrada al cotizar;
+  "Mismo día" también exige que recolección y entrega estimada caigan en el mismo día calendario.
+- Cambio manual del courier desde el checkout o desde la transferencia.
 - Creación manual de la guía con `POST /shipment`.
 - Cobro contra entrega para transacciones del proveedor `cleo_cod`, usando el total del pedido.
 - Una caja por pedido, con peso, volumen, dimensiones y fragilidad.

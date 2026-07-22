@@ -36,7 +36,11 @@ Presione **Crear/Abrir método Boxful** desde la cuenta. Revise:
 - Producto de envío.
 - Publicación en sitio web.
 - Países o estados permitidos, si se usan filtros estándar.
-- Solo couriers del mismo día.
+- Solo couriers del mismo día (si está inactivo, también se ofrece "Entrega programada").
+- Criterio de preselección de courier (más barato/más rápido).
+- Tabla de couriers Boxful: cada courier se autorregistra la primera vez que se cotiza,
+  como "Mismo día"; reclasifíquelo aquí como "Entrega programada" si corresponde a un
+  courier de día siguiente o posterior.
 
 El nivel de integración queda obligado a **Obtener tarifa**, para evitar que validar la transferencia cree automáticamente una guía.
 
@@ -61,8 +65,10 @@ La URL incluye `?db=<base>` porque el servidor usa un `dbfilter` que puede coinc
 ## 7. Flujo operativo
 
 1. Cliente elige Boxful en checkout.
-2. Odoo muestra la tarifa del courier same-day más económico.
-3. Se confirma el pedido.
+2. Odoo muestra la lista de couriers que Boxful devolvió para su dirección (checkbox, logo,
+   fechas de recolección/entrega, peso máximo y tipo de entrega), con el mejor según el criterio
+   configurado preseleccionado; el cliente puede elegir otro courier de la lista.
+3. Se confirma el pedido con el courier elegido por el cliente.
 4. En la transferencia, el encargado abre la pestaña Boxful.
 5. Cotiza o revisa alternativas.
 6. Puede seleccionar otro courier del mismo día.

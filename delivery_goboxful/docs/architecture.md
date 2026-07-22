@@ -4,8 +4,8 @@
 sale.order
   └─ delivery.carrier (goboxful)
        ├─ goboxful.account (por compañía)
-       ├─ /quoter -> IDs same-day
-       └─ /courier/available -> tarifa más económica
+       ├─ goboxful.courier (clasificación mismo día / entrega programada, por transportista)
+       └─ /courier/available -> lista de couriers; el cliente elige uno en el checkout
 
 stock.picking
   ├─ opciones de courier

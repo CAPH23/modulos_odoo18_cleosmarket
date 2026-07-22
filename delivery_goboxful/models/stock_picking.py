@@ -176,7 +176,7 @@ class StockPicking(models.Model):
             picking.goboxful_selected_option_id = selected
             picking._goboxful_apply_selected_option()
             picking.message_post(body=_(
-                "Boxful encontró %(count)s couriers del mismo día. Se seleccionó <b>%(name)s</b> por %(price).2f.",
+                "Boxful encontró %(count)s couriers disponibles. Se seleccionó <b>%(name)s</b> por %(price).2f.",
                 count=len(created), name=selected.courier_name,
                 price=selected.total_price,
             ))

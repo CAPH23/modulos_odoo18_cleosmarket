@@ -2,6 +2,7 @@
 from . import goboxful_api_log
 from . import goboxful_location
 from . import goboxful_account
+from . import goboxful_courier
 from . import goboxful_courier_option
 from . import goboxful_webhook_event
 from . import product_category

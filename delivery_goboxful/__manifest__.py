@@ -6,8 +6,8 @@
 Boxful Shipping Connector para Odoo 18 Community
 =================================================
 * Configuración y credenciales independientes por compañía.
-* Cotización en el checkout usando únicamente couriers de entrega el mismo día.
-* Selección automática del courier compatible más económico.
+* Lista de couriers Boxful en el checkout (mismo día y entrega programada), a elegir por el cliente.
+* Preselección automática del courier según el criterio configurado (más barato/más rápido).
 * Cambio manual del courier antes de crear la guía.
 * Creación manual del envío desde la transferencia.
 * Cobro contra entrega compatible con payment_cobro_entrega (cleo_cod).
@@ -17,7 +17,7 @@ Boxful Shipping Connector para Odoo 18 Community
 * Bloqueo por categorías refrigeradas o no transportables.
 * Modo simulado para desarrollar sin crear envíos reales.
 """,
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "category": "Inventory/Delivery",
     "author": "Cleos Market",
     "website": "https://cleosmarket.com",
