@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_country_state_list_goboxful" model="ir.ui.view">
+        <field name="name">res.country.state.list.goboxful</field>
+        <field name="model">res.country.state</field>
+        <field name="inherit_id" ref="base.view_country_state_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="goboxful_department_id" string="Departamento" options="{'no_create': True}"/>
+            </field>
+            <field name="code" position="attributes">
+                <attribute name="string">Código de provincia</attribute>
+            </field>
+            <field name="name" position="attributes">
+                <attribute name="string">Nombre de provincia</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

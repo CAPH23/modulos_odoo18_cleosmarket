@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sale_order_portal_goboxful_progress"
+              inherit_id="sale.sale_order_portal_template"
+              priority="100"
+              name="Boxful - Barra de seguimiento en portal">
+        <xpath expr="//div[@id='quote_content']/*[1]" position="before">
+            <t t-set="bf_progress" t-value="sale_order.goboxful_portal_progress()"/>
+            <div t-if="bf_progress.get('show')"
+                 class="cleo-bf-card d-print-none"
+                 t-att-data-order-id="sale_order.id"
+                 t-att-data-access-token="request.params.get('access_token') or ''"
+                 t-att-data-finished="'1' if bf_progress.get('finished') or bf_progress.get('cancelled') else '0'">
+                <div class="cleo-bf-head">
+                    <div class="cleo-bf-title">
+                        <i class="fa fa-cube"/>
+                        <span>Seguimiento de tu envío</span>
+                    </div>
+                    <span class="cleo-bf-badge">
+                        <i class="fa fa-truck"/>
+                        <t t-out="bf_progress.get('courier_name') or 'Entrega con Boxful'"/>
+                    </span>
+                </div>
+
+                <div t-if="bf_progress.get('problem')" class="cleo-bf-problem">
+                    <i class="fa fa-exclamation-triangle"/>
+                    <t t-out="bf_progress.get('problem_message') or 'El envío requiere atención de la tienda.'"/>
+                </div>
+
+                <div class="cleo-bf-steps">
+                    <t t-foreach="bf_progress.get('steps')" t-as="step">
+                        <div t-if="not step_first"
+                             t-att-data-step-line="step.get('key')"
+                             t-attf-class="cleo-bf-line #{'cleo-bf-line-done' if step.get('state') == 'done' else ''}"/>
+                        <div t-att-data-step-key="step.get('key')"
+                             t-attf-class="cleo-bf-step cleo-bf-#{step.get('state')}">
+                            <div class="cleo-bf-icon">
+                                <i t-attf-class="fa #{'fa-check' if step.get('state') == 'done' else step.get('icon')}"
+                                   t-att-data-step-icon="step.get('icon')"/>
+                            </div>
+                            <div class="cleo-bf-step-title" t-out="step.get('title')"/>
+                            <div class="cleo-bf-step-status" t-out="step.get('label')"/>
+                        </div>
+                    </t>
+                </div>
+
+                <div class="text-end mt-3" t-if="bf_progress.get('tracking_url')">
+                    <a t-att-href="bf_progress.get('tracking_url')" target="_blank" rel="noopener"
+                       class="btn btn-outline-primary btn-sm">
+                        <i class="fa fa-map-marker me-1"/> Abrir seguimiento de Boxful
+                    </a>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

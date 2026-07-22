@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_form_goboxful" model="ir.ui.view">
+        <field name="name">sale.order.form.goboxful</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <field name="is_goboxful" invisible="1"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Boxful" name="goboxful" invisible="not is_goboxful">
+                    <group>
+                        <group string="Cotización">
+                            <field name="goboxful_quoted_courier_name" readonly="1"/>
+                            <field name="goboxful_quoted_delivery_type" readonly="1"/>
+                            <field name="goboxful_quote_price" readonly="1"/>
+                            <field name="goboxful_quote_cod_commission" readonly="1"/>
+                            <field name="goboxful_quoted_max_weight" readonly="1"/>
+                            <field name="goboxful_quoted_pickup_at" readonly="1"/>
+                            <field name="goboxful_quote_estimated_delivery" readonly="1"/>
+                            <field name="goboxful_quote_at" readonly="1"/>
+                        </group>
+                        <group string="Seguimiento">
+                            <field name="goboxful_delivery_status_code" readonly="1"/>
+                            <field name="goboxful_delivery_status_description" readonly="1"/>
+                            <field name="goboxful_delivery_tracking_url" readonly="1" widget="url"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

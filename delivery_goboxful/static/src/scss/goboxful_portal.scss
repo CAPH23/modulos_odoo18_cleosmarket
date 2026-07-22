@@ -1,0 +1,122 @@
+/* Boxful - barra de seguimiento en /my/orders. */
+.cleo-bf-card {
+    --bf-navy: #00285f;
+    --bf-yellow: #ffcf00;
+    --bf-green: #33a852;
+    --bf-red: #d94b36;
+    --bf-muted: #64748b;
+    border: 1px solid rgba(15, 23, 42, .08);
+    background: rgba(255, 255, 255, .97);
+    box-shadow: 0 14px 35px rgba(15, 23, 42, .08);
+    border-radius: 18px;
+    padding: 22px 24px 18px;
+    margin-bottom: 20px;
+}
+
+.cleo-bf-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.cleo-bf-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--bf-navy);
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.cleo-bf-title i { color: #e67e22; font-size: 22px; }
+
+.cleo-bf-badge {
+    background: linear-gradient(90deg, #00285f 0%, #001c47 100%);
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+.cleo-bf-badge i { color: var(--bf-yellow); margin-right: 6px; }
+
+.cleo-bf-problem {
+    background: #fdf1ef;
+    border: 1px solid rgba(217, 75, 54, .35);
+    border-left: 4px solid var(--bf-red);
+    color: #8c2f1f;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+.cleo-bf-problem i { margin-right: 8px; }
+
+.cleo-bf-steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 4px 2px 6px;
+    scroll-snap-type: x proximity;
+}
+
+.cleo-bf-step {
+    text-align: center;
+    min-width: 96px;
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+}
+
+.cleo-bf-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    margin: 0 auto 9px;
+    background: #edf2f7;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 4px solid #f7fafc;
+    box-shadow: 0 6px 15px rgba(15, 23, 42, .08);
+}
+
+.cleo-bf-step-title { font-size: 12px; line-height: 1.25; font-weight: 700; color: var(--bf-navy); }
+.cleo-bf-step-status { font-size: 11px; color: var(--bf-muted); margin-top: 3px; }
+.cleo-bf-done .cleo-bf-icon { background: var(--bf-green); color: #fff; animation: cleoBfPop .55s cubic-bezier(.2, 1.4, .4, 1); }
+.cleo-bf-done .cleo-bf-step-status { color: var(--bf-green); font-weight: 700; }
+.cleo-bf-active .cleo-bf-icon { background: var(--bf-navy); color: var(--bf-yellow); animation: cleoBfPulse 2s ease-in-out infinite; }
+.cleo-bf-active .cleo-bf-step-status { color: #0f5cc0; font-weight: 700; }
+
+.cleo-bf-line {
+    height: 2px;
+    border-top: 2px dashed #cbd5e1;
+    flex: 1 1 26px;
+    min-width: 18px;
+    margin-top: 23px;
+}
+.cleo-bf-line-done { border-top-style: solid; border-color: var(--bf-green); }
+
+@keyframes cleoBfPop {
+    0% { transform: scale(.4); }
+    60% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+@keyframes cleoBfPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0, 40, 95, .35); }
+    50% { box-shadow: 0 0 0 9px rgba(0, 40, 95, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .cleo-bf-done .cleo-bf-icon, .cleo-bf-active .cleo-bf-icon { animation: none; }
+}
+@media (max-width: 767px) {
+    .cleo-bf-card { padding: 16px 14px 12px; }
+    .cleo-bf-title { font-size: 17px; }
+    .cleo-bf-step { min-width: 88px; }
+}

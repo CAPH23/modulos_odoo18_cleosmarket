@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_form_goboxful" model="ir.ui.view">
+        <field name="name">res.partner.form.goboxful</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Boxful" name="goboxful">
+                    <group>
+                        <field name="goboxful_department_id"/>
+                        <field name="goboxful_city_id" options="{'no_create': True}"/>
+                        <field name="goboxful_reference_point"/>
+                        <field name="goboxful_delivery_instructions"/>
+                    </group>
+                    <div class="text-muted">
+                        Departamento se deriva del Municipio (Estado); configúrelo en Contactos >
+                        Configuración > Provincias. Ciudad/Distrito se completa solo a partir del Distrito:
+                        solo hace falta elegirlo a mano cuando el Distrito no coincide con ninguna ciudad
+                        Boxful sincronizada.
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

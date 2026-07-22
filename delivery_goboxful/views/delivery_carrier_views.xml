@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_delivery_carrier_form_goboxful" model="ir.ui.view">
+        <field name="name">delivery.carrier.form.goboxful</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Boxful" name="goboxful" invisible="delivery_type != 'goboxful'">
+                    <group>
+                        <group string="Configuración">
+                            <field name="goboxful_account_id" options="{'no_create': True}" required="delivery_type == 'goboxful'"/>
+                            <field name="goboxful_same_day_only"/>
+                            <field name="goboxful_selection_criteria"/>
+                            <field name="goboxful_quote_cache_minutes"/>
+                            <field name="integration_level" readonly="1"/>
+                        </group>
+                        <group string="Diagnóstico">
+                            <field name="goboxful_last_error" readonly="1"/>
+                            <field name="debug_logging"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-info" role="alert">
+                        El cliente ve la lista completa de couriers que Boxful devuelve para su dirección, con el
+                        courier del criterio elegido arriba preseleccionado; puede elegir cualquier otro antes de
+                        pagar. El courier puede cambiarse también en la transferencia antes de crear manualmente
+                        la guía.
+                    </div>
+                    <group string="Couriers Boxful">
+                        <field name="goboxful_courier_ids" nolabel="1">
+                            <list editable="bottom">
+                                <field name="name"/>
+                                <field name="external_id"/>
+                                <field name="delivery_type"/>
+                                <field name="active"/>
+                            </list>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

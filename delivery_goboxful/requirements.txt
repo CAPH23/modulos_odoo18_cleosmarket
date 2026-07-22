@@ -1,0 +1,3 @@
+# Ya incluidas en el entorno estándar de Odoo 18:
+requests
+pytz
